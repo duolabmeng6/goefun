@@ -10,5 +10,7 @@ require (
 	github.com/gogf/gf v1.11.5
 	github.com/joho/godotenv v1.3.0
 	github.com/robertkrimen/otto v0.0.0-20191219234010-c382bd3c16ff
+	github.com/stretchr/testify v1.5.1 // indirect
+	github.com/tidwall/gjson v1.6.0
 	gopkg.in/sourcemap.v1 v1.0.5 // indirect
 )
