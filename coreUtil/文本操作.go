@@ -6,6 +6,7 @@ import (
 	"github.com/gogf/gf/util/grand"
 	"strings"
 	"unicode"
+	"unicode/utf8"
 )
 
 func E格式化文本(format string, a ...interface{}) string {
@@ -217,4 +218,34 @@ func E文本_首字母改大写(s string) string {
 		strArry[0] -= 32
 	}
 	return string(strArry)
+}
+
+func E取文本字数(value string) int {
+	return utf8.RuneCountInString(value)
+}
+
+//子程序名：判断文本
+//真 找到 假 找不到
+//返回值类型：逻辑型
+//参数<1>的名称为“与判断的文本”，类型为“文本型”。
+//参数<2>的名称为“关键字”，类型为“文本型”，允许接收空参数数据。
+//参数<3>的名称为“更多关键字”，类型为“文本型”，允许接收空参数数据，需要接收数组数据。
+func E判断文本(内容 string, 关键字 ...interface{}) bool {
+	for _, v := range 关键字 {
+		str := E到文本(v)
+		if(strings.Index(内容, str) != -1){
+			return true
+		}
+	}
+	return false
+}
+
+func E判断文本s(内容 string, 关键字 ...interface{}) string {
+	for _, v := range 关键字 {
+		str := E到文本(v)
+		if(strings.Index(内容, str) != -1){
+			return str
+		}
+	}
+	return ""
 }

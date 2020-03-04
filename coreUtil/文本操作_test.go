@@ -88,3 +88,12 @@ func TestE文本区分_只取字母(t *testing.T) {
 	t.Log("E文本_首字母改大写", E文本_首字母改大写("我爱efun"))
 
 }
+func TestE取文本字数(t *testing.T) {
+	t.Log("E取文本字数", E取文本字数("我爱efun好棒"))
+	t.Log("E判断文本", E判断文本("我爱efun好棒","1","2","3","efun"))
+	t.Log("E判断文本s", E判断文本s("我爱efun好棒","1","2","3","efun"))
+
+
+
+}
+
