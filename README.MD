@@ -12,6 +12,7 @@ package main
 
 import (
 	. "github.com/duolabmeng6/goefun/core"
+	. "github.com/duolabmeng6/goefun/coreUtil"
 	. "github.com/duolabmeng6/goefun/os/ehttp"
 	. "github.com/duolabmeng6/goefun/os/存取键值表"
 )
@@ -43,6 +44,34 @@ func main() {
 
 	E调试输出(data.ToJson(true))
 
+	E调试输出(E取md5从文本("1234567"))
+
+	E调试输出(E取现行时间().E时间到文本("Y-m-d H:i:s"))
+
+
 }
 
+
 ```
+
+# 文档
+
+## 核心支持库
+https://godoc.org/github.com/duolabmeng6/goefun/core
+
+## 核心支持库工具函数库
+https://godoc.org/github.com/duolabmeng6/goefun/coreUtil
+
+## 存取键值表
+https://godoc.org/github.com/duolabmeng6/goefun/os/存取键值表
+
+## 存取键值表
+https://godoc.org/github.com/duolabmeng6/goefun/os/存取键值表
+
+## ehttp
+https://godoc.org/github.com/duolabmeng6/goefun/os/ehttp
+
+
+
+
+
