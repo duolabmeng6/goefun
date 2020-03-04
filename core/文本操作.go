@@ -1,6 +1,9 @@
 package core
 
-import "strings"
+import (
+	"strings"
+	"unicode"
+)
 
 //调用格式： 〈整数型〉 取文本长度 （文本型 文本数据） - 系统核心支持库->文本操作
 //英文名称：len
@@ -130,6 +133,10 @@ func E删首尾空(内容 string) string {
 }
 
 //删全部空
+func E删全部空(内容 string) string {
+	return strings.FieldsFunc(内容, unicode.IsSpace)
+}
+
 
 //文本替换
 //调用格式： 〈文本型〉 文本替换 （文本型 欲被替换的文本，整数型 起始替换位置，整数型 替换长度，［文本型 用作替换的文本］） - 系统核心支持库->文本操作
