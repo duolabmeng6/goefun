@@ -11,8 +11,8 @@ import (
 //
 //操作系统需求： Windows、Linux
 
-func E取文本长度(value string) int {
-	return len(string(value))
+func E取文本长度(value string) int64 {
+	return E到整数(len([]rune(value)))
 }
 
 //调用格式： 〈文本型〉 取文本左边 （文本型 欲取其部分的文本，整数型 欲取出字符的数目） - 系统核心支持库->文本操作
@@ -22,11 +22,11 @@ func E取文本长度(value string) int {
 //参数<2>的名称为“欲取出字符的数目”，类型为“整数型（int）”。
 //
 //操作系统需求： Windows、Linux
-func E取文本左边(欲取其部分的文本 string, 欲取出字符的数目 int) string {
+func E取文本左边(欲取其部分的文本 string, 欲取出字符的数目 int64) string {
 	if E取文本长度(欲取其部分的文本) < 欲取出字符的数目 {
 		欲取出字符的数目 = E取文本长度(欲取其部分的文本)
 	}
-	return string([]byte(欲取其部分的文本)[:欲取出字符的数目])
+	return string([]rune(欲取其部分的文本)[:欲取出字符的数目])
 }
 
 //调用格式： 〈文本型〉 取文本右边 （文本型 欲取其部分的文本，整数型 欲取出字符的数目） - 系统核心支持库->文本操作
@@ -37,13 +37,13 @@ func E取文本左边(欲取其部分的文本 string, 欲取出字符的数目 
 //
 //操作系统需求： Windows、Linux
 
-func E取文本右边(欲取其部分的文本 string, 欲取出字符的数目 int) string {
+func E取文本右边(欲取其部分的文本 string, 欲取出字符的数目 int64) string {
 	l := E取文本长度(欲取其部分的文本)
 	lpos := l - 欲取出字符的数目
 	if lpos < 0 {
 		lpos = 0
 	}
-	return string([]byte(欲取其部分的文本)[lpos:l])
+	return string([]rune(欲取其部分的文本)[lpos:l])
 }
 
 //取文本中间
