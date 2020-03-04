@@ -64,14 +64,14 @@ func (this *Ehttp) Get(url string, v ...interface{}) (string, bool) {
 		附加头信息 = E到文本(v[0])
 	}
 
-	body, flag := this.E访问(
+	body, _ := this.E访问(
 		url,
 		"GET",
 		"",
 		附加头信息,
 	)
 
-	return string(body), flag != nil
+	return string(body), this.E访问失败()
 }
 
 //token=token&name=1.txt&file=@file:文件的绝对路径
@@ -81,14 +81,14 @@ func (this *Ehttp) Post(url string, s string, v ...interface{}) (string, bool) {
 		附加头信息 = E到文本(v[0])
 	}
 
-	body, flag := this.E访问(
+	body, _ := this.E访问(
 		url,
 		"POST",
 		s,
 		附加头信息,
 	)
 
-	return string(body), flag != nil
+	return string(body), this.E访问失败()
 }
 
 func (this *Ehttp) E访问(url string, 访问方法 string, 发送文本 string, 附加头信息 string) ([]byte, error) {
@@ -200,8 +200,22 @@ func (this *Ehttp) E访问(url string, 访问方法 string, 发送文本 string,
 
 	this.cookie_save()
 	this.reset()
-	return content, nil
+	return content, err
 }
+
+//访问失败 返回真 成功 返回假
+func (this *Ehttp) E访问失败() bool {
+	if this.状态码 == 200 {
+		return false
+	} else {
+		if this.状态码 == 302 {
+			return false
+		}
+	}
+	return true
+
+}
+
 func (this *Ehttp) E取状态码() int {
 	return this.状态码
 }
