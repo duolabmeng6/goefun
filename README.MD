@@ -17,7 +17,7 @@ import (
 )
 
 func main() {
-	E调试输出("123")
+	E调试输出("欢迎使用go-efun")
 	http := NewHttp()
 	ret, flag := http.Get("https://www.taobao.com/help/getip.php")
 	if flag {
