@@ -48,4 +48,6 @@ func Test_取现行时间(t *testing.T) {
 	t.Log("E取时间戳微秒", time4.E取时间戳微秒())
 	t.Log("E取时间戳纳秒", time4.E取时间戳纳秒())
 
+	t.Log("E到友好时间", time4.E到友好时间(E取现行时间()))
+
 }
