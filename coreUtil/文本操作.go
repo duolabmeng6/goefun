@@ -233,7 +233,7 @@ func E取文本字数(value string) int {
 func E判断文本(内容 string, 关键字 ...interface{}) bool {
 	for _, v := range 关键字 {
 		str := E到文本(v)
-		if(strings.Index(内容, str) != -1){
+		if strings.Index(内容, str) != -1 {
 			return true
 		}
 	}
@@ -243,9 +243,16 @@ func E判断文本(内容 string, 关键字 ...interface{}) bool {
 func E判断文本s(内容 string, 关键字 ...interface{}) string {
 	for _, v := range 关键字 {
 		str := E到文本(v)
-		if(strings.Index(内容, str) != -1){
+		if strings.Index(内容, str) != -1 {
 			return str
 		}
 	}
 	return ""
+}
+
+func E判断文本前缀(s string, 前缀 string) bool {
+	return strings.HasPrefix(s, 前缀)
+}
+func E判断文本后缀(s string, 后缀 string) bool {
+	return strings.HasSuffix(s, 后缀)
 }

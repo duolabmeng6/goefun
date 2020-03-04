@@ -1,8 +1,10 @@
 package coreUtil
 
 import (
+	. "github.com/duolabmeng6/goefun/core"
 	"io/ioutil"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 )
@@ -133,4 +135,23 @@ func E目录_枚举子目录(父文件夹路径 string, 子目录数组 *[]strin
 
 func E文件_取文件名(路径 string) string {
 	return filepath.Base(路径)
+}
+
+func E文件_路径合并处理(elem ...string) string {
+	return path.Join(elem...)
+}
+
+func E文件_取父目录(dirpath string) string {
+	return path.Dir(dirpath)
+}
+
+func E文件_取扩展名(filepath string) string {
+	return path.Ext(filepath)
+}
+
+func E文件_删除(欲删除的文件名 string) bool {
+	return E删除文件(欲删除的文件名) == nil
+}
+func E文件_更名(欲更名的原文件或目录名 string, 欲更改为的现文件或目录名 string) bool {
+	return E文件更名(欲更名的原文件或目录名, 欲更改为的现文件或目录名) == nil
 }

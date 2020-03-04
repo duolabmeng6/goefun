@@ -10,6 +10,7 @@ import (
 func E取命令行() []string {
 	return os.Args
 }
+
 //调用格式： 〈文本型〉 取运行目录 （） - 系统核心支持库->环境存取
 //英文名称：GetRunPath
 //取当前被执行的易程序文件所处的目录。本命令为初级命令。
@@ -29,8 +30,17 @@ func E取运行目录() string {
 //参数<1>的名称为“环境变量名称”，类型为“文本型（text）”。
 //
 //操作系统需求： Windows、Linux
-func E读环境变量(环境变量名称 string) string {
-	return os.Getenv(环境变量名称)
+func E读环境变量(环境变量名称 string, 默认值 ...interface{}) string {
+	var def string
+	if len(默认值) > 1 {
+		def = E到文本(默认值[0])
+	}
+	e := os.Getenv(环境变量名称)
+	if e == "" {
+		return def
+	} else {
+		return e
+	}
 }
 
 //调用格式： 〈逻辑型〉 写环境变量 （文本型 环境变量名称，文本型 欲写入内容） - 系统核心支持库->环境存取

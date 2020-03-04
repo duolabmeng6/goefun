@@ -35,3 +35,15 @@ func TestE文件_取文件名(t *testing.T) {
 	}
 
 }
+
+func Test目录(t *testing.T) {
+	fmt.Println(" :", E文件_取父目录(""))
+	fmt.Println(". :", E文件_取父目录("."))
+	fmt.Println("/a :", E文件_取父目录("/a"))
+	fmt.Println("/a/b :", E文件_取父目录("/a/b"))
+	fmt.Println("/a/b/ :", E文件_取父目录("/a/b/"))
+
+	fmt.Println("/////a, /b :", E文件_路径合并处理("a", "b", "c"))
+	fmt.Println("/////a, /b :", E文件_路径合并处理("a/11////", "b", "c"))
+
+}
