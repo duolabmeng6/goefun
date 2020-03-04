@@ -146,3 +146,8 @@ func E到时间(s string) *E日期时间型 {
 	}
 	return this
 }
+func E到时间从时间戳(s int64) *E日期时间型 {
+	this := new(E日期时间型)
+	this.Time = gtime.NewFromTimeStamp(s)
+	return this
+}
