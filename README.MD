@@ -65,9 +65,6 @@ https://godoc.org/github.com/duolabmeng6/goefun/coreUtil
 ## 存取键值表
 https://godoc.org/github.com/duolabmeng6/goefun/os/存取键值表
 
-## 存取键值表
-https://godoc.org/github.com/duolabmeng6/goefun/os/存取键值表
-
 ## ehttp
 https://godoc.org/github.com/duolabmeng6/goefun/os/ehttp
 
