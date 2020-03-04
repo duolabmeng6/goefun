@@ -90,7 +90,7 @@ func TestE到整数(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want int
+		want int64
 	}{
 		// TODO: Add test cases.
 		{
