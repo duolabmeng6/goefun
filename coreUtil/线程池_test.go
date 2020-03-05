@@ -8,7 +8,7 @@ import (
 
 func TestNew线程池(t *testing.T) {
 	pool := New线程池(20)
-	for i := 0; i < 2000; i++ {
+	for i := 0; i < 20; i++ {
 		pool.E加入任务()
 		go func(i int) {
 			defer pool.E完成()

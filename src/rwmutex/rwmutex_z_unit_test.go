@@ -7,11 +7,11 @@
 package rwmutex_test
 
 import (
+	"github.com/duolabmeng6/goefun/src/rwmutex"
 	"testing"
 	"time"
 
 	"github.com/gogf/gf/container/garray"
-	"github.com/gogf/gf/internal/rwmutex"
 	"github.com/gogf/gf/test/gtest"
 )
 

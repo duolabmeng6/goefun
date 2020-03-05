@@ -7,9 +7,8 @@
 package rwmutex_test
 
 import (
+	"github.com/duolabmeng6/goefun/src/rwmutex"
 	"testing"
-
-	"github.com/gogf/gf/internal/rwmutex"
 )
 
 var (

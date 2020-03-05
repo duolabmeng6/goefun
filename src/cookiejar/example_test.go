@@ -6,6 +6,7 @@ package cookiejar_test
 
 import (
 	"fmt"
+	"github.com/duolabmeng6/goefun/src/cookiejar"
 	"log"
 	"net/http"
 	"net/http/httptest"
