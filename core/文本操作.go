@@ -112,10 +112,10 @@ func E到小写(value string) string {
 	return strings.ToLower(value)
 }
 func E到全角(value string) string {
-	return SBCtoDBC(value)
+	return sBCtoDBC(value)
 }
 func E到半角(value string) string {
-	return DBCtoSBCNew(value)
+	return dBCtoSBCNew(value)
 }
 
 //调用格式： 〈文本型〉 删首空 （文本型 欲删除空格的文本） - 系统核心支持库->文本操作

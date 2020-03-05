@@ -3,14 +3,13 @@ package core
 import (
 	"bytes"
 	"sort"
-	"strings"
 )
 
 type dict struct {
 	x, y rune
 }
 
-var toSBC = []dict{
+var toSBC_ = []dict{
 	{0x00A2, 0xFFE0},
 	{0x00A3, 0xFFE1},
 	{0x00A5, 0xFFE5},
@@ -111,7 +110,7 @@ var toSBC = []dict{
 	{0xFFEE, 0x25CB},
 }
 
-var toDBC = []dict{
+var toDBC_ = []dict{
 	{0x2190, 0xFFE9},
 	{0x2191, 0xFFEA},
 	{0x2192, 0xFFEB},
@@ -213,11 +212,8 @@ var toDBC = []dict{
 	{0xFFE6, 0x20A9},
 }
 
-// 从strings包拷贝，因此不必导入strings包即可使用本函数。
-var Map = strings.Map
-
 // 判断一个字符是否是半角字符
-func IsSBC(c rune) bool {
+func isSBC(c rune) bool {
 	switch {
 	case c <= 0x007E:
 	case c == 0x00A2 || c == 0x00A3:
@@ -239,7 +235,8 @@ func IsSBC(c rune) bool {
 }
 
 // 如果字符c为全角字符，返回对应半角字符（如有）；否则返回c。
-func ToDBC(c rune) rune {
+func toDBC(c rune) rune {
+
 	switch {
 	case c <= 0x218F:
 		return c
@@ -265,16 +262,17 @@ func ToDBC(c rune) rune {
 	case c >= 0xFFE7:
 		return c
 	}
-	i := sort.Search(len(toDBC), func(i int) bool { return toDBC[i].x >= c })
-	if toDBC[i].x == c {
-		return toDBC[i].y
+	i := sort.Search(len(toDBC_), func(i int) bool { return toDBC_[i].x >= c })
+	if toDBC_[i].x == c {
+		return toDBC_[i].y
 	} else {
 		return c
 	}
 }
 
 // 如果字符c为半角字符，返回对应全角字符（如有）；否则返回c。
-func ToSBC(c rune) rune {
+func toSBC(c rune) rune {
+
 	switch {
 	case c <= 0x001F:
 		return c
@@ -297,16 +295,16 @@ func ToSBC(c rune) rune {
 	case c >= 0xFFEF:
 		return c
 	}
-	i := sort.Search(len(toSBC), func(i int) bool { return toSBC[i].x >= c })
-	if toSBC[i].x == c {
-		return toSBC[i].y
+	i := sort.Search(len(toSBC_), func(i int) bool { return toSBC_[i].x >= c })
+	if toSBC_[i].x == c {
+		return toSBC_[i].y
 	} else {
 		return c
 	}
 }
 
 // 如果字符c为全角ASCII字符，返回对应的半角字符；否则返回c。
-func ToASCIIDBC(r rune) rune {
+func toASCIIDBC(r rune) rune {
 	if r == 0x3000 {
 		return 0x3000
 	}
@@ -317,7 +315,7 @@ func ToASCIIDBC(r rune) rune {
 }
 
 // 如果字符c为半角ASCII字符，返回对应的全角字符；否则返回c。
-func ToASCIISBC(r rune) rune {
+func toASCIISBC(r rune) rune {
 	if r == 0x0020 {
 		return 0x3000
 	}
@@ -328,7 +326,7 @@ func ToASCIISBC(r rune) rune {
 }
 
 //全角转换半角
-func DBCtoSBCNew(s string) string {
+func dBCtoSBCNew(s string) string {
 	buffer := bytes.Buffer{}
 	for _, i := range s {
 		inside_code := i
@@ -347,10 +345,10 @@ func DBCtoSBCNew(s string) string {
 }
 
 //半角转换全角
-func SBCtoDBC(s string) string {
+func sBCtoDBC(s string) string {
 	buffer := bytes.Buffer{}
 	for _, i := range s {
-		buffer.WriteRune(ToASCIISBC(i))
+		buffer.WriteRune(toASCIISBC(i))
 	}
 	return buffer.String()
 }
