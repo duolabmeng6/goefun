@@ -1,3 +1,4 @@
+//支持gzip zlib zip 解压缩
 package os
 
 import (
