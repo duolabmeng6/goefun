@@ -1,3 +1,5 @@
+//网页内容解析器
+//HTML网页内容解析。jquery的方式解析内容，选择器使用方式参考：http://www.w3school.com.cn/cssref/css_selectors.asp。
 package 网页内容解析器
 
 import (
