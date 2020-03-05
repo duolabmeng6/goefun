@@ -1,9 +1,6 @@
-//时间操作
-//非常易用的时间函数
 package core
 
 import (
-	. "github.com/duolabmeng6/goefun/core"
 	"github.com/gogf/gf/os/gtime"
 )
 
