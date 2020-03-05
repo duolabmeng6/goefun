@@ -1,0 +1,7 @@
+package core
+
+import "testing"
+
+func TestE删全部空(t *testing.T) {
+	t.Log("E删全部空", E删全部空("我 爱 e f u n 好   棒"))
+}

@@ -2,6 +2,7 @@ package core
 
 import (
 	"strings"
+	"unicode"
 )
 
 //调用格式： 〈整数型〉 取文本长度 （文本型 文本数据） - 系统核心支持库->文本操作
@@ -124,19 +125,16 @@ func E到半角(value string) string {
 //参数<1>的名称为“欲删除空格的文本”，类型为“文本型（text）”。
 //
 //操作系统需求： Windows、Linux
-
 func E删首空(欲删除空格的文本 string) string {
 	return strings.TrimLeft(欲删除空格的文本, " ")
 }
 
-//
 //调用格式： 〈文本型〉 删尾空 （文本型 欲删除空格的文本） - 系统核心支持库->文本操作
 //英文名称：RTrim
 //返回一个文本，其中包含被删除了尾部全角或半角空格的指定文本。本命令为初级命令。
 //参数<1>的名称为“欲删除空格的文本”，类型为“文本型（text）”。
 //
 //操作系统需求： Windows、Linux
-
 func E删尾空(欲删除空格的文本 string) string {
 	return strings.TrimRight(欲删除空格的文本, " ")
 }
@@ -146,9 +144,9 @@ func E删首尾空(内容 string) string {
 }
 
 //删全部空
-//func E删全部空(内容 string) string {
-//	return strings.FieldsFunc(内容, unicode.IsSpace)
-//}
+func E删全部空(内容 string) string {
+	return strings.Join(strings.FieldsFunc(内容, unicode.IsSpace), "")
+}
 
 //文本替换
 //调用格式： 〈文本型〉 文本替换 （文本型 欲被替换的文本，整数型 起始替换位置，整数型 替换长度，［文本型 用作替换的文本］） - 系统核心支持库->文本操作
@@ -173,7 +171,6 @@ func E删首尾空(内容 string) string {
 //
 //操作系统需求： Windows、Linux
 func E子文本替换(欲被替换的文本 string, 欲被替换的子文本 string, 用作替换的子文本 string) string {
-
 	return strings.Replace(欲被替换的文本, 欲被替换的子文本, 用作替换的子文本, -1)
 }
 
@@ -198,7 +195,6 @@ func E取空白文本(重复次数 int) string {
 //参数<2>的名称为“待重复文本”，类型为“文本型（text）”。该文本将用于建立返回的文本。如果为空，将返回一个空文本。
 //
 //操作系统需求： Windows、Linux
-
 func E取重复文本(重复次数 int, 待重复文本 string) string {
 	var str string
 	for i := 0; i < 重复次数; i++ {
@@ -215,7 +211,6 @@ func E取重复文本(重复次数 int, 待重复文本 string) string {
 //参数<3>的名称为“要返回的子文本数目”，类型为“整数型（int）”，可以被省略。如果被省略，则默认返回所有的子文本。
 //
 //操作系统需求： Windows、Linux
-
 func E分割文本(待分割文本 string, 用作分割的文本 string) []string {
 	return strings.Split(待分割文本, 用作分割的文本)
 }

@@ -28,7 +28,6 @@ func E标准输出(a ...interface{}) {
 //参数<1>的名称为“是否回显”，类型为“逻辑型（bool）”，可以被省略。本参数决定输入时是否显示所输入字符，为假不显示，为真显示。如果被省略，默认值为真，即回显。可以通过将本参数设置为假以输入密码等特殊信息。
 //
 //操作系统需求： Windows、Linux
-
 func E标准输入() string {
 	input := bufio.NewScanner(os.Stdin)
 	input.Scan()
