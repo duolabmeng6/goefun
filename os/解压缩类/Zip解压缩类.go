@@ -1,38 +1,46 @@
 package os
 
 import (
+	. "github.com/duolabmeng6/goefun/core"
 	"github.com/gogf/gf/encoding/gcompress"
 	"io"
 )
 
-//ZipPath使用压缩算法将<paths>压缩到<dest>。
-//不必要的参数<prefix>表示zip文件的路径前缀。
-//注意，参数<paths>可以是目录或文件，其中
+//ZipPath使用压缩算法将<压缩包路径>压缩到<目标目录>。
+//不必要的参数<路径前缀>表示zip文件的路径路径前缀。
+//注意，参数<压缩包路径>可以是目录或文件，其中
 //支持用“，”连接多个路径。
-func Zip压缩到文件(paths, dest string, prefix ...string) error {
-	return gcompress.ZipPath(paths, dest, prefix...)
+func Zip压缩到文件(压缩包路径, 目标目录 string, 路径前缀 ...string) error {
+	writer, 临时文件, err := E取临时文件名("")
+	if err != nil {
+		return err
+	}
+	err = gcompress.ZipPathWriter(压缩包路径, writer, 路径前缀...)
+	writer.Close()
+	E移动文件(临时文件, 目标目录)
+	return err
 }
 
-//ZipPathWriter使用压缩算法将<paths>压缩到<writer>。
-//不必要的参数<prefix>表示zip文件的路径前缀。
-//注意，参数<paths>可以是目录或文件，其中
+//ZipPathWriter使用压缩算法将<压缩包路径>压缩到<writer>。
+//不必要的参数<路径前缀>表示zip文件的路径路径前缀。
+//注意，参数<压缩包路径>可以是目录或文件，其中
 //支持用“，”连接多个路径。
-func Zip压缩到io(paths string, writer io.Writer, prefix ...string) error {
-	return gcompress.ZipPathWriter(paths, writer, prefix...)
+func Zip压缩到io(压缩包路径 string, writer io.Writer, 路径前缀 ...string) error {
+	return gcompress.ZipPathWriter(压缩包路径, writer, 路径前缀...)
 }
 
-//UnZipFile使用压缩算法将<archive>解压缩到<dest>。
-//参数<path>指定<archive>的解压缩路径，
+//UnZipFile使用压缩算法将<压缩包路径>解压缩到<目标目录>。
+//参数<路径前缀>指定<压缩包路径>的解压缩路径，
 //它可用于指定要解压缩的存档文件的一部分。
-//注意，参数<dest>应该是一个目录。
-func Zip解压从文件(archive, dest string, path ...string) error {
-	return gcompress.UnZipFile(archive, dest, path...)
+//注意，参数<目标目录>应该是一个目录。
+func Zip解压从文件(压缩包路径, 目标目录 string, 路径前缀 ...string) error {
+	return gcompress.UnZipFile(压缩包路径, 目标目录, 路径前缀...)
 }
 
-//UnZipContent使用压缩算法将<data>解压缩到<dest>。
-//参数<path>指定<archive>的解压缩路径，
+//UnZipContent使用压缩算法将<data>解压缩到<目标目录>。
+//参数<路径前缀>指定<压缩包路径>的解压缩路径，
 //它可用于指定要解压缩的存档文件的一部分。
-//注意，参数<dest>应该是一个目录。
-func Zip解压从数据(data []byte, dest string, path ...string) error {
-	return gcompress.UnZipContent(data, dest, path...)
+//注意，参数<目标目录>应该是一个目录。
+func Zip解压从数据(data []byte, 目标目录 string, 路径前缀 ...string) error {
+	return gcompress.UnZipContent(data, 目标目录, 路径前缀...)
 }
