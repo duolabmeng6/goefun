@@ -1,3 +1,5 @@
+// 存取值用的键值对象
+// 等同于Java中的HashMap 或 C#中的Dictionary对象。
 package os
 
 import (
@@ -9,7 +11,6 @@ type EJson struct {
 	Json *gabs.Container
 }
 type H map[string]interface{}
-
 
 func New存取键值表() *EJson {
 	x := new(EJson).Init()
