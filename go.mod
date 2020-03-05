@@ -11,6 +11,7 @@ require (
 	github.com/gogf/gf v1.11.5
 	github.com/joho/godotenv v1.3.0
 	github.com/robertkrimen/otto v0.0.0-20191219234010-c382bd3c16ff
+	github.com/teris-io/shortid v0.0.0-20171029131806-771a37caa5cf
 	github.com/tidwall/gjson v1.6.0
 	go.uber.org/zap v1.14.0
 	gopkg.in/ini.v1 v1.52.0
