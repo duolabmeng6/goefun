@@ -13,14 +13,13 @@ func New时钟() *E时钟 {
 	this := new(E时钟)
 	return this
 }
-func (this *E时钟) E创建(fn func() bool, 时钟周期 int64) *E时钟 {
+
+func (this *E时钟) E创建(fn func() bool, 时钟周期 int64) {
 	SetInterval(fn, time.Duration(时钟周期)*time.Millisecond)
-	return this
 }
 
-func (this *E时钟) E创建执行一次(fn func(), 时钟周期 int64) *E时钟 {
+func (this *E时钟) E创建执行一次(fn func(), 时钟周期 int64) {
 	SetTimeout(fn, time.Duration(时钟周期)*time.Millisecond)
-	return this
 }
 
 //返回一个函数，无论调用多少次，它只会在指定的间隔内执行一次
