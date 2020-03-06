@@ -2,20 +2,18 @@
 // * Copyright (c) 2018 Ioannis Tzanellis
 // * Licensed under the MIT License (MIT).
 
-package os_test
+package os
 
 import (
 	"sync"
 	"testing"
 	"time"
-
-	"github.com/jahnestacado/cable"
 )
 
 func Test_SetTimeout(t *testing.T) {
 	timeoutInterval1 := 100 * time.Millisecond
 	calledAt := time.Now()
-	cable.SetTimeout(func() {
+	SetTimeout(func() {
 		executedAt := time.Now()
 		delta := executedAt.Sub(calledAt)
 		if delta <= timeoutInterval1 {
@@ -27,7 +25,7 @@ func Test_SetTimeout(t *testing.T) {
 
 	timeoutInterval2 := 50 * time.Millisecond
 	isCanceled := true
-	cancel := cable.SetTimeout(func() {
+	cancel := SetTimeout(func() {
 		isCanceled = false
 	}, timeoutInterval2)
 
@@ -47,7 +45,7 @@ func Test_SetInterval(t *testing.T) {
 	var access sync.Mutex
 
 	var timesInvoked1 int
-	cable.SetInterval(func() bool {
+	SetInterval(func() bool {
 		access.Lock()
 		defer access.Unlock()
 		timesInvoked1++
@@ -68,14 +66,14 @@ func Test_SetInterval(t *testing.T) {
 
 	var timesInvoked2 int
 	totalSetIntervalDuration := (interval*time.Duration(maxTimesInvoked))*time.Millisecond + timeWindow
-	cancelSetInterval := cable.SetInterval(func() bool {
+	cancelSetInterval := SetInterval(func() bool {
 		access.Lock()
 		defer access.Unlock()
 		timesInvoked2++
 		return true
 	}, interval*time.Millisecond)
 
-	cable.SetTimeout(func() {
+	SetTimeout(func() {
 		cancelSetInterval()
 	}, totalSetIntervalDuration)
 
@@ -95,14 +93,14 @@ func Test_Throttle(t *testing.T) {
 	var access sync.Mutex
 
 	var timesInvoked1 int
-	throttledFunc1 := cable.Throttle(func() {
+	throttledFunc1 := Throttle(func() {
 		access.Lock()
 		timesInvoked1++
 		access.Unlock()
-	}, throttleInterval, cable.ThrottleOptions{})
+	}, throttleInterval, ThrottleOptions{})
 
 	startedAt1 := time.Now()
-	cable.SetInterval(func() bool {
+	SetInterval(func() bool {
 		delta := time.Now().Sub(startedAt1)
 		throttledFunc1()
 		if delta > setIntervalMaxDuration {
@@ -121,14 +119,14 @@ func Test_Throttle(t *testing.T) {
 	access.Unlock()
 
 	var timesInvoked2 int
-	throttledFunc2 := cable.Throttle(func() {
+	throttledFunc2 := Throttle(func() {
 		access.Lock()
 		timesInvoked2++
 		access.Unlock()
-	}, throttleInterval, cable.ThrottleOptions{Immediate: true})
+	}, throttleInterval, ThrottleOptions{Immediate: true})
 
 	startedAt2 := time.Now()
-	cable.SetInterval(func() bool {
+	SetInterval(func() bool {
 		delta := time.Now().Sub(startedAt2)
 		throttledFunc2()
 		if delta > setIntervalMaxDuration {
@@ -156,7 +154,7 @@ func Test_Debounce(t *testing.T) {
 	var startedAt time.Time
 
 	maxExpectedInvocations := 1
-	debouncedFunc := cable.Debounce(func() {
+	debouncedFunc := Debounce(func() {
 		timesInvoked1++
 		if timesInvoked1 != maxExpectedInvocations {
 			t.Errorf("Debounced callback has not been invoked the expected maximum amount of times: %d, want: %d.",
@@ -165,10 +163,10 @@ func Test_Debounce(t *testing.T) {
 		if time.Now().Sub(startedAt) <= setIntervalMaxDuration {
 			t.Errorf("Debounced callback has not been invoked sooner than expected")
 		}
-	}, debounceInterval, cable.DebounceOptions{})
+	}, debounceInterval, DebounceOptions{})
 
 	maxExpectedtimesInvoked2 := 2
-	debouncedImmediateFunc := cable.Debounce(func() {
+	debouncedImmediateFunc := Debounce(func() {
 		timesInvoked2++
 		delta := time.Now().Sub(startedAt)
 		if timesInvoked2 > maxExpectedtimesInvoked2 {
@@ -183,10 +181,10 @@ func Test_Debounce(t *testing.T) {
 			t.Errorf("Debounced immediate callback has been invoked earlier than expected")
 		}
 
-	}, debounceInterval, cable.DebounceOptions{Immediate: true})
+	}, debounceInterval, DebounceOptions{Immediate: true})
 
 	startedAt = time.Now()
-	cable.SetInterval(func() bool {
+	SetInterval(func() bool {
 		delta := time.Now().Sub(startedAt)
 		debouncedFunc()
 		debouncedImmediateFunc()
