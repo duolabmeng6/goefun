@@ -41,7 +41,7 @@ import (
 //参数<1>的名称为“欲等待的时间”，类型为“整数型（int）”。本参数指定欲暂停程序执行的时间，单位为毫秒。
 //
 //操作系统需求： Windows、Linux
-func E延时(欲等待的时间 int) {
+func E延时(欲等待的时间 int64) {
 	time.Sleep(time.Duration(欲等待的时间) * time.Millisecond)
 }
 
