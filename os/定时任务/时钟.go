@@ -26,3 +26,16 @@ func (this *E时钟) E创建执行一次(fn func(), 时钟周期 int64) {
 func (this *E时钟) E时钟周期函数(fn func(), 时钟周期 int64) func() {
 	return Throttle(fn, time.Duration(时钟周期)*time.Millisecond, ThrottleOptions{})
 }
+
+func E时钟_创建(fn func() bool, 时钟周期 int64) {
+	SetInterval(fn, time.Duration(时钟周期)*time.Millisecond)
+}
+
+func E时钟_创建执行一次(fn func(), 时钟周期 int64) {
+	SetTimeout(fn, time.Duration(时钟周期)*time.Millisecond)
+}
+
+//返回一个函数，无论调用多少次，它只会在指定的间隔内执行一次
+func E时钟_创建周期函数(fn func(), 时钟周期 int64) func() {
+	return Throttle(fn, time.Duration(时钟周期)*time.Millisecond, ThrottleOptions{})
+}
