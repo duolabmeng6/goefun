@@ -1,4 +1,4 @@
-package coreUtil
+package E
 
 import (
 	os "github.com/duolabmeng6/goefun/os/存取键值表"

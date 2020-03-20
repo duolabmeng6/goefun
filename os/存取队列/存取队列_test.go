@@ -14,7 +14,7 @@ func TestNew存取队列(t *testing.T) {
 	gtimer.SetInterval(time.Second, func() {
 		v := gtime.Now().String()
 		q.E压入队列(v)
-		core.E调试输出("Push:", v)
+		E.E调试输出("Push:", v)
 	})
 
 	// 3秒后关闭队列
@@ -25,7 +25,7 @@ func TestNew存取队列(t *testing.T) {
 	// 消费者，不停读取队列数据并输出到终端
 	for {
 		if v := q.E弹出队列(); v != nil {
-			core.E调试输出(" Pop:", v)
+			E.E调试输出(" Pop:", v)
 		} else {
 			break
 		}

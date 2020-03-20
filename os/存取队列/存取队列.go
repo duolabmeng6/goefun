@@ -3,7 +3,7 @@
 package os
 
 import (
-	"github.com/duolabmeng6/goefun/core"
+	E "github.com/duolabmeng6/goefun/core"
 	"github.com/gogf/gf/container/gqueue"
 )
 
@@ -43,7 +43,7 @@ func (this *E存取队列) E清空() {
 //
 //操作系统需求： Windows
 func (this *E存取队列) E取数量() int64 {
-	return core.E到整数(this.queue.Len())
+	return E.E到整数(this.queue.Len())
 }
 
 //调用格式： 〈逻辑型〉 对象．压入队列 （通用型 要压入的数据） - E2EE互联网服务器套件2.2.3->存取队列

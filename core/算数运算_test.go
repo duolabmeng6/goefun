@@ -1,4 +1,4 @@
-package core
+package E
 
 import (
 	"github.com/gogf/gf/test/gtest"

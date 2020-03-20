@@ -1,4 +1,4 @@
-package core
+package E
 //取所有发音
 //取发音数目
 //取拼音

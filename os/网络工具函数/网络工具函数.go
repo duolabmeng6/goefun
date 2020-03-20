@@ -12,7 +12,7 @@ func E获取本机ip() string {
 	if flag {
 		return ""
 	}
-	return coreUtil.StrCut(ret, `{ip:"$"}`)
+	return E.StrCut(ret, `{ip:"$"}`)
 }
 
 
@@ -24,7 +24,7 @@ func E获取ip信息(ip string) string {
 	}
 	json := New存取键值表()
 	json.LoadFromJsonString(ret)
-	return coreUtil.E格式化文本("%s %s %s %s",
+	return E.E格式化文本("%s %s %s %s",
 		json.GetString("data.country"),
 		json.GetString("data.region"),
 		json.GetString("data.city"),

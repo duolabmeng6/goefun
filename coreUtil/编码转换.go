@@ -1,4 +1,4 @@
-package coreUtil
+package E
 
 //调用格式： 〈文本型〉 Base64编码 （字节集 编码数据，［文本型 编码表］） - E2EE互联网服务器套件2.2.3->文本处理
 //英文名称：Base64Encode

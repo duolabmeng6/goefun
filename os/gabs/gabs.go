@@ -27,7 +27,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/duolabmeng6/goefun/core"
+	E "github.com/duolabmeng6/goefun/core"
 	"io"
 	"io/ioutil"
 	"strconv"
@@ -137,7 +137,7 @@ func (g *Container) ToString() string {
 		return ""
 	}
 	//return g.object.(string)
-	return core.E到文本(g.object)
+	return E.E到文本(g.object)
 }
 func (g *Container) ToInt() int {
 	if g == nil {
@@ -150,7 +150,7 @@ func (g *Container) ToInt() int {
 func (g *Container) GetString(key string) string {
 	if g.ExistsP(key) {
 		value := g.Path(key).Data()
-		return core.E到文本(value)
+		return E.E到文本(value)
 	}
 	return ""
 }

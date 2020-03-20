@@ -1,4 +1,4 @@
-package coreUtil
+package E
 
 import (
 	"testing"
@@ -14,10 +14,10 @@ func TestE取uuid(t *testing.T) {
 }
 
 func TestE取shortid(t *testing.T) {
-	t.Log("E取shortid", E取shortid())
-	t.Log("E取shortid", E取shortid())
-	t.Log("E取shortid", E取shortid())
-	t.Log("E取shortid", E取shortid())
-	t.Log("E取shortid", E取shortid())
+	t.Log("E取shortid", E取短id())
+	t.Log("E取shortid", E取短id())
+	t.Log("E取shortid", E取短id())
+	t.Log("E取shortid", E取短id())
+	t.Log("E取shortid", E取短id())
 
 }

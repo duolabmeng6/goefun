@@ -1,4 +1,4 @@
-package coreUtil
+package E
 
 import (
 	_ "crypto/md5"

@@ -1,4 +1,4 @@
-package coreUtil
+package E
 
 import (
 	"github.com/robertkrimen/otto"
