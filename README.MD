@@ -83,12 +83,12 @@ https://godoc.org/github.com/duolabmeng6/goefun/os/ehttp
 
 ## 核心支持库
 ```
-func DBCtoSBCNew(s string) string
 func E倒找文本(被搜寻的文本 string, 欲寻找的文本 string) int
 func E写到文件(文件名 string, 欲写入文件的数据 []byte) error
 func E写环境变量(环境变量名称 string, 欲写入内容 string) bool
 func E分割文本(待分割文本 string, 用作分割的文本 string) []string
 func E创建目录(欲创建的目录名称 string) error
+func E删全部空(内容 string) string
 func E删尾空(欲删除空格的文本 string) string
 func E删除文件(欲删除的文件名 string) error
 func E删除目录(欲删除的目录名称 string) error
@@ -123,7 +123,7 @@ func E复制文件(被复制的文件名 string, 复制到的文件名 string) e
 func E子文本替换(欲被替换的文本 string, 欲被替换的子文本 string, 用作替换的子文本 string) string
 func E字符(字节型 int8) string
 func E寻找文本(被搜寻的文本 string, 欲寻找的文本 string) int
-func E延时(欲等待的时间 int)
+func E延时(欲等待的时间 int64)
 func E文件是否存在(欲测试的文件名称 string) bool
 func E文件更名(欲更名的原文件或目录名 string, 欲更改为的现文件或目录名 string) error
 func E文本编码转换(src string, oldEncoder string, newEncoder string) string
@@ -143,12 +143,6 @@ func E读环境变量(环境变量名称 string, 默认值 ...interface{}) strin
 func E调试输出(a ...interface{})
 func E调试输出格式化(s string, a ...interface{})
 func E运行_win(欲运行的命令行 string, 是否等待程序运行完毕 bool) string
-func IsSBC(c rune) bool
-func SBCtoDBC(s string) string
-func ToASCIIDBC(r rune) rune
-func ToASCIISBC(r rune) rune
-func ToDBC(c rune) rune
-func ToSBC(c rune) rune
 type E日期时间型
 func E到时间(s string) *E日期时间型
 func E到时间从时间戳(s int64) *E日期时间型
@@ -175,7 +169,6 @@ func (this *E日期时间型) E大于(time *E日期时间型) bool
 func (this *E日期时间型) E小于(time *E日期时间型) bool
 func (this *E日期时间型) E时间到文本(format string) string
 func (this *E日期时间型) E等于(time *E日期时间型) bool
-
 ```
 ## 核心支持库工具函数库
 ```
@@ -192,6 +185,7 @@ func E取md5(data []byte) string
 func E取md5从文本(str string) string
 func E取uuid() string
 func E取文本字数(value string) int
+func E取短id() string
 func E取随机ip() string
 func E命令行解析()
 func E文件_删除(欲删除的文件名 string) bool
@@ -228,6 +222,8 @@ func E格式化文本(format string, a ...interface{}) string
 func E目录_枚举子目录(父文件夹路径 string, 子目录数组 *[]string, 是否带路径 bool, 是否继续向下枚举 bool) error
 func E计算数学表达式(v string) string
 func E设置命令行(name string, defaultvalue string, help string, value *string)
+func E路径_创建多级目录(要创建的目录 string) bool
+func E路径_合并(elem ...string) string
 func Json解析(data string, path string) gjson.Result
 func Json解析文本(data string, path string) string
 func RunJs(content string, functionName string, args ...interface{}) string
@@ -267,6 +263,10 @@ func (this *E配置项) E取项名(节名称 string) []string
 func (this *E配置项) E设置节名不区分大小写()
 func (this *E配置项) E读配置项(节名称 string, 配置项名称 string, 默认文本 string) string
 type StrArray
+func NewStrArray(safe ...bool) *StrArray
+func NewStrArrayFrom(Array []string, safe ...bool) *StrArray
+func NewStrArrayFromCopy(Array []string, safe ...bool) *StrArray
+func NewStrArraySize(size int, cap int, safe ...bool) *StrArray
 func New文本型数组() *StrArray
 func (a *StrArray) E删除成员(欲删除的位置 int)
 func (a *StrArray) E加入成员(s string)
