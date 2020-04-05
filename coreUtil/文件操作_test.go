@@ -2,6 +2,7 @@ package E
 
 import (
 	"fmt"
+	E "github.com/duolabmeng6/goefun/core"
 	"testing"
 )
 
@@ -45,5 +46,19 @@ func Test目录(t *testing.T) {
 
 	fmt.Println("/////a, /b :", E文件_路径合并处理("a", "b", "c"))
 	fmt.Println("/////a, /b :", E文件_路径合并处理("a/11////", "b", "c"))
+
+}
+
+func TestE文件_写出(t *testing.T) {
+	E.E调试输出(E.E取运行目录())
+
+	E文件_写出(E.E取运行目录()+"/aaa/ccc/ddd/1.txt", E.E到字节集("123"))
+
+}
+
+func TestE文件_追加文本(t *testing.T) {
+	E.E调试输出(E.E取运行目录())
+
+	E文件_追加文本(E.E取运行目录()+"/aaa/ccc/ddd/2.txt", "123")
 
 }

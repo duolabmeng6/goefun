@@ -34,4 +34,11 @@ func TestNew正则表达式(t *testing.T) {
 	arr := zz2.GetResult()
 
 	E调试输出("GetResult", arr)
+
+	zz3, flag := New正则表达式(`aaa`, str)
+
+	arr2 := zz3.E替换("666")
+
+	E调试输出("E替换", arr2)
+
 }

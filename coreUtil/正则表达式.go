@@ -11,6 +11,8 @@ type E正则表达式 struct {
 	Count int
 	//子匹配数量
 	SubmatchCount2 int
+	正则表达式文本        string
+	被搜索的文本         string
 }
 
 func New正则表达式(正则表达式文本 string, 被搜索的文本 string) (*E正则表达式, bool) {
@@ -19,6 +21,9 @@ func New正则表达式(正则表达式文本 string, 被搜索的文本 string)
 	return t, b
 }
 func (this *E正则表达式) E创建(正则表达式文本 string, 被搜索的文本 string) bool {
+	this.正则表达式文本 = 正则表达式文本
+	this.被搜索的文本 = 被搜索的文本
+
 	this.r = regexp.MustCompile(正则表达式文本) //` `表示使用原生字符串
 	this.res = this.r.FindAllStringSubmatch(被搜索的文本, -1)
 	this.Count = len(this.res)
@@ -50,4 +55,10 @@ func (this *E正则表达式) E取子匹配数量() int {
 
 func (this *E正则表达式) GetResult() [][]string {
 	return this.res
+}
+
+func (this *E正则表达式) E替换(用作替换的文本 string) string {
+	r, _ := regexp.Compile(this.正则表达式文本)
+	str := r.ReplaceAllString(this.被搜索的文本, 用作替换的文本)
+	return str
 }

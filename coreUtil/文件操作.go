@@ -152,6 +152,36 @@ func E文件_取扩展名(filepath string) string {
 func E文件_删除(欲删除的文件名 string) bool {
 	return E删除文件(欲删除的文件名) == nil
 }
+
 func E文件_更名(欲更名的原文件或目录名 string, 欲更改为的现文件或目录名 string) bool {
 	return E文件更名(欲更名的原文件或目录名, 欲更改为的现文件或目录名) == nil
+}
+
+//路径不存在时自动创建
+func E文件_写出(文件名 string, 欲写入文件的数据 interface{}) error {
+	fpath := E文件_取父目录(文件名)
+	if !E文件是否存在(fpath) {
+		E创建目录多级(fpath)
+	}
+	return ioutil.WriteFile(文件名, E到字节集(欲写入文件的数据), os.ModePerm)
+}
+
+//路径不存在时自动创建
+func E文件_追加文本(文件名 string, 欲追加的文本 string) error {
+	fpath := E文件_取父目录(文件名)
+	if !E文件是否存在(fpath) {
+		E创建目录多级(fpath)
+	}
+	file, err := os.OpenFile(文件名, os.O_WRONLY|os.O_CREATE|os.O_APPEND, os.ModePerm)
+	defer file.Close()
+
+	_, err = file.Write(E到字节集(欲追加的文本 + "\r\n"))
+	return err
+}
+
+//从路径中读入文件的文本内容
+func E读入文本(文件名 string) string {
+	var data []byte
+	data, _ = ioutil.ReadFile(文件名)
+	return E到文本(data)
 }
