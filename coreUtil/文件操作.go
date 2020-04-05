@@ -1,6 +1,7 @@
 package E
 
 import (
+	"bytes"
 	. "github.com/duolabmeng6/goefun/core"
 	"io/ioutil"
 	"os"
@@ -184,4 +185,21 @@ func E读入文本(文件名 string) string {
 	var data []byte
 	data, _ = ioutil.ReadFile(文件名)
 	return E到文本(data)
+}
+
+//自动检查内容是否一致是否需要写出
+func E文件_保存(文件名 string, 欲写入文件的数据 interface{}) error {
+	if E文件是否存在(文件名) {
+		data := E读入文件(文件名)
+		wdata := E到字节集(欲写入文件的数据)
+		if !bytes.Equal(data, wdata) {
+			//E调试输出("不相同写出")
+			return E文件_写出(文件名, wdata)
+		}
+		//E调试输出("内容一样不写出")
+	} else {
+		//E调试输出("文件不存在写出")
+		return E文件_写出(文件名, 欲写入文件的数据)
+	}
+	return nil
 }

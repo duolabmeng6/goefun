@@ -62,3 +62,10 @@ func TestE文件_追加文本(t *testing.T) {
 	E文件_追加文本(E.E取运行目录()+"/aaa/ccc/ddd/2.txt", "123")
 
 }
+
+func TestE文件_保存(t *testing.T) {
+	E.E调试输出(E.E取运行目录())
+
+	E文件_保存(E.E取运行目录()+"/aaa/ccc/ddd/2.txt", "1234")
+
+}
