@@ -1,5 +1,11 @@
 package E
 
+import (
+	"fmt"
+	"github.com/axgle/mahonia"
+	"golang.org/x/text/encoding/simplifiedchinese"
+)
+
 //调用格式： 〈文本型〉 Base64编码 （字节集 编码数据，［文本型 编码表］） - E2EE互联网服务器套件2.2.3->文本处理
 //英文名称：Base64Encode
 //将数据编码到Base64。本命令为初级命令。
@@ -53,3 +59,99 @@ package E
 //参数<2>的名称为“编码格式”，类型为“文本型（text）”，可以被省略。指定编码格式。可使用“#文本编码格式_”开头的常量指定。如果为空则默认为原始的编码。
 //
 //操作系统需求： Windows
+
+//E文本编码转换("测试一下","gbk","utf-8")
+func E文本编码转换(str interface{}, 来源编码 string, 目标编码 string) string {
+	if 来源编码 == "" {
+		if E编码_是否为gbk(E到字节集(str)) {
+			来源编码 = "gbk"
+		}
+		if E编码_是否为utf8(E到字节集(str)) {
+			来源编码 = "utf-8"
+		}
+		//如果编码是一致的那么就不需要转换了
+		if 来源编码 == 目标编码 {
+			return E到文本(str)
+		}
+	}
+	srcDecoder := mahonia.NewDecoder(来源编码)
+	desDecoder := mahonia.NewDecoder(目标编码)
+	resStr := srcDecoder.ConvertString(E到文本(str))
+	_, resBytes, _ := desDecoder.Translate(E到字节集(resStr), true)
+	return E到文本(resBytes)
+}
+
+func E编码_是否为gbk(data []byte) bool {
+	length := len(data)
+	var i int = 0
+	for i < length {
+		//fmt.Printf("for %x\n", data[i])
+		if data[i] <= 0xff {
+			//编码小于等于127,只有一个字节的编码，兼容ASCII吗
+			i++
+			continue
+		} else {
+			//大于127的使用双字节编码
+			if data[i] >= 0x81 &&
+				data[i] <= 0xfe &&
+				data[i+1] >= 0x40 &&
+				data[i+1] <= 0xfe &&
+				data[i+1] != 0xf7 {
+				i += 2
+				continue
+			} else {
+				return false
+			}
+		}
+	}
+	return true
+}
+func preNUm(data byte) int {
+	str := fmt.Sprintf("%b", data)
+	var i int = 0
+	for i < len(str) {
+		if str[i] != '1' {
+			break
+		}
+		i++
+	}
+	return i
+}
+func E编码_是否为utf8(data []byte) bool {
+	for i := 0; i < len(data); {
+		if data[i]&0x80 == 0x00 {
+			// 0XXX_XXXX
+			i++
+			continue
+		} else if num := preNUm(data[i]); num > 2 {
+			// 110X_XXXX 10XX_XXXX
+			// 1110_XXXX 10XX_XXXX 10XX_XXXX
+			// 1111_0XXX 10XX_XXXX 10XX_XXXX 10XX_XXXX
+			// 1111_10XX 10XX_XXXX 10XX_XXXX 10XX_XXXX 10XX_XXXX
+			// 1111_110X 10XX_XXXX 10XX_XXXX 10XX_XXXX 10XX_XXXX 10XX_XXXX
+			// preNUm() 返回首个字节的8个bits中首个0bit前面1bit的个数，该数量也是该字符所使用的字节数
+			i++
+			for j := 0; j < num-1; j++ {
+				//判断后面的 num - 1 个字节是不是都是10开头
+				if data[i]&0xc0 != 0x80 {
+					return false
+				}
+				i++
+			}
+		} else {
+			//其他情况说明不是utf-8
+			return false
+		}
+	}
+	return true
+}
+
+func E编码_utf8到gbk(str string) string {
+	gbkData, _ := simplifiedchinese.GBK.NewEncoder().Bytes([]byte(str)) //使用官方库将utf-8转换为gbk
+	return string(gbkData)
+}
+
+func E编码_gbk到utf8(str string) string {
+	gbkData, _ := simplifiedchinese.GBK.NewDecoder().Bytes([]byte(str))
+	return string(gbkData)
+}

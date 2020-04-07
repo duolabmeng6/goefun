@@ -157,25 +157,3 @@ func TestE到结构体(t *testing.T) {
 		})
 	}
 }
-
-func TestE文本编码转换(t *testing.T) {
-	type args struct {
-		src        string
-		oldEncoder string
-		newEncoder string
-	}
-	tests := []struct {
-		name string
-		args args
-		want string
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := E文本编码转换(tt.args.src, tt.args.oldEncoder, tt.args.newEncoder); got != tt.want {
-				t.Errorf("E文本编码转换() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}

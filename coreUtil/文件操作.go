@@ -22,7 +22,7 @@ func E创建目录多级(欲创建的目录名称 string) error {
 //参数<3>的名称为“文件数组”，类型为“文本型”，接收参数数据时采用参考传递方式，允许接收空参数数据，需要接收数组数据。注明：用于装载文件数组的变量；把寻找到的文件都放在这个数组里，并返回；。
 //参数<4>的名称为“是否带路径”，类型为“逻辑型”，允许接收空参数数据。注明：默认为假； 真=带目录路径，如C:\012.txt； 假=不带，如 012.txt；。
 //参数<6>的名称为“是否遍历子目录”，类型为“逻辑型”，允许接收空参数数据。注明：留空默认为假；为真时文件数组不主动清空。
-func E文件枚举(欲寻找的目录 string, 欲寻找的文件名 string, files *[]string, 是否带路径 bool, 是否遍历子目录 bool) error {
+func E文件_枚举(欲寻找的目录 string, 欲寻找的文件名 string, files *[]string, 是否带路径 bool, 是否遍历子目录 bool) error {
 	var ok bool
 	欲寻找的文件名arr := strings.Split(欲寻找的文件名, "|")
 	l, err := ioutil.ReadDir(欲寻找的目录)
@@ -37,7 +37,7 @@ func E文件枚举(欲寻找的目录 string, 欲寻找的文件名 string, file
 
 		if f.IsDir() {
 			if 是否遍历子目录 {
-				err = E文件枚举(tmp, 欲寻找的文件名, files, 是否带路径, 是否遍历子目录)
+				err = E文件_枚举(tmp, 欲寻找的文件名, files, 是否带路径, 是否遍历子目录)
 				if err != nil {
 					return err
 				}

@@ -1,18 +1,8 @@
 package E
 
 import (
-	"github.com/axgle/mahonia"
 	"github.com/gogf/gf/util/gconv"
 )
-
-//E文本编码转换("测试一下","gbk","utf-8")
-func E文本编码转换(src string, oldEncoder string, newEncoder string) string {
-	srcDecoder := mahonia.NewDecoder(oldEncoder)
-	desDecoder := mahonia.NewDecoder(newEncoder)
-	resStr := srcDecoder.ConvertString(src)
-	_, resBytes, _ := desDecoder.Translate([]byte(resStr), true)
-	return string(resBytes)
-}
 
 func E到字节集(value interface{}) []byte {
 	return gconv.Bytes(value)

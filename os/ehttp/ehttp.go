@@ -200,6 +200,12 @@ func (this *Ehttp) E访问(url string, 访问方法 string, 发送文本 string,
 		E调试输出格式化("%s %s StatusCode:%d Time:%s ms \n", 访问方法, url, resp.StatusCode, t.E取毫秒())
 	}
 
+	//if E判断文本(resp.Header.Get("Content-Type"),"UTF-8") {
+	//
+	//}else{
+	//	content = E到字节集(E文本编码转换(content, "", "utf-8"))
+	//}
+
 	this.cookie_save()
 	this.reset()
 	return content, err
