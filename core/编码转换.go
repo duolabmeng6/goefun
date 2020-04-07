@@ -68,6 +68,9 @@ func E文本编码转换(str interface{}, 来源编码 string, 目标编码 stri
 		if 来源编码 == 目标编码 {
 			return E到文本(str)
 		}
+		if !(来源编码 == "gbk" || 来源编码 == "utf-8") {
+			return E到文本(str)
+		}
 	}
 	srcDecoder := mahonia.NewDecoder(来源编码)
 	desDecoder := mahonia.NewDecoder(目标编码)
