@@ -49,3 +49,25 @@ func TestE文本编码转换utf8(t *testing.T) {
 	E调试输出("输入gbk", test2)
 
 }
+
+func TestE文本编码转换utf8文件(t *testing.T) {
+	str := E到文本(E读入文件("./test.html"))
+	E调试输出(E编码_检测(str))
+
+	strgbk := E到文本(E读入文件("./gbk.html"))
+	E调试输出(E编码_检测(strgbk))
+
+	str2 := E文本编码转换(strgbk, "", "utf-8")
+	//E调试输出(str2)
+	//E调试输出(E编码_检测("str1"))
+
+	str3 := E文本编码转换(str2, "", "utf-8")
+	//E调试输出(str3)
+	E调试输出(E编码_检测(str3))
+
+	str4 := E文本编码转换(str, "", "utf-8")
+	//E调试输出(str3)
+	E调试输出(E编码_检测(str4))
+	E调试输出(str4)
+
+}

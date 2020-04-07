@@ -32,6 +32,12 @@ func (this *EJson) Clear() *EJson {
 	return this
 }
 
+func (this *EJson) Del(key string) error {
+	return this.Json.DeleteP(key)
+}
+func (this *EJson) E删除(key string) error {
+	return this.Json.DeleteP(key)
+}
 func (this *EJson) GetString(key string) string {
 	if this.Json.ExistsP(key) {
 		//str := this.Json.Path(key).Data().(string)
@@ -46,7 +52,7 @@ func (this *EJson) E取文本(key string) string {
 
 func (this *EJson) GetInt(key string) int64 {
 	if this.Json.ExistsP(key) {
-		value := this.Json.Path(key).Data().(int64)
+		value := E到整数(this.Json.Path(key).Data())
 		return value
 	}
 	return 0

@@ -46,6 +46,8 @@ github.com/gorilla/websocket v1.4.1 h1:q7AeDBpnBk8AogcD4DSag/Ukw/KV+YhzLj2bP5HvK
 github.com/gorilla/websocket v1.4.1/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
 github.com/grokify/html-strip-tags-go v0.0.0-20190921062105-daaa06bf1aaf h1:wIOAyJMMen0ELGiFzlmqxdcV1yGbkyHBAB6PolcNbLA=
 github.com/grokify/html-strip-tags-go v0.0.0-20190921062105-daaa06bf1aaf/go.mod h1:2Su6romC5/1VXOQMaWL2yb618ARB8iVo6/DR99A6d78=
+github.com/hydra13142/chardet v0.0.0-20141209090213-8facad4b4ebd h1:2YIntm8eGbYw71bO73P69JvPcMEntBHprYBv8c15jDQ=
+github.com/hydra13142/chardet v0.0.0-20141209090213-8facad4b4ebd/go.mod h1:SRXGWTP6sftTN6zOuEQN6JhwzMZLYNFtlxlQiqCKsZw=
 github.com/joho/godotenv v1.3.0 h1:Zjp+RcGpHhGlrMbJzXTrZZPrWj+1vfm90La1wgB6Bhc=
 github.com/joho/godotenv v1.3.0/go.mod h1:7hK45KPybAkOC6peb+G5yklZfMxEjkZhHbwpqxOKXbg=
 github.com/jtolds/gls v4.20.0+incompatible h1:xdiiI2gbIgH/gLH7ADydsJ1uDOEzR8yvV7C0MuV77Wo=
