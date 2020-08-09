@@ -2,7 +2,7 @@ package E
 
 import (
 	_ "crypto/md5"
-	"github.com/gogf/gf/util/guuid"
+	"github.com/gogf/guuid"
 	"github.com/teris-io/shortid"
 )
 
