@@ -3,6 +3,7 @@ package E
 import (
 	"fmt"
 	. "github.com/duolabmeng6/goefun/core"
+	"github.com/gogf/gf/text/gstr"
 	"github.com/gogf/gf/util/grand"
 	"strings"
 	"unicode"
@@ -255,4 +256,29 @@ func E判断文本前缀(s string, 前缀 string) bool {
 }
 func E判断文本后缀(s string, 后缀 string) bool {
 	return strings.HasSuffix(s, 后缀)
+}
+
+func E文本_单词首字母大写(s string) string {
+	return gstr.UcFirst(s)
+}
+
+func E文本_句子首字母大写(s string) string {
+	return gstr.UcWords(s)
+}
+
+func E文本_自动换行(s string, 每行几个字符 int, 分隔符 string) string {
+	return gstr.WordWrap(s, 每行几个字符, 分隔符)
+}
+
+//SimilarText计算两个字符串之间的相似度。参见http://php.net/manual/en/function.similar-text.php。
+func E文本_相似文本(first, second string, percent *float64) int {
+	return gstr.SimilarText(first, second, percent)
+}
+
+func E文本_随机文本(s string) string {
+	return gstr.Shuffle(s)
+}
+
+func E文本_搜索切片文本(a []string, s string) int {
+	return gstr.SearchArray(a, s)
 }

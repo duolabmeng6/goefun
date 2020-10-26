@@ -29,7 +29,7 @@ func Test文本_取出中间文本(t *testing.T) {
 
 	t.Log("文本_取左边", E文本_取左边("我爱efun好棒", "efun"))
 	t.Log("文本_取右边", E文本_取右边("我爱efun好棒", "efun"))
-	t.Log("文本_取出中间文本", 文本_取出中间文本("我爱efun好棒", "我爱", "好棒"))
+	t.Log("文本_取出中间文本", E文本_取出中间文本("我爱efun好棒", "我爱", "好棒"))
 	t.Log("StrCut", StrCut("我爱efun好棒", "我爱$好棒"))
 	t.Log("StrCut", StrCut("我爱efun好棒", "efun$"))
 	t.Log("StrCut", StrCut("我爱efun好棒", "$efun"))
@@ -97,5 +97,21 @@ func TestE取文本字数(t *testing.T) {
 	t.Log("E判断文本前缀", E判断文本前缀("我爱efun好棒", "efun"))
 	t.Log("E判断文本后缀", E判断文本后缀("我爱efun好棒", "好棒"))
 	t.Log("E判断文本后缀", E判断文本后缀("我爱efun好棒", "efun"))
+
+}
+
+func TestE转驼峰(t *testing.T) {
+	t.Log("E文本_单词首字母大写", E文本_单词首字母大写("i love you"))
+	t.Log("E文本_句子首字母大写", E文本_句子首字母大写("i love you"))
+	t.Log("E文本_自动换行", E文本_自动换行("i love you i love you i love you i love you i love you i love you", 5, "\r\n"))
+	var p float64
+	t.Log("E文本_相似文本", E文本_相似文本("i love you ", "uoy evol i", &p))
+	t.Log("E文本_相似文本", p)
+	t.Log("E文本_相似文本", E文本_相似文本("i love you ", "i love you", &p))
+	t.Log("E文本_相似文本", p)
+	t.Log("E文本_随机文本", E文本_随机文本("i love you "))
+
+	strArr := []string{"a123", "b321", "c123456"}
+	t.Log("E文本_搜索切片文本", E文本_搜索切片文本(strArr, "b321"))
 
 }
