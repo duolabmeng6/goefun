@@ -76,6 +76,40 @@ func (this *Ehttp) Get(url string, v ...interface{}) (string, bool) {
 	return string(body), this.E访问失败()
 }
 
+func (this *Ehttp) GetByte(url string, v ...interface{}) ([]byte, bool) {
+	var 附加头信息 string
+	if len(v) > 1 {
+		附加头信息 = E到文本(v[0])
+	}
+
+	body, _ := this.E访问(
+		url,
+		"GET",
+		"",
+		附加头信息,
+	)
+
+	return body, this.E访问失败()
+}
+
+//token=token&name=1.txt&file=@file:文件的绝对路径
+func (this *Ehttp) PostByte(url string, s string, v ...interface{}) ([]byte, bool) {
+	var 附加头信息 string
+	if len(v) > 1 {
+		附加头信息 = E到文本(v[0])
+	}
+
+	body, _ := this.E访问(
+		url,
+		"POST",
+		s,
+		附加头信息,
+	)
+
+	return body, this.E访问失败()
+}
+
+
 //token=token&name=1.txt&file=@file:文件的绝对路径
 func (this *Ehttp) Post(url string, s string, v ...interface{}) (string, bool) {
 	var 附加头信息 string
