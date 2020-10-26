@@ -17,23 +17,23 @@ func E格式化文本(format string, a ...interface{}) string {
 func StrCut(内容 string, 表达式 string) string {
 	args := strings.Split(表达式, "$")
 	if len(args) == 2 {
-		return 文本_取出中间文本(内容, args[0], args[1])
+		return E文本_取出中间文本(内容, args[0], args[1])
 	}
 	if len(args) == 1 {
-		return 文本_取出中间文本(内容, args[0], "")
+		return E文本_取出中间文本(内容, args[0], "")
 	}
 	return ""
 }
 
 func E文本_取左边(被查找的文本 string, 欲寻找的文本 string) string {
-	return 文本_取出中间文本(被查找的文本, "", 欲寻找的文本)
+	return E文本_取出中间文本(被查找的文本, "", 欲寻找的文本)
 }
 func E文本_取右边(被查找的文本 string, 欲寻找的文本 string) string {
-	return 文本_取出中间文本(被查找的文本, 欲寻找的文本, "")
+	return E文本_取出中间文本(被查找的文本, 欲寻找的文本, "")
 }
 
 //文本取出中间文本
-func 文本_取出中间文本(内容 string, 左边文本 string, 右边文本 string) string {
+func E文本_取出中间文本(内容 string, 左边文本 string, 右边文本 string) string {
 	左边位置 := strings.Index(内容, 左边文本)
 	if 左边位置 == -1 {
 		return ""
