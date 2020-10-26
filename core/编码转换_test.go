@@ -71,3 +71,14 @@ func TestE文本编码转换utf8文件(t *testing.T) {
 	E调试输出(str4)
 
 }
+
+func TestBase64解码(t *testing.T) {
+	base64string := Base64编码(E到字节集("abcdefg"))
+	E调试输出(base64string)
+	E调试输出(Base64解码(base64string))
+	E调试输出(URL编码("<>?"))
+	E调试输出(URL解码("%3C%3E%3F"))
+	E调试输出(URL解析("http://user:pass@example.com:8080/path/to/index.html",-1))
+
+
+}
