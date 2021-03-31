@@ -2,6 +2,7 @@ package gfUtil
 
 import (
 	E "github.com/duolabmeng6/goefun/core"
+	"github.com/gogf/gf/util/gvalid"
 	"testing"
 )
 
@@ -70,5 +71,28 @@ func Test校验数据_检查(t *testing.T) {
 		E.E调试输出(e.Map())
 	}
 
+	if e := E数据校验_检查("1", "length:6,16", ""); e != nil {
+		E.E调试输出(e.Map())
+	}
 
+
+}
+
+func Test数据校验中文提示(t *testing.T) {
+	params := map[string]interface{}{
+		"passport":  "",
+		"password":  "123456",
+		"password2": "1234567",
+	}
+	rules := []string{
+		"passport@required|min:100",
+		"password@required|min:100",
+		"password2@required|min:100",
+	}
+
+	if e := gvalid.New().I18n("cn").CheckMap(params, rules); e != nil {
+		E.E调试输出(e.Map())
+		E.E调试输出(e.FirstItem())
+		E.E调试输出(e.FirstString())
+	}
 }
