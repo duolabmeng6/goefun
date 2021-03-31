@@ -1,4 +1,4 @@
-package 数据校验
+package gfUtil
 
 import "github.com/gogf/gf/util/gvalid"
 

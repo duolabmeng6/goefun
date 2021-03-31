@@ -1,4 +1,4 @@
-package 数据校验
+package gfUtil
 
 import (
 	E "github.com/duolabmeng6/goefun/core"
