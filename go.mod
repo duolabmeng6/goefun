@@ -1,6 +1,6 @@
 module github.com/duolabmeng6/goefun
 
-go 1.14
+go 1.20
 
 require (
 	github.com/Knetic/govaluate v3.0.0+incompatible
