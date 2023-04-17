@@ -1,9 +1,9 @@
 package os
 
 import (
-	"github.com/duolabmeng6/goefun/coreUtil"
+	E "github.com/duolabmeng6/goefun/etool"
 	. "github.com/duolabmeng6/goefun/os/ehttp"
-	. "github.com/duolabmeng6/goefun/os/存取键值表"
+	. "github.com/duolabmeng6/goefun/os/kvTable"
 )
 
 func E获取本机ip() string {
@@ -14,7 +14,6 @@ func E获取本机ip() string {
 	}
 	return E.StrCut(ret, `{ip:"$"}`)
 }
-
 
 func E获取ip信息(ip string) string {
 	http := NewHttp()

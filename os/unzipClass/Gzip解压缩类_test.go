@@ -1,8 +1,9 @@
 package os
 
 import (
-	"github.com/gogf/gf/test/gtest"
 	"testing"
+
+	"github.com/gogf/gf/v2/test/gtest"
 )
 
 func TestGzip压缩数据(t *testing.T) {

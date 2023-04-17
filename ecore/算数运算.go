@@ -1,11 +1,12 @@
 package E
 
 import (
-	"github.com/gogf/gf/util/gconv"
-	"github.com/gogf/gf/util/grand"
 	"math"
 	"math/rand"
 	"time"
+
+	"github.com/gogf/gf/v2/util/gconv"
+	"github.com/gogf/gf/v2/util/grand"
 )
 
 //算数运算

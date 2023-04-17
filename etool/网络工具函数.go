@@ -2,11 +2,11 @@ package E
 
 import (
 	"fmt"
-	. "github.com/duolabmeng6/goefun/core"
 	"math/rand"
 	"time"
-)
 
+	. "github.com/duolabmeng6/goefun/ecore"
+)
 
 func E取随机ip() string {
 	rand.Seed(time.Now().Unix())

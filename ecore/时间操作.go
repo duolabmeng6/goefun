@@ -1,7 +1,7 @@
 package E
 
 import (
-	"github.com/gogf/gf/os/gtime"
+	"github.com/gogf/gf/v2/os/gtime"
 )
 
 //A simple extension for Time based on PHP's Carbon library. https://github.com/uniplaces/carbon

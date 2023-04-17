@@ -1,11 +1,12 @@
 package os
 
 import (
-	"github.com/duolabmeng6/goefun/core"
-	"github.com/gogf/gf/os/gtime"
-	"github.com/gogf/gf/os/gtimer"
 	"testing"
 	"time"
+
+	E "github.com/duolabmeng6/goefun/ecore"
+	"github.com/gogf/gf/v2/os/gtime"
+	"github.com/gogf/gf/v2/os/gtimer"
 )
 
 func TestNew存取队列(t *testing.T) {

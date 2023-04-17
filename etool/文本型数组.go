@@ -3,13 +3,14 @@ package E
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/duolabmeng6/goefun/src/rwmutex"
-	"github.com/gogf/gf/text/gstr"
-	"github.com/gogf/gf/util/gconv"
-	"github.com/gogf/gf/util/grand"
 	"math"
 	"sort"
 	"strings"
+
+	"github.com/duolabmeng6/goefun/src/rwmutex"
+	"github.com/gogf/gf/v2/text/gstr"
+	"github.com/gogf/gf/v2/util/gconv"
+	"github.com/gogf/gf/v2/util/grand"
 )
 
 type StrArray struct {

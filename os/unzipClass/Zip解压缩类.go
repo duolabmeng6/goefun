@@ -2,9 +2,10 @@
 package os
 
 import (
-	. "github.com/duolabmeng6/goefun/core"
-	"github.com/gogf/gf/encoding/gcompress"
 	"io"
+
+	. "github.com/duolabmeng6/goefun/ecore"
+	"github.com/gogf/gf/v2/encoding/gcompress"
 )
 
 //ZipPath使用压缩算法将<压缩包路径>压缩到<目标目录>。

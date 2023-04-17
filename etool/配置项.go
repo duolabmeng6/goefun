@@ -2,7 +2,7 @@ package E
 
 import (
 	"github.com/duolabmeng6/efun/src/utils"
-	. "github.com/duolabmeng6/goefun/core"
+	. "github.com/duolabmeng6/goefun/ecore"
 	"gopkg.in/ini.v1"
 )
 

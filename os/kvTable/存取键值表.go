@@ -3,7 +3,7 @@
 package os
 
 import (
-	. "github.com/duolabmeng6/goefun/core"
+	. "github.com/duolabmeng6/goefun/ecore"
 	"github.com/duolabmeng6/goefun/os/gabs"
 )
 

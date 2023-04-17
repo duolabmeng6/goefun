@@ -1,8 +1,9 @@
 package E
 
 import (
-	. "github.com/duolabmeng6/goefun/core"
 	"testing"
+
+	. "github.com/duolabmeng6/goefun/ecore"
 )
 
 func TestRunJs(t *testing.T) {

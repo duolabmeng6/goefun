@@ -2,12 +2,13 @@ package E
 
 import (
 	"bytes"
-	. "github.com/duolabmeng6/goefun/core"
 	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
 	"strings"
+
+	. "github.com/duolabmeng6/goefun/ecore"
 )
 
 func E创建目录多级(欲创建的目录名称 string) error {

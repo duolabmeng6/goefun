@@ -1,8 +1,9 @@
 package os
 
 import (
-	E "github.com/duolabmeng6/goefun/core"
 	"testing"
+
+	E "github.com/duolabmeng6/goefun/ecore"
 )
 
 func TestEJson(t *testing.T) {

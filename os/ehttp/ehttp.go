@@ -6,9 +6,6 @@ import (
 	"bytes"
 	"crypto/tls"
 	"errors"
-	. "github.com/duolabmeng6/goefun/core"
-	. "github.com/duolabmeng6/goefun/coreUtil"
-	"github.com/duolabmeng6/goefun/src/cookiejar"
 	"io"
 	"io/ioutil"
 	"mime/multipart"
@@ -18,6 +15,10 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	. "github.com/duolabmeng6/goefun/ecore"
+	. "github.com/duolabmeng6/goefun/etool"
+	"github.com/duolabmeng6/goefun/src/cookiejar"
 )
 
 type Ehttp struct {
@@ -92,7 +93,7 @@ func (this *Ehttp) GetByte(url string, v ...interface{}) ([]byte, bool) {
 	return body, this.E访问失败()
 }
 
-//token=token&name=1.txt&file=@file:文件的绝对路径
+// token=token&name=1.txt&file=@file:文件的绝对路径
 func (this *Ehttp) PostByte(url string, s string, v ...interface{}) ([]byte, bool) {
 	var 附加头信息 string
 	if len(v) > 1 {
@@ -109,8 +110,7 @@ func (this *Ehttp) PostByte(url string, s string, v ...interface{}) ([]byte, boo
 	return body, this.E访问失败()
 }
 
-
-//token=token&name=1.txt&file=@file:文件的绝对路径
+// token=token&name=1.txt&file=@file:文件的绝对路径
 func (this *Ehttp) Post(url string, s string, v ...interface{}) (string, bool) {
 	var 附加头信息 string
 	if len(v) > 1 {
@@ -245,7 +245,7 @@ func (this *Ehttp) E访问(url string, 访问方法 string, 发送文本 string,
 	return content, err
 }
 
-//访问失败 返回真 成功 返回假
+// 访问失败 返回真 成功 返回假
 func (this *Ehttp) E访问失败() bool {
 	if this.状态码 == 200 {
 		return false
@@ -337,7 +337,8 @@ func (this *Ehttp) setObj() *Ehttp {
 }
 
 // SetProxy 设置代理访问
-// 	SetProxy("http://127.0.0.1:8888")
+//
+//	SetProxy("http://127.0.0.1:8888")
 func (this *Ehttp) SetProxy(proxy string) *Ehttp {
 	this.Proxy = proxy
 	return this
@@ -364,7 +365,7 @@ func (this *Ehttp) E设置自动管理cookie(cookie文件路径 string) *Ehttp {
 	return this.SetAutoSaveCookie(cookie文件路径)
 }
 
-//设置自动保存cookie文件
+// 设置自动保存cookie文件
 func (this *Ehttp) SetAutoSaveCookie(filepath string) *Ehttp {
 	this.cookieFilePath = filepath
 	this.cookie_load()

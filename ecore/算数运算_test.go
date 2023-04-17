@@ -1,8 +1,9 @@
 package E
 
 import (
-	"github.com/gogf/gf/test/gtest"
 	"testing"
+
+	"github.com/gogf/gf/v2/test/gtest"
 )
 
 func TestE四舍五入(t *testing.T) {

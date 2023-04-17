@@ -2,12 +2,13 @@ package E
 
 import (
 	"fmt"
-	. "github.com/duolabmeng6/goefun/core"
-	"github.com/gogf/gf/text/gstr"
-	"github.com/gogf/gf/util/grand"
 	"strings"
 	"unicode"
 	"unicode/utf8"
+
+	. "github.com/duolabmeng6/goefun/ecore"
+	"github.com/gogf/gf/v2/text/gstr"
+	"github.com/gogf/gf/v2/util/grand"
 )
 
 func E格式化文本(format string, a ...interface{}) string {

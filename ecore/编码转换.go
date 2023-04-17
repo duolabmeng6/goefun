@@ -3,8 +3,8 @@ package E
 import (
 	"github.com/axgle/mahonia"
 	"github.com/duolabmeng6/goefun/src/chardet"
-	"github.com/gogf/gf/encoding/gbase64"
-	"github.com/gogf/gf/encoding/gurl"
+	"github.com/gogf/gf/v2/encoding/gbase64"
+	"github.com/gogf/gf/v2/encoding/gurl"
 	"golang.org/x/text/encoding/simplifiedchinese"
 )
 
@@ -77,11 +77,10 @@ func URL解码(str string) string {
 }
 
 //component -1: all; 1: scheme; 2: host; 4: port; 8: user; 16: pass; 32: path; 64: query; 128: fragment. See http://php.net/manual/en/function.parse-url.php.
-func URL解析(str string,component int) map[string]string {
-	s, _ := gurl.ParseURL(str,component)
+func URL解析(str string, component int) map[string]string {
+	s, _ := gurl.ParseURL(str, component)
 	return s
 }
-
 
 //E文本编码转换("测试一下","gbk","utf-8")
 func E文本编码转换(str interface{}, 来源编码 string, 目标编码 string) string {

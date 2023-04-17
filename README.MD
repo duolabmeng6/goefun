@@ -21,8 +21,8 @@
 package main
 
 import (
-	. "github.com/duolabmeng6/goefun/core"
-	. "github.com/duolabmeng6/goefun/coreUtil"
+	. "github.com/duolabmeng6/goefun/ecore"
+	. "github.com/duolabmeng6/goefun/ecoreUtil"
 	. "github.com/duolabmeng6/goefun/os/ehttp"
 	. "github.com/duolabmeng6/goefun/os/kvTable"
 )
@@ -67,10 +67,10 @@ func main() {
 # 文档
 
 ## 核心支持库
-https://godoc.org/github.com/duolabmeng6/goefun/core
+https://godoc.org/github.com/duolabmeng6/goefun/ecore
 
 ## 核心支持库工具函数库
-https://godoc.org/github.com/duolabmeng6/goefun/coreUtil
+https://godoc.org/github.com/duolabmeng6/goefun/ecoreUtil
 
 ## 存取键值表
 https://godoc.org/github.com/duolabmeng6/goefun/os/存取键值表

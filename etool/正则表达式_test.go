@@ -1,8 +1,9 @@
 package E
 
 import (
-	. "github.com/duolabmeng6/goefun/core"
 	"testing"
+
+	. "github.com/duolabmeng6/goefun/ecore"
 )
 
 func TestNew正则表达式(t *testing.T) {

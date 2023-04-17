@@ -1,8 +1,8 @@
 package E
 
 import (
+	. "github.com/duolabmeng6/goefun/ecore"
 	"github.com/joho/godotenv"
-	. "github.com/duolabmeng6/goefun/core"
 )
 
 //env
@@ -19,7 +19,6 @@ func E加载环境变量_从内容到map(s string) (map[string]string, error) {
 	myEnv, err := godotenv.Unmarshal(s)
 	return myEnv, err
 }
-
 
 //带有默认值的env读取函数
 //E读环境变量 一样效果

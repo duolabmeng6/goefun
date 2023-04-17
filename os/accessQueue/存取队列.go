@@ -3,8 +3,8 @@
 package os
 
 import (
-	E "github.com/duolabmeng6/goefun/core"
-	"github.com/gogf/gf/container/gqueue"
+	E "github.com/duolabmeng6/goefun/ecore"
+	"github.com/gogf/gf/v2/container/gqueue"
 )
 
 type E存取队列 struct {

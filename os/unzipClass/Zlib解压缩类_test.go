@@ -1,8 +1,9 @@
 package os
 
 import (
-	"github.com/gogf/gf/test/gtest"
 	"testing"
+
+	"github.com/gogf/gf/v2/test/gtest"
 )
 
 func TestZlib压缩(t *testing.T) {

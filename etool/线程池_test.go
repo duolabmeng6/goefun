@@ -2,8 +2,9 @@ package E
 
 import (
 	"fmt"
-	. "github.com/duolabmeng6/goefun/core"
 	"testing"
+
+	. "github.com/duolabmeng6/goefun/ecore"
 )
 
 func TestNew线程池(t *testing.T) {
