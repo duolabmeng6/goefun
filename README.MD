@@ -70,10 +70,10 @@ func main() {
 https://godoc.org/github.com/duolabmeng6/goefun/ecore
 
 ## 核心支持库工具函数库
-https://godoc.org/github.com/duolabmeng6/goefun/ecoreUtil
+https://godoc.org/github.com/duolabmeng6/goefun/etool
 
-## 存取键值表
-https://godoc.org/github.com/duolabmeng6/goefun/os/存取键值表
+## kvTable
+https://godoc.org/github.com/duolabmeng6/goefun/os/kvTable
 
 ## ehttp
 https://godoc.org/github.com/duolabmeng6/goefun/os/ehttp
@@ -275,33 +275,6 @@ func (a *StrArray) E取数组成员数() int
 func (a *StrArray) E插入成员(欲插入的位置 int, 欲插入的成员数据 string)
 func (a *StrArray) E数组排序(排序方向是否为从小到大 bool)
 func (a *StrArray) E清除数组()
-```
-
-
-## 存取键值表
-
-```
-type EJson
-func NewJson() *EJson
-func New存取键值表() *EJson
-func (this *EJson) Clear() *EJson
-func (this *EJson) Data() interface{}
-func (this *EJson) E到JSON(是否修饰 bool) string
-func (this *EJson) E取值(key string) int64
-func (this *EJson) E取文本(key string) string
-func (this *EJson) E取逻辑值(key string) bool
-func (this *EJson) GetArrayAllData(s string) []*gabs.Container
-func (this *EJson) GetArrayCount(s string) int
-func (this *EJson) GetBool(key string) bool
-func (this *EJson) GetInt(key string) int64
-func (this *EJson) GetString(key string) string
-func (this *EJson) Init() *EJson
-func (this *EJson) LoadFromJsonFile(filepath string) bool
-func (this *EJson) LoadFromJsonString(data string) bool
-func (this *EJson) Set(key string, value interface{})
-func (this *EJson) SetArray(key string, value interface{})
-func (this *EJson) ToJson(是否修饰 bool) string
-type H
 ```
 
 ## ehttp
