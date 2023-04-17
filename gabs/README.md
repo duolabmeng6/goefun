@@ -294,4 +294,4 @@ intValue, err := val.Path("test.int").Data().(json.Number).Int64()
 
 [godoc-badge]: https://godoc.org/github.com/Jeffail/gabs?status.svg
 [godoc-url]: https://godoc.org/github.com/Jeffail/gabs
-[migration-doc]: ./migration.md
+[migration-doc]: migration.md

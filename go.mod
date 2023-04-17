@@ -24,14 +24,15 @@ require (
 require (
 	github.com/BurntSushi/toml v1.1.0 // indirect
 	github.com/andybalholm/cascadia v1.1.0 // indirect
-	github.com/clbanning/mxj/v2 v2.5.5 // indirect
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
+	github.com/go-logr/logr v1.2.3 // indirect
+	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/google/uuid v1.1.1 // indirect
 	github.com/gqcn/structs v1.1.1 // indirect
-	github.com/magiconair/properties v1.8.6 // indirect
 	github.com/tidwall/match v1.0.1 // indirect
 	github.com/tidwall/pretty v1.0.0 // indirect
 	go.opentelemetry.io/otel v1.7.0 // indirect
+	go.opentelemetry.io/otel/sdk v1.7.0 // indirect
 	go.opentelemetry.io/otel/trace v1.7.0 // indirect
 	go.uber.org/atomic v1.5.0 // indirect
 	go.uber.org/multierr v1.3.0 // indirect
@@ -43,6 +44,5 @@ require (
 	golang.org/x/tools v0.1.7 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	gopkg.in/sourcemap.v1 v1.0.5 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 	honnef.co/go/tools v0.0.1-2019.2.3 // indirect
 )

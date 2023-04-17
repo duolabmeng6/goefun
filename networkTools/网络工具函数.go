@@ -3,7 +3,7 @@ package os
 import (
 	. "github.com/duolabmeng6/goefun/ehttp"
 	E "github.com/duolabmeng6/goefun/etool"
-	. "github.com/duolabmeng6/goefun/os/kvTable"
+	. "github.com/duolabmeng6/goefun/kvTable"
 )
 
 func E获取本机ip() string {

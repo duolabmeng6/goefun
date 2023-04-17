@@ -3,7 +3,7 @@ package E
 import (
 	"testing"
 
-	os "github.com/duolabmeng6/goefun/os/kvTable"
+	os "github.com/duolabmeng6/goefun/kvTable"
 )
 
 func TestJson解析文本(t *testing.T) {

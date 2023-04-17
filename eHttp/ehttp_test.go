@@ -1,4 +1,4 @@
-package ehttp
+package eHttp
 
 import (
 	"testing"
