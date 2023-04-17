@@ -24,7 +24,7 @@ import (
 	. "github.com/duolabmeng6/goefun/core"
 	. "github.com/duolabmeng6/goefun/coreUtil"
 	. "github.com/duolabmeng6/goefun/os/ehttp"
-	. "github.com/duolabmeng6/goefun/os/存取键值表"
+	. "github.com/duolabmeng6/goefun/os/kvTable"
 )
 
 func main() {
