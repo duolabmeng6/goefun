@@ -3,7 +3,7 @@ package os
 import (
 	"testing"
 
-	. "github.com/duolabmeng6/goefun/ecore"
+	. "github.com/duolabmeng6/goefun/eCore"
 )
 
 func TestZip压缩到文件(t *testing.T) {

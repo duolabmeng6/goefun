@@ -6,7 +6,7 @@ import (
 	. "github.com/duolabmeng6/goefun/ehttp"
 
 	"github.com/PuerkitoBio/goquery"
-	. "github.com/duolabmeng6/goefun/ecore"
+	. "github.com/duolabmeng6/goefun/eCore"
 )
 
 func TestNew网页内容解析器(t *testing.T) {

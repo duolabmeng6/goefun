@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	E "github.com/duolabmeng6/goefun/ecore"
+	E "github.com/duolabmeng6/goefun/eCore"
 )
 
 func TestE创建目录多级(t *testing.T) {

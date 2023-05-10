@@ -3,7 +3,7 @@ package eHttp
 import (
 	"testing"
 
-	E "github.com/duolabmeng6/goefun/ecore"
+	E "github.com/duolabmeng6/goefun/eCore"
 )
 
 func TestNewHttp(t *testing.T) {

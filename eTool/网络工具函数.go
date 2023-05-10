@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"time"
 
-	. "github.com/duolabmeng6/goefun/ecore"
+	. "github.com/duolabmeng6/goefun/eCore"
 )
 
 func E取随机ip() string {

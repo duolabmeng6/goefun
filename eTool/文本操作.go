@@ -6,7 +6,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	. "github.com/duolabmeng6/goefun/ecore"
+	. "github.com/duolabmeng6/goefun/eCore"
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/gogf/gf/v2/util/grand"
 )
@@ -15,7 +15,7 @@ func E格式化文本(format string, a ...interface{}) string {
 	return fmt.Sprintf(format, a...)
 }
 
-//文本截取函数
+// 文本截取函数
 func StrCut(内容 string, 表达式 string) string {
 	args := strings.Split(表达式, "$")
 	if len(args) == 2 {
@@ -34,7 +34,7 @@ func E文本_取右边(被查找的文本 string, 欲寻找的文本 string) str
 	return E文本_取出中间文本(被查找的文本, 欲寻找的文本, "")
 }
 
-//文本取出中间文本
+// 文本取出中间文本
 func E文本_取出中间文本(内容 string, 左边文本 string, 右边文本 string) string {
 	左边位置 := strings.Index(内容, 左边文本)
 	if 左边位置 == -1 {
@@ -56,11 +56,11 @@ func E文本_取出中间文本(内容 string, 左边文本 string, 右边文本
 	return 内容
 }
 
-//子程序名：文本_取随机字母
-//取随机26个字母！
-//返回值类型：文本型
-//参数<1>的名称为“要取的字符数”，类型为“整数型”。注明：要取字符个数；。
-//参数<2>的名称为“字母类型”，类型为“整数型”，允许接收空参数数据。注明：可空：默认为小写字母；0=小写字母；1=大写字母；2=大小写字母混合；。
+// 子程序名：文本_取随机字母
+// 取随机26个字母！
+// 返回值类型：文本型
+// 参数<1>的名称为“要取的字符数”，类型为“整数型”。注明：要取字符个数；。
+// 参数<2>的名称为“字母类型”，类型为“整数型”，允许接收空参数数据。注明：可空：默认为小写字母；0=小写字母；1=大写字母；2=大小写字母混合；。
 func E文本_取随机字母(要取的字符数 int, 字母类型 int) string {
 	var str string
 	if 字母类型 == 0 {
@@ -226,12 +226,12 @@ func E取文本字数(value string) int {
 	return utf8.RuneCountInString(value)
 }
 
-//子程序名：判断文本
-//真 找到 假 找不到
-//返回值类型：逻辑型
-//参数<1>的名称为“与判断的文本”，类型为“文本型”。
-//参数<2>的名称为“关键字”，类型为“文本型”，允许接收空参数数据。
-//参数<3>的名称为“更多关键字”，类型为“文本型”，允许接收空参数数据，需要接收数组数据。
+// 子程序名：判断文本
+// 真 找到 假 找不到
+// 返回值类型：逻辑型
+// 参数<1>的名称为“与判断的文本”，类型为“文本型”。
+// 参数<2>的名称为“关键字”，类型为“文本型”，允许接收空参数数据。
+// 参数<3>的名称为“更多关键字”，类型为“文本型”，允许接收空参数数据，需要接收数组数据。
 func E判断文本(内容 string, 关键字 ...interface{}) bool {
 	for _, v := range 关键字 {
 		str := E到文本(v)
@@ -271,7 +271,7 @@ func E文本_自动换行(s string, 每行几个字符 int, 分隔符 string) st
 	return gstr.WordWrap(s, 每行几个字符, 分隔符)
 }
 
-//SimilarText计算两个字符串之间的相似度。参见http://php.net/manual/en/function.similar-text.php。
+// SimilarText计算两个字符串之间的相似度。参见http://php.net/manual/en/function.similar-text.php。
 func E文本_相似文本(first, second string, percent *float64) int {
 	return gstr.SimilarText(first, second, percent)
 }

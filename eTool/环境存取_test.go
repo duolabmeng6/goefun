@@ -3,7 +3,7 @@ package E
 import (
 	"testing"
 
-	. "github.com/duolabmeng6/goefun/ecore"
+	. "github.com/duolabmeng6/goefun/eCore"
 )
 
 func TestE设置命令行(t *testing.T) {

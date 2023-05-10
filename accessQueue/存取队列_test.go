@@ -7,7 +7,7 @@ import (
 
 	"github.com/gogf/gf/v2/os/gctx"
 
-	E "github.com/duolabmeng6/goefun/ecore"
+	E "github.com/duolabmeng6/goefun/eCore"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/os/gtimer"
 )

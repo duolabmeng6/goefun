@@ -32,7 +32,7 @@ import (
 	"strconv"
 	"strings"
 
-	E "github.com/duolabmeng6/goefun/ecore"
+	E "github.com/duolabmeng6/goefun/eCore"
 )
 
 //------------------------------------------------------------------------------

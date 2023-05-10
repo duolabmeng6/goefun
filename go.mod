@@ -17,7 +17,6 @@ require (
 	github.com/tidwall/gjson v1.6.0
 	go.uber.org/zap v1.14.0
 	golang.org/x/text v0.3.8-0.20211105212822-18b340fc7af2
-	gopkg.in/ini.v1 v1.52.0
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 )
 

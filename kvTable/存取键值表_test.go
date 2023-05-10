@@ -3,7 +3,7 @@ package os
 import (
 	"testing"
 
-	E "github.com/duolabmeng6/goefun/ecore"
+	E "github.com/duolabmeng6/goefun/eCore"
 )
 
 func TestEJson(t *testing.T) {

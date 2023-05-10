@@ -3,7 +3,7 @@ package E
 import (
 	"testing"
 
-	E "github.com/duolabmeng6/goefun/ecore"
+	E "github.com/duolabmeng6/goefun/eCore"
 )
 
 func TestE取md5从文本(t *testing.T) {

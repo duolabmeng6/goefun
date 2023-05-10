@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	. "github.com/duolabmeng6/goefun/ecore"
+	. "github.com/duolabmeng6/goefun/eCore"
 )
 
 func TestNew线程池(t *testing.T) {

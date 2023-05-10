@@ -2,7 +2,7 @@ package E
 
 import (
 	"github.com/Knetic/govaluate"
-	. "github.com/duolabmeng6/goefun/ecore"
+	. "github.com/duolabmeng6/goefun/eCore"
 )
 
 //更多的表达式用法请看这个
@@ -16,9 +16,9 @@ import (
 //
 //result, err := expression.Evaluate(parameters);
 
-//子程序名：计算数学表达式
-//返回值类型：双精度小数型
-//参数<1>的名称为“数学表达式”，类型为“文本型”。
+// 子程序名：计算数学表达式
+// 返回值类型：双精度小数型
+// 参数<1>的名称为“数学表达式”，类型为“文本型”。
 func E计算数学表达式(v string) string {
 	expression, err := govaluate.NewEvaluableExpression(v)
 	if err != nil {
