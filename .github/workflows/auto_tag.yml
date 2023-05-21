@@ -4,7 +4,7 @@ name: auto_tag
 # 控制工作流何时运行
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   workflow_dispatch:
 
 #权限
@@ -19,4 +19,4 @@ jobs:
         # Put your action repo here
       - uses: duolabmeng6/action-autotag-python@master
         with:
-          INPUT_TOKEN: ${{ secrets.LONGLONG }} # 需要用自己的秘钥
+          token: ${{ secrets.LONGLONG }} # 需要用自己的秘钥
