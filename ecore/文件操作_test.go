@@ -263,7 +263,7 @@ func TestE文件取文件名(t *testing.T) {
 	var files []string
 	_ = E文件枚举("../", ".go", &files, true, true)
 	for i, value := range files {
-		fmt.Println(i, value, E文件取文件名(value))
+		fmt.Println(i, value, E文件取文件名(value, true))
 
 	}
 

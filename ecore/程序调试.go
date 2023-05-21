@@ -1,9 +1,12 @@
 package ecore
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/kr/pretty"
+)
 
 func E调试输出(a ...interface{}) {
-	fmt.Println(a...)
+	pretty.Print(a)
 }
 
 func E调试输出格式化(s string, a ...interface{}) {

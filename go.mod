@@ -11,6 +11,7 @@ require (
 	github.com/gogf/gf v1.12.3
 	github.com/gogf/gf/v2 v2.4.1
 	github.com/gogf/guuid v1.0.0
+	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/joho/godotenv v1.5.1
 	github.com/robertkrimen/otto v0.2.1
 	github.com/teris-io/shortid v0.0.0-20171029131806-771a37caa5cf

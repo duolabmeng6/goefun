@@ -320,10 +320,12 @@ func E目录枚举子目录(父文件夹路径 string, 子目录数组 *[]string
 	return err
 }
 
-func E文件取文件名(路径 string) string {
-	return filepath.Base(路径)
+func E文件取文件名(路径 string, 是否需要后缀 bool) string {
+	if 是否需要后缀 {
+		return filepath.Base(路径)
+	}
+	return strings.TrimSuffix(filepath.Base(路径), filepath.Ext(路径))
 }
-
 func E文件路径合并处理(elem ...string) string {
 	return path.Join(elem...)
 }

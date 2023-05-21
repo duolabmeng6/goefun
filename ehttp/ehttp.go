@@ -151,7 +151,7 @@ func (this *Ehttp) E访问(url string, 访问方法 string, 发送文本 string,
 
 						return nil, errors.New(E格式化文本(`"%s" 没有找到文件`, path))
 					}
-					name := E文件取文件名(path)
+					name := E文件取文件名(path, true)
 					if file, err := writer.CreateFormFile(array[0], name); err == nil {
 						if f, err := os.Open(path); err == nil {
 							defer f.Close()
