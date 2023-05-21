@@ -19,4 +19,4 @@ jobs:
         # Put your action repo here
       - uses: duolabmeng6/action-autotag-python@master
         with:
-          token: ${{ secrets.LONGLONG }} # 需要用自己的秘钥
+          INPUT_TOKEN: ${{ secrets.LONGLONG }} # 需要用自己的秘钥
