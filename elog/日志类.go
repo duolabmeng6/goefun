@@ -1,3 +1,4 @@
+// 日志模块
 package elog
 
 import (

@@ -16,7 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-        # Put your action repo here
       - uses: duolabmeng6/action-autotag-python@master
         with:
           token: ${{ secrets.LONGLONG }} # 需要用自己的秘钥

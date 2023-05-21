@@ -194,15 +194,17 @@ func E创建目录多级(欲创建的目录名称 string) error {
 	return os.MkdirAll(欲创建的目录名称, os.ModePerm)
 }
 
-// 子程序名：文件_枚举
-// 枚举某个目录下的指定类型文件；成功返回文件数量；
-// 返回值类型：整数型
+// E文件枚举
 // 参数<1>的名称为“欲寻找的目录”，类型为“文本型”。注明：文件目录。
+//
 // 参数<2>的名称为“欲寻找的文件名”，类型为“文本型”。注明：如果寻找全部文件可以填入空白，.txt|.jpg找txt和jpg的文件
+//
 // 参数<3>的名称为“文件数组”，类型为“文本型”，接收参数数据时采用参考传递方式，允许接收空参数数据，需要接收数组数据。注明：用于装载文件数组的变量；把寻找到的文件都放在这个数组里，并返回；。
+//
 // 参数<4>的名称为“是否带路径”，类型为“逻辑型”，允许接收空参数数据。注明：默认为假； 真=带目录路径，如C:\012.txt； 假=不带，如 012.txt；。
+//
 // 参数<6>的名称为“是否遍历子目录”，类型为“逻辑型”，允许接收空参数数据。注明：留空默认为假；为真时文件数组不主动清空。
-func E文件_枚举(欲寻找的目录 string, 欲寻找的文件名 string, files *[]string, 是否带路径 bool, 是否遍历子目录 bool) error {
+func E文件枚举(欲寻找的目录 string, 欲寻找的文件名 string, files *[]string, 是否带路径 bool, 是否遍历子目录 bool) error {
 	var ok bool
 	欲寻找的文件名arr := strings.Split(欲寻找的文件名, "|")
 	l, err := ioutil.ReadDir(欲寻找的目录)
@@ -217,7 +219,7 @@ func E文件_枚举(欲寻找的目录 string, 欲寻找的文件名 string, fil
 
 		if f.IsDir() {
 			if 是否遍历子目录 {
-				err = E文件_枚举(tmp, 欲寻找的文件名, files, 是否带路径, 是否遍历子目录)
+				err = E文件枚举(tmp, 欲寻找的文件名, files, 是否带路径, 是否遍历子目录)
 				if err != nil {
 					return err
 				}
@@ -318,33 +320,29 @@ func E目录枚举子目录(父文件夹路径 string, 子目录数组 *[]string
 	return err
 }
 
-func E文件_取文件名(路径 string) string {
+func E文件取文件名(路径 string) string {
 	return filepath.Base(路径)
 }
 
-func E文件_路径合并处理(elem ...string) string {
+func E文件路径合并处理(elem ...string) string {
 	return path.Join(elem...)
 }
 
-func E文件_取父目录(dirpath string) string {
+func E文件取父目录(dirpath string) string {
 	return path.Dir(dirpath)
 }
 
-func E文件_取扩展名(filepath string) string {
+func E文件取扩展名(filepath string) string {
 	return path.Ext(filepath)
 }
 
-func E文件_删除(欲删除的文件名 string) bool {
+func E文件删除(欲删除的文件名 string) bool {
 	return E删除文件(欲删除的文件名) == nil
 }
 
-func E文件_更名(欲更名的原文件或目录名 string, 欲更改为的现文件或目录名 string) bool {
-	return E文件更名(欲更名的原文件或目录名, 欲更改为的现文件或目录名) == nil
-}
-
 // 路径不存在时自动创建
-func E文件_写出(文件名 string, 欲写入文件的数据 interface{}) error {
-	fpath := E文件_取父目录(文件名)
+func E文件写出(文件名 string, 欲写入文件的数据 interface{}) error {
+	fpath := E文件取父目录(文件名)
 	if !E文件是否存在(fpath) {
 		E创建目录多级(fpath)
 	}
@@ -352,8 +350,8 @@ func E文件_写出(文件名 string, 欲写入文件的数据 interface{}) erro
 }
 
 // 路径不存在时自动创建
-func E文件_追加文本(文件名 string, 欲追加的文本 string) error {
-	fpath := E文件_取父目录(文件名)
+func E文件追加文本(文件名 string, 欲追加的文本 string) error {
+	fpath := E文件取父目录(文件名)
 	if !E文件是否存在(fpath) {
 		E创建目录多级(fpath)
 	}
@@ -365,18 +363,18 @@ func E文件_追加文本(文件名 string, 欲追加的文本 string) error {
 }
 
 // 自动检查内容是否一致是否需要写出
-func E文件_保存(文件名 string, 欲写入文件的数据 interface{}) error {
+func E文件保存(文件名 string, 欲写入文件的数据 interface{}) error {
 	if E文件是否存在(文件名) {
 		data := E读入文件(文件名)
 		wdata := E到字节集(欲写入文件的数据)
 		if !bytes.Equal(data, wdata) {
 			//E调试输出("不相同写出")
-			return E文件_写出(文件名, wdata)
+			return E文件写出(文件名, wdata)
 		}
 		//E调试输出("内容一样不写出")
 	} else {
 		//E调试输出("文件不存在写出")
-		return E文件_写出(文件名, 欲写入文件的数据)
+		return E文件写出(文件名, 欲写入文件的数据)
 	}
 	return nil
 }
