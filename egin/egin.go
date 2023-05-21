@@ -339,3 +339,29 @@ func CopyStruct(src interface{}, dst interface{}) error {
 	}
 	return nil
 }
+
+// E绑定静态文件目录 绑定静态文件目录
+// 静态目录路径 静态文件目录路径
+// 例如 E绑定静态文件目录(r, "./public")
+func E绑定静态文件目录(r *gin.Engine, 静态目录路径 string) {
+	var 目录名数组 []string
+	var 文件名数组 []string
+	// 检索目录
+	ecore.E目录枚举子目录(静态目录路径, &目录名数组, false, false)
+	//ecore.E调试输出("目录名数组", 目录名数组)
+	for _, 目录名 := range 目录名数组 {
+		r.Static("/"+目录名, 静态目录路径+"/"+目录名)
+	}
+	//静态文件
+	ecore.E文件枚举(静态目录路径, "", &文件名数组, false, false)
+	//ecore.E调试输出("文件名数组", 文件名数组)
+	for _, 文件名 := range 文件名数组 {
+		r.StaticFile("/"+文件名, 静态目录路径+"/"+文件名)
+	}
+
+	//r.Static("/sdk", "./public/sdk")
+	//r.Static("/pages", "./public/pages")
+	//r.Static("/js", "./public/js")
+	//r.StaticFile("/logo.png", "./public/logo.png")
+
+}

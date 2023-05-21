@@ -12,23 +12,23 @@ type E日志类 struct {
 	logger *zap.SugaredLogger
 }
 
-func New日志类(filepath string, loglevel string) *E日志类 {
+func New日志类(日志文件路径 string, 日志级别 string) *E日志类 {
 	var log E日志类
-	v := log.E初始化(filepath, loglevel)
+	v := log.E初始化(日志文件路径, 日志级别)
 	return v
 }
 
-func (this *E日志类) E初始化(filepath string, loglevel string) *E日志类 {
+func (this *E日志类) E初始化(日志文件路径 string, 日志级别 string) *E日志类 {
 	hook := lumberjack.Logger{
-		Filename:   filepath, // ⽇志⽂件路径
-		MaxSize:    1024,     // megabytes
-		MaxBackups: 3,        // 最多保留3个备份
-		MaxAge:     365,      //days
-		Compress:   true,     // 是否压缩 disabled by default
+		Filename:   日志文件路径, // ⽇志⽂件路径
+		MaxSize:    1024,   // megabytes
+		MaxBackups: 3,      // 最多保留3个备份
+		MaxAge:     365,    //days
+		Compress:   true,   // 是否压缩 disabled by default
 	}
 	fileWriter := zapcore.AddSync(&hook)
 	var highPriority zapcore.Level
-	switch loglevel {
+	switch 日志级别 {
 	case "debug":
 		highPriority = zap.DebugLevel
 	case "info":
@@ -38,14 +38,18 @@ func (this *E日志类) E初始化(filepath string, loglevel string) *E日志类
 	default:
 		highPriority = zap.InfoLevel
 	}
+
+	//配置日志的格式
 	encoderConfig := zap.NewProductionEncoderConfig()
 	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
-	//core := zapcore.NewCore(
-	//	zapcore.NewConsoleEncoder(encoderConfig),
-	//	fileWriter,
-	//	level,
-	//)
-	consoleEncoder := zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig())
+	encoderConfig.TimeKey = "time"
+	encoderConfig.EncodeLevel = zapcore.CapitalLevelEncoder
+	encoderConfig.EncodeDuration = zapcore.SecondsDurationEncoder
+	encoderConfig.EncodeCaller = zapcore.ShortCallerEncoder
+	encoderConfig.CallerKey = "caller"
+	consoleEncoder := zapcore.NewJSONEncoder(encoderConfig)
+
+	//consoleEncoder := zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig())
 	consoleDebugging := zapcore.Lock(os.Stdout)
 	lowPriority := zap.LevelEnablerFunc(func(lvl zapcore.Level) bool {
 		return lvl >= zapcore.DebugLevel
@@ -59,7 +63,7 @@ func (this *E日志类) E初始化(filepath string, loglevel string) *E日志类
 
 	//代码的位置也可以输出
 	//logger := zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1))
-	this.logger = zap.New(core).Sugar()
+	this.logger = zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1), zap.AddStacktrace(zapcore.WarnLevel)).Sugar()
 	return this
 }
 

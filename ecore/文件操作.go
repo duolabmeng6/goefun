@@ -207,7 +207,7 @@ func E创建目录多级(欲创建的目录名称 string) error {
 func E文件枚举(欲寻找的目录 string, 欲寻找的文件名 string, files *[]string, 是否带路径 bool, 是否遍历子目录 bool) error {
 	var ok bool
 	欲寻找的文件名arr := strings.Split(欲寻找的文件名, "|")
-	l, err := ioutil.ReadDir(欲寻找的目录)
+	l, err := os.ReadDir(欲寻找的目录)
 	if err != nil {
 		return err
 	}
@@ -295,7 +295,7 @@ func isInSuffix(list []string, s string) (isIn bool) {
 //
 // 参数<4>的名称为“是否继续向下枚举”，类型为“逻辑型”，允许接收空参数数据。注明：为空，默认不枚举。
 func E目录枚举子目录(父文件夹路径 string, 子目录数组 *[]string, 是否带路径 bool, 是否继续向下枚举 bool) error {
-	l, err := ioutil.ReadDir(父文件夹路径)
+	l, err := os.ReadDir(父文件夹路径)
 	if err != nil {
 		return err
 	}
