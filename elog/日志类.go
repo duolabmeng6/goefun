@@ -9,7 +9,8 @@ import (
 )
 
 type E日志类 struct {
-	logger *zap.SugaredLogger
+	Logger    *zap.SugaredLogger
+	LoggerObj *zap.Logger
 }
 
 func New日志类(日志文件路径 string, 日志级别 string) *E日志类 {
@@ -62,25 +63,29 @@ func (this *E日志类) E初始化(日志文件路径 string, 日志级别 strin
 	)
 
 	//代码的位置也可以输出
-	//logger := zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1))
-	this.logger = zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1), zap.AddStacktrace(zapcore.WarnLevel)).Sugar()
+	//Logger := zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1))
+	this.LoggerObj = zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1), zap.AddStacktrace(zapcore.WarnLevel))
+	this.Logger = this.LoggerObj.Sugar()
+
+	// 替换全局log
+	zap.ReplaceGlobals(this.LoggerObj)
 	return this
 }
 
 func (this *E日志类) Log(msg string, keysAndValues ...interface{}) {
-	//this.logger.Info(msg, fields...)
-	this.logger.Infow(msg, keysAndValues...)
+	//this.Logger.Info(msg, fields...)
+	this.Logger.Infow(msg, keysAndValues...)
 }
 
 func (this *E日志类) E错误日志(msg string, keysAndValues ...interface{}) {
-	//this.logger.Info(msg, fields...)
-	this.logger.Errorw(msg, keysAndValues...)
+	//this.Logger.Info(msg, fields...)
+	this.Logger.Errorw(msg, keysAndValues...)
 }
 func (this *E日志类) E警告日志(msg string, keysAndValues ...interface{}) {
-	//this.logger.Info(msg, fields...)
-	this.logger.Warnw(msg, keysAndValues...)
+	//this.Logger.Info(msg, fields...)
+	this.Logger.Warnw(msg, keysAndValues...)
 }
 func (this *E日志类) E信息日志(msg string, keysAndValues ...interface{}) {
-	//this.logger.Info(msg, fields...)
-	this.logger.Infow(msg, keysAndValues...)
+	//this.Logger.Info(msg, fields...)
+	this.Logger.Infow(msg, keysAndValues...)
 }
