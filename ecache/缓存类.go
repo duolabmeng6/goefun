@@ -1,3 +1,4 @@
+// Package 提供统一的缓存接口
 package ecache
 
 import (
