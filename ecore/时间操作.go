@@ -176,3 +176,8 @@ func E到时间从时间戳(s int64) *E日期时间型 {
 	this.Time = gtime.NewFromTimeStamp(s)
 	return this
 }
+
+// #E取时间戳 获取当前系统的时间戳
+func E取时间戳() int64 {
+	return gtime.Now().Timestamp()
+}

@@ -32,6 +32,10 @@ func E读入文本(文件名 string) string {
 
 // E写到文件 将指定的数据写入指定的文件中。如果写入成功，返回 nil。否则，返回错误信息。
 func E写到文件(文件名 string, 欲写入文件的数据 []byte) error {
+	父目录 := E文件取父目录(文件名)
+	if !E文件是否存在(父目录) {
+		E创建目录多级(父目录)
+	}
 	return os.WriteFile(文件名, 欲写入文件的数据, os.ModePerm)
 }
 
