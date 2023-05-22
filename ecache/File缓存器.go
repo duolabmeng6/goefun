@@ -9,19 +9,19 @@ import (
 )
 
 // 文件缓存实现
-type 文件缓存器 struct {
+type File缓存器 struct {
 	互斥锁  sync.Mutex
 	存储路径 string
 }
 
-func New文件缓存器(存储路径 string) *文件缓存器 {
-	return &文件缓存器{
+func NewFile缓存器(存储路径 string) *File缓存器 {
+	return &File缓存器{
 		互斥锁:  sync.Mutex{},
 		存储路径: 存储路径,
 	}
 }
 
-func (fc *文件缓存器) Set(key string, value interface{}, 倒计时秒数 int64) error {
+func (fc *File缓存器) Set(key string, value interface{}, 倒计时秒数 int64) error {
 	fc.互斥锁.Lock()
 	defer fc.互斥锁.Unlock()
 
@@ -43,7 +43,7 @@ func (fc *文件缓存器) Set(key string, value interface{}, 倒计时秒数 in
 	return nil
 }
 
-func (fc *文件缓存器) Get(key string) (interface{}, error) {
+func (fc *File缓存器) Get(key string) (interface{}, error) {
 	fc.互斥锁.Lock()
 	defer fc.互斥锁.Unlock()
 
@@ -67,7 +67,7 @@ func (fc *文件缓存器) Get(key string) (interface{}, error) {
 	return 缓存数据.Data, nil
 }
 
-func (fc *文件缓存器) Del(key string) error {
+func (fc *File缓存器) Del(key string) error {
 	fc.互斥锁.Lock()
 	defer fc.互斥锁.Unlock()
 

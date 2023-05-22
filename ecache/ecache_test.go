@@ -5,9 +5,9 @@ import (
 	"github.com/duolabmeng6/goefun/ecore"
 )
 
-func Example文件缓存器() {
+func ExampleFile缓存器() {
 	// 创建缓存适配器
-	缓存 := New缓存类(New文件缓存器("./cache/"))
+	缓存 := New缓存类(NewFile缓存器("./cache/"))
 
 	// 设置缓存数据
 	缓存.Set("a", "1", -160)
@@ -38,9 +38,9 @@ func Example文件缓存器() {
 	ecore.E删除目录("./cache/")
 }
 
-func Example内存缓存器() {
+func ExampleNewMem缓存器() {
 	// 创建缓存适配器
-	缓存 := New缓存类(New内存缓存器())
+	缓存 := New缓存类(NewMem缓存器())
 
 	// 设置缓存数据
 	缓存.Set("a", "1", -160)

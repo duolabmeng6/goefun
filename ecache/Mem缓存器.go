@@ -8,19 +8,19 @@ import (
 )
 
 // 内存缓存实现
-type 内存缓存器 struct {
+type Mem缓存器 struct {
 	互斥锁  sync.Mutex
 	储存容器 map[string]*缓存数据
 }
 
-func New内存缓存器() *内存缓存器 {
-	return &内存缓存器{
+func NewMem缓存器() *Mem缓存器 {
+	return &Mem缓存器{
 		互斥锁:  sync.Mutex{},
 		储存容器: make(map[string]*缓存数据),
 	}
 }
 
-func (fc *内存缓存器) Set(key string, value interface{}, 倒计时秒数 int64) error {
+func (fc *Mem缓存器) Set(key string, value interface{}, 倒计时秒数 int64) error {
 	fc.互斥锁.Lock()
 	defer fc.互斥锁.Unlock()
 	缓存数据 := &缓存数据{
@@ -34,7 +34,7 @@ func (fc *内存缓存器) Set(key string, value interface{}, 倒计时秒数 in
 	return nil
 }
 
-func (fc *内存缓存器) Get(key string) (interface{}, error) {
+func (fc *Mem缓存器) Get(key string) (interface{}, error) {
 	fc.互斥锁.Lock()
 	defer fc.互斥锁.Unlock()
 
@@ -51,7 +51,7 @@ func (fc *内存缓存器) Get(key string) (interface{}, error) {
 	return 缓存数据.Data, nil
 }
 
-func (fc *内存缓存器) Del(key string) error {
+func (fc *Mem缓存器) Del(key string) error {
 	fc.互斥锁.Lock()
 	defer fc.互斥锁.Unlock()
 	delete(fc.储存容器, key)
