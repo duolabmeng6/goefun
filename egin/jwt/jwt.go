@@ -14,6 +14,7 @@ type AuthClaim struct {
 	jwt.RegisteredClaims
 }
 
+// GenerateToken 生成JWT
 func GenerateToken(uid int64) (tokenStr string) {
 	var authClaim AuthClaim
 	authClaim.Uid = uid
@@ -25,6 +26,7 @@ func GenerateToken(uid int64) (tokenStr string) {
 	return tokenString
 }
 
+// ParseToken 解析JWT
 func ParseToken(tokenString string) (auth AuthClaim, Valid bool) {
 	token, _ := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
