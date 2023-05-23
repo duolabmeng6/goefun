@@ -56,6 +56,48 @@ func ExampleNew七牛云储存器() {
 	// Output: abc
 }
 
+func Example文件储存类(t *testing.T) {
+	ecore.E加载环境变量_从文件("./.env")
+
+	文件系统 := New文件储存类("local")
+	文件系统.设置储存器("local", New本地文件储存器("./file/"))
+	文件系统.设置储存器("oss", New阿里云OSS储存器(阿里云OSS储存器配置{
+		Endpoint:        "oss-cn-guangzhou.aliyuncs.com",
+		Bucket:          "testupload123",
+		PathPrefix:      "test/",
+		AccessKeyID:     ecore.E读环境变量("aliyun_access_key"),
+		AccessKeySecret: ecore.E读环境变量("aliyun_access_secret"),
+	}))
+	文件系统.设置储存器("qiniu", New七牛KODO储存器(七牛KODO储存器配置{
+		Bucket:          "testgoefun",
+		PathPrefix:      "test/",
+		AccessKeyID:     ecore.E读环境变量("qiniu_access_key"),
+		AccessKeySecret: ecore.E读环境变量("qiniu_access_secret"),
+		StorageConfig: &storage.Config{
+			// 空间对应的机房
+			Zone: &storage.Zone_as0,
+			// 是否使用https域名
+			UseHTTPS: false,
+			// 上传是否使用CDN上传加速
+			UseCdnDomains: false,
+		},
+		domain:  "http://rv3k84oie.sabkt.gdipper.com",
+		Private: true,
+	}))
+
+	// 这里可以用中文的函数
+	文件系统.E储存器("local").E保存文件("a.txt", "abc")
+	// 也可以用英文的函数
+	文件系统.Disk("local").Put("a.txt", "abc")
+	// 默认储存器是 New文件储存类("local") 里面设置的储存器
+	文件系统.Put("a.txt", "abc")
+	//如果想改变默认的储存器,可以这样设置
+	文件系统.当前储存器 = "oss"
+	//这里是oos的储存器操作的
+	文件系统.Put("a.txt", "abc")
+
+}
+
 func Test本地文件储存器(t *testing.T) {
 	文件系统 := New文件储存类("local")
 	文件系统.设置储存器("local", New本地文件储存器("./file/"))
