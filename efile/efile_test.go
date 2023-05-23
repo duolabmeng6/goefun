@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func ExampleNew文件储存类() {
+func ExampleNew本地文件储存器() {
 	文件系统 := New文件储存类("local")
 	文件系统.设置储存器("local", New本地文件储存器("./file/"))
 	文件系统.Put("a.txt", "abc")
@@ -31,7 +31,7 @@ func ExampleNew阿里云OSS储存器() {
 	// Output: abc
 }
 
-func ExampleNew七牛云储存器() {
+func ExampleNew七牛KODO储存器() {
 	ecore.E加载环境变量_从文件("./.env")
 	文件系统 := New文件储存类("qiniu")
 	文件系统.设置储存器("qiniu", New七牛KODO储存器(七牛KODO储存器配置{
@@ -56,7 +56,7 @@ func ExampleNew七牛云储存器() {
 	// Output: abc
 }
 
-func Example文件储存类(t *testing.T) {
+func ExampleNew文件储存类() {
 	ecore.E加载环境变量_从文件("./.env")
 
 	文件系统 := New文件储存类("local")
