@@ -8,6 +8,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"path"
 	"path/filepath"
@@ -215,11 +216,13 @@ func E文件枚举(欲寻找的目录 string, 欲寻找的文件名 string, file
 	if err != nil {
 		return err
 	}
-
-	separator := "/"
+	//检查 欲寻找的目录 是否以 / 结尾 如果不是则加上
+	if !strings.HasSuffix(欲寻找的目录, "/") {
+		欲寻找的目录 = 欲寻找的目录 + "/"
+	}
 
 	for _, f := range l {
-		tmp := string(欲寻找的目录 + separator + f.Name())
+		tmp := string(欲寻找的目录 + f.Name())
 
 		if f.IsDir() {
 			if 是否遍历子目录 {
@@ -383,4 +386,20 @@ func E文件保存(文件名 string, 欲写入文件的数据 interface{}) error
 		return E文件写出(文件名, 欲写入文件的数据)
 	}
 	return nil
+}
+
+// E取文件Mime
+func E取文件Mime(文件路径 string) string {
+	file, err := os.Open(文件路径)
+	if err != nil {
+		return ""
+	}
+	defer file.Close()
+	//获取文件MimeType
+	buffer := make([]byte, 512)
+	_, err = file.Read(buffer)
+	if err != nil {
+		return ""
+	}
+	return http.DetectContentType(buffer)
 }
