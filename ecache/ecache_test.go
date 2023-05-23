@@ -38,7 +38,7 @@ func ExampleFile缓存器() {
 	ecore.E删除目录("./cache/")
 }
 
-func ExampleNewMem缓存器() {
+func ExampleMem缓存器() {
 	// 创建缓存适配器
 	缓存 := New缓存类(NewMem缓存器())
 
