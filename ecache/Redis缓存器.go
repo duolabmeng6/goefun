@@ -84,6 +84,8 @@ func (fc *Redis缓存器) Get(key string) (interface{}, error) {
 	}
 	//检查 缓存数据.EndTime 是否过期
 	if 缓存数据.EndTime < ecore.E取时间戳() {
+		// 删除数据库中的key
+		_, _ = conn.Do("DEL", key)
 
 		return nil, errors.New("缓存已过期")
 	}
