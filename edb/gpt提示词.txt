@@ -1,0 +1,23 @@
+你是golang工程师,需要实现了一个简单的查询构建器接口对 MySQL 数据库的具体实现 MySQLQueryBuilder。
+下面我将给出具体需求请你实现这个代码
+
+创建一个新的 MySQL 查询构建器实例：dialect := NewMySQLQueryBuilder()
+指定要查询的列：queryBuilder.Select("column1", "column2", ...)
+指定查询的表：queryBuilder.From("table")
+添加查询条件：queryBuilder.Where(column, operator, value)
+指定排序方式：queryBuilder.OrderBy("column1", "column2", ...)
+指定查询结果的偏移量和限制数量：queryBuilder.Limit(offset, limit)
+生成最终的 SQL 查询语句和参数值：query, args := queryBuilder.ToSQL()
+在修改后的代码中，Where 方法被重载，可以多次调用以添加不同的查询条件。每次调用 Where 方法时，传入列名、运算符和值来构建查询条件。
+
+记住，在执行查询时，我们使用了 db.Query(query, args...) 来执行查询并传递参数值。
+
+例如:
+	query := dialect.From("articles").
+		Select("id", "title", "content", "created_at", "updated_at").
+		Where("title", "like", "%"+req.Keywords+"%").
+		Where("id", ">", 1).
+		Where("created_at", ">", "2020-01-01 00:00:00").
+		OrderBy(req.OrderBy, req.OrderDir).
+		Limit(int(req.Page), int(req.PerPage)).
+		ToSQL()
