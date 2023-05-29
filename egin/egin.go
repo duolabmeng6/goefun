@@ -108,6 +108,31 @@ func I(c *gin.Context, 规则 string, 默认值 string) string {
 	}
 }
 
+// 在gin中获取所有的参数 从json,post,get中获取 优先级 json>post>get 返回map[string]interface{}
+func IAll(c *gin.Context) map[string]interface{} {
+	result := make(map[string]interface{})
+
+	// 从 JSON 中获取参数
+	if err := c.ShouldBindJSON(&result); err != nil {
+		// 处理错误情况
+	}
+
+	// 从 POST 表单中获取参数
+	if err := c.ShouldBind(&result); err != nil {
+		// 处理错误情况
+	}
+
+	// 从 GET 请求中获取参数
+	queryParams := c.Request.URL.Query()
+	for key, values := range queryParams {
+		if len(values) > 0 {
+			result[key] = values[0]
+		}
+	}
+
+	return result
+}
+
 func E获取文件(c *gin.Context, 表单名称 string, 上传路径 string) (string, error) {
 	if 上传路径 == "" {
 		上传路径 = "./upload/"

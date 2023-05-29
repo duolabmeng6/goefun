@@ -146,23 +146,80 @@ func TestDB查询构建器(t *testing.T) {
 		Where("title", "like", "%"+req.Keywords+"%").
 		//Where("id", "=", 2146).
 		OrderBy(req.OrderBy, req.OrderDir).
-		Limit(int(req.Page), int(req.PerPage))
+		Limit(req.Page, req.PerPage)
 
 	query, param := qb.ToSQL()
-	query2, param := qb.Count().ToSQL()
+	//query2, param := qb.Count()
 
 	ecore.E调试输出(query, param)
-	ecore.E调试输出(query2)
+	//ecore.E调试输出(query2)
 
 	op := NewMysql数据库操作类()
 	op.E连接数据库("root@tcp(127.0.0.1:3310)/gotest?charset=utf8&parseTime=true&loc=Local")
-	//result, err := op.QueryRaw(query, param)
-	//ecore.E调试输出(err, result)
+	result, err := op.QueryRaw(query, param)
+	ecore.E调试输出(err, result)
 
-	count, _ := op.CountRaw(query2, param)
-	ecore.E调试输出(count)
+	//count, _ := op.CountRaw(query2, param)
+	//ecore.E调试输出(count)
 
-	//s, _ := json.MarshalIndent(result, "", "  ")
-	//fmt.Println(string(s))
+	s, _ := json.MarshalIndent(result, "", "  ")
+	fmt.Println(string(s))
 
+}
+func TestDB整合(t *testing.T) {
+	type ArticlesIndexRequest struct {
+		Keywords string `i:"keywords"`
+		PerPage  int64  `i:"perPage" rule:"required" msg:"PerPage 必填"`
+		Page     int64  `i:"page" rule:"required" msg:"Page 必填"`
+		OrderBy  string `i:"orderBy" default:"id"`
+		OrderDir string `i:"orderDir" default:"desc"`
+	}
+	//SELECT id,title,content,created_at,updated_at FROM articles ORDER BY id desc, title desc LIMIT 0,10
+	var req ArticlesIndexRequest
+	req.Keywords = "a"
+	req.PerPage = 10
+	req.Page = 1
+	req.OrderBy = "id"
+	req.OrderDir = "desc"
+
+	数据库操作 := NewMysql数据库操作类()
+	数据库操作.E连接数据库("root@tcp(127.0.0.1:3310)/gotest?charset=utf8&parseTime=true&loc=Local")
+
+	db := NewMySQL查询构建器(数据库操作)
+	_sql := db.From("articles").
+		Select("*").
+		//OrWhere("title", "like", "%"+req.Keywords+"%").
+		//OrWhere("id", "=", 2146).
+		OrderBy(req.OrderBy, req.OrderDir).
+		Paginate(req.PerPage, req.Page)
+
+	list, err := _sql.Get()
+	ecore.E调试输出(err)
+	ecore.E调试输出(list)
+	//count, err := _sql.Count()
+	//ecore.E调试输出(err)
+	//ecore.E调试输出(count)
+
+	//first, err := db.From("articles").From("articles").Where("id", "=", 135).First()
+	//if err != nil {
+	//	panic(err)
+	//}
+	//ecore.E调试输出(first)
+	//first, err := db.From("articles").
+	//	From("articles").
+	//	Where("id", "=", 135).
+	//	Delete()
+	//if err != nil {
+	//	panic(err)
+	//}
+	//ecore.E调试输出(first, err)
+
+	//insert, err := db.From("articles").Insert(H{
+	//	"title":   "title",
+	//	"content": "content",
+	//})
+	//if err != nil {
+	//	panic(err)
+	//}
+	//println(insert)
 }

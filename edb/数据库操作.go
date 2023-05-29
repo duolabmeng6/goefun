@@ -161,7 +161,7 @@ func (op *Mysql数据库操作类) QueryRaw(queryStr string, args []interface{})
 		case "FLOAT", "DOUBLE", "DECIMAL", "NUMERIC":
 			values[i] = new(float64)
 		case "DATE", "DATETIME", "TIMESTAMP":
-			values[i] = new(time.Time)
+			values[i] = new(sql.NullTime)
 		case "TEXT", "VARCHAR":
 			values[i] = new(string)
 		case "BIT":
@@ -174,7 +174,6 @@ func (op *Mysql数据库操作类) QueryRaw(queryStr string, args []interface{})
 			values[i] = new(string)
 		}
 	}
-
 	for rows.Next() {
 		err := rows.Scan(values...)
 		if err != nil {
@@ -184,29 +183,81 @@ func (op *Mysql数据库操作类) QueryRaw(queryStr string, args []interface{})
 		result := make(map[string]interface{})
 		for i, value := range values {
 			switch v := value.(type) {
-			case *int, *float64, *bool, *[]byte:
+			case int, float64, bool, []byte:
 				result[columns[i]] = v
-			case *string:
-				result[columns[i]] = *v
-			case *time.Time:
+			case string:
+				result[columns[i]] = v
+			case time.Time:
 				if columnTypes[i].DatabaseTypeName() == "DATE" {
 					result[columns[i]] = v.Format("2006-01-02")
 				} else {
 					result[columns[i]] = v.Format(time.RFC3339Nano)
 				}
+			case sql.NullTime:
+				if v.Valid {
+					result[columns[i]] = v.Time.Format(time.RFC3339Nano)
+				} else {
+					result[columns[i]] = nil
+				}
+			case *int:
+				if v != nil {
+					result[columns[i]] = *v
+				} else {
+					result[columns[i]] = nil
+				}
+			case *float64:
+				if v != nil {
+					result[columns[i]] = *v
+				} else {
+					result[columns[i]] = nil
+				}
+			case *bool:
+				if v != nil {
+					result[columns[i]] = *v
+				} else {
+					result[columns[i]] = nil
+				}
+			case *[]byte:
+				if v != nil {
+					result[columns[i]] = *v
+				} else {
+					result[columns[i]] = nil
+				}
+			case *string:
+				if v != nil {
+					result[columns[i]] = *v
+				} else {
+					result[columns[i]] = nil
+				}
+			case *time.Time:
+				if v != nil {
+					if columnTypes[i].DatabaseTypeName() == "DATE" {
+						result[columns[i]] = v.Format("2006-01-02")
+					} else {
+						result[columns[i]] = v.Format(time.RFC3339Nano)
+					}
+				} else {
+					result[columns[i]] = nil
+				}
+			case *sql.NullTime:
+				if v != nil {
+					if v.Valid {
+						result[columns[i]] = v.Time.Format(time.RFC3339Nano)
+					} else {
+						result[columns[i]] = nil
+					}
+				} else {
+					result[columns[i]] = nil
+				}
 			}
 		}
+
 		results = append(results, result)
 	}
 
 	if rows.Err() != nil {
 		return nil, rows.Err()
 	}
-	//
-	//jsonData, err := json.Marshal(results)
-	//if err != nil {
-	//	return nil, err
-	//}
 
 	return results, nil
 }
@@ -325,6 +376,21 @@ func (op *Mysql数据库操作类) Delete(queryStr string, args map[string]inter
 	if err != nil {
 		return 0, err
 	}
+
+	affected, err := res.RowsAffected()
+	if err != nil {
+		return 0, err
+	}
+	return affected, nil
+}
+
+func (op *Mysql数据库操作类) ExecRaw(queryStr string, args []interface{}) (int64, error) {
+	stmt, err := op.db.Prepare(queryStr)
+	if err != nil {
+		return 0, err
+	}
+	defer stmt.Close()
+	res, err := stmt.Exec(args...)
 
 	affected, err := res.RowsAffected()
 	if err != nil {
