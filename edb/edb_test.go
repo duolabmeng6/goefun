@@ -223,3 +223,12 @@ func TestDB整合(t *testing.T) {
 	//}
 	//println(insert)
 }
+func TestDB生产工具(t *testing.T) {
+	//获取表的结构
+	数据库操作 := NewMysql数据库操作类()
+	数据库操作.E连接数据库("root@tcp(127.0.0.1:3310)/gotest?charset=utf8&parseTime=true&loc=Local")
+	infos, err := 数据库操作.GetTableInfo("users")
+	fmt.Println(err)
+	fmt.Println(infos)
+
+}

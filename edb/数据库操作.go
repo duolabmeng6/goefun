@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/duolabmeng6/goefun/ecore"
+	"github.com/elliotchance/orderedmap/v2"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"strconv"
@@ -29,8 +31,9 @@ type DatabaseOperator interface {
 type H map[string]any
 
 type Mysql数据库操作类 struct {
-	db *sqlx.DB
-	tx *sqlx.Tx
+	db     *sqlx.DB
+	tx     *sqlx.Tx
+	dbName string
 }
 
 func NewMysql数据库操作类() *Mysql数据库操作类 {
@@ -99,6 +102,10 @@ func (op *Mysql数据库操作类) Connect(datasourceName string) error {
 	if err != nil {
 		return err
 	}
+	// "root@tcp(127.0.0.1:3310)/gotest?charset=utf8&parseTime=true&loc=Local"
+	//分析datasourceName的数据获取数据库的名称 gotest
+	//获取第一个/的位置
+	op.dbName = ecore.StrCut(datasourceName, "/$?")
 
 	return nil
 }
@@ -489,6 +496,53 @@ func (op *Mysql数据库操作类) RollbackTransaction() error {
 		return err
 	}
 	return nil
+}
+
+func (op *Mysql数据库操作类) GetTableInfo(table string) (*orderedmap.OrderedMap[string, map[string]interface{}], error) {
+	//获取mysql数据库的表结构和备注
+	query := fmt.Sprintf("SELECT COLUMN_NAME, DATA_TYPE, COLUMN_COMMENT FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '%s' AND TABLE_NAME = '%s'", op.dbName, table)
+	println(query)
+	rows, err := op.db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	columns := orderedmap.NewOrderedMap[string, map[string]interface{}]()
+	for rows.Next() {
+		var column, dataType, comment string
+		err := rows.Scan(&column, &dataType, &comment)
+		if err != nil {
+			return nil, err
+		}
+		columns.Set(column, map[string]interface{}{
+			"dataType": dataType,
+			"comment":  comment,
+		})
+	}
+	return columns, nil
+}
+
+func (op *Mysql数据库操作类) GetAllTableName() ([]string, error) {
+	// 获取mysql数据库中的所有表名称 返回 tableName
+	query := fmt.Sprintf("SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = '%s'", op.dbName)
+	println(query)
+	rows, err := op.db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	tables := make([]string, 0)
+	for rows.Next() {
+		var TABLE_NAME string
+		err := rows.Scan(&TABLE_NAME)
+		if err != nil {
+			return nil, err
+		}
+		tables = append(tables, TABLE_NAME)
+	}
+	return tables, nil
 }
 
 func queryAndReturnJSON(db *sql.DB, query string) ([]byte, error) {

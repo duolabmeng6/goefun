@@ -183,6 +183,20 @@ func E加载html模板路径(r *gin.Engine, 模板路径 string) {
 	r.LoadHTMLGlob(模板路径)
 }
 
+// Verify 验证参数
+//
+//	func (b *AutoController) Get(c *gin.Context) {
+//		var req struct {
+//			TableName string `json:"tableName"`
+//		}
+//		if err := egin.Verify(c, &req); err != nil {
+//			c.JSON(200, gin.H{
+//				"status": 1,
+//				"msg":    err.Error(),
+//				"data":   "",
+//			})
+//			return
+//		}
 func Verify(c *gin.Context, dst interface{}) error {
 	typ := reflect.TypeOf(dst)
 	// 首先判断传入参数的类型
@@ -208,7 +222,10 @@ func Verify(c *gin.Context, dst interface{}) error {
 		// 判断是否设置了这个tag
 		TagI := field.Tag.Get("i")
 		if TagI == "" {
-			continue
+			TagI = field.Tag.Get("json")
+			if TagI == "" {
+				continue
+			}
 		}
 		TagDafault := field.Tag.Get("default")
 		// 如果 TagDafault 为空则使用默认值

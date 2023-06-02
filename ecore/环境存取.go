@@ -6,6 +6,7 @@ import (
 	"github.com/joho/godotenv"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 )
 
@@ -25,6 +26,19 @@ func E取运行目录() string {
 		fmt.Println(err)
 	}
 	return strings.Replace(dir, "\\", "/", -1)
+}
+
+// E取运行源文件路径
+//
+// 取当前被执行的go文件的完整路径。
+func E取运行源文件路径() string {
+	_, filename, _, ok := runtime.Caller(1)
+	if !ok {
+		panic("无法获取当前文件路径")
+	}
+	// 获取当前源文件所在的目录
+	dir := filepath.Dir(filename)
+	return dir
 }
 
 // E读环境变量
@@ -84,4 +98,45 @@ func E设置命令行(name string, defaultvalue string, help string, value *stri
 
 func E命令行解析() {
 	flag.Parse()
+}
+
+// GetModuleName 获取当前运行的 Go module 名称
+func GetModuleName() string {
+	_, filename, _, ok := runtime.Caller(1)
+	if !ok {
+		panic("Failed to get current file path")
+	}
+
+	modulePath := getModulePath(filename)
+	moduleName := extractModuleName(modulePath)
+
+	return moduleName
+}
+
+// GetModulePath 获取当前文件所在的模块路径
+func getModulePath(filename string) string {
+	absPath, err := filepath.Abs(filename)
+	if err != nil {
+		panic(err)
+	}
+
+	modulePath := filepath.Dir(absPath)
+	return modulePath
+}
+
+// ExtractModuleName 从模块路径中提取模块名称
+func extractModuleName(modulePath string) string {
+	// 模块路径形如 "/go/src/github.com/username/project/module"
+	// 提取出模块名称为 "github.com/username/project/module"
+	parts := strings.Split(modulePath, string(filepath.Separator))
+	startIndex := 0
+	for i, part := range parts {
+		if part == "src" && i+1 < len(parts) {
+			startIndex = i + 1
+			break
+		}
+	}
+
+	moduleName := strings.Join(parts[startIndex:], "/")
+	return moduleName
 }

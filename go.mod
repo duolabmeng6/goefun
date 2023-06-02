@@ -7,13 +7,16 @@ require (
 	github.com/PuerkitoBio/goquery v1.8.1
 	github.com/aliyun/aliyun-oss-go-sdk v2.2.7+incompatible
 	github.com/axgle/mahonia v0.0.0-20180208002826-3358181d7394
+	github.com/elliotchance/orderedmap/v2 v2.2.0
 	github.com/ganlvtech/go-exportable-cookiejar v0.0.0-20181231191301-34af33d7487e
 	github.com/gin-gonic/gin v1.9.0
+	github.com/go-sql-driver/mysql v1.7.0
 	github.com/gogf/gf v1.12.3
 	github.com/gogf/gf/v2 v2.4.1
 	github.com/gogf/guuid v1.0.0
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/gomodule/redigo v2.0.0+incompatible
+	github.com/jmoiron/sqlx v1.3.5
 	github.com/joho/godotenv v1.5.1
 	github.com/kr/pretty v0.3.0
 	github.com/qiniu/go-sdk/v7 v7.15.0
@@ -44,7 +47,6 @@ require (
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.11.2 // indirect
-	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/goccy/go-json v0.10.0 // indirect
 	github.com/google/uuid v1.1.1 // indirect
 	github.com/gqcn/structs v1.1.1 // indirect
