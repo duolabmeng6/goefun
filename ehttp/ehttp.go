@@ -104,7 +104,8 @@ func (this *Ehttp) PostByte(url string, s interface{}, headers ...interface{}) (
 			marshal, _ := json.Marshal(s)
 			提交数据 = string(marshal)
 		} else {
-			mapData := s.(map[string]interface{}) // 强制类型转换为map[string]interface{}
+			var mapData map[string]interface{}
+			E到结构体(s, &mapData)
 			lines := make([]string, 0)
 			for k, v := range mapData {
 				lines = append(lines, fmt.Sprintf("%s=%v", k, v))
@@ -134,7 +135,8 @@ func (this *Ehttp) _附加协议头处理(v ...interface{}) string {
 			附加头信息 = item.(string)
 		}
 		if itemType.Kind() == reflect.Map {
-			mapData := item.(map[string]interface{}) // 强制类型转换为map[string]interface{}
+			var mapData map[string]interface{}
+			E到结构体(item, &mapData)
 			lines := make([]string, 0)
 			for k, v := range mapData {
 				lines = append(lines, fmt.Sprintf("%s: %v", k, v))
