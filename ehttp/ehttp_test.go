@@ -1,6 +1,10 @@
 package ehttp
 
 import (
+	"github.com/duolabmeng6/goefun/ecore"
+	"github.com/duolabmeng6/goefun/egin"
+	"github.com/gin-gonic/gin"
+	"net/http"
 	"testing"
 )
 
@@ -22,4 +26,44 @@ func TestNewHttp(t *testing.T) {
 	//}
 	//ecore.E写到文件("1.jpg", retByte)
 
+}
+
+func TestPOST(t *testing.T) {
+	// 启动一个 gin
+	go func() {
+		r := gin.Default()
+		r.Any("/test", func(c *gin.Context) {
+			form := egin.IAll(c)
+			header := c.Request.Header
+			c.JSON(http.StatusOK, gin.H{
+				"form":   form,
+				"header": header,
+			})
+		})
+		go r.Run(":8080")
+	}()
+	ecore.E延时(10)
+
+	http := NewHttp()
+	http.E设置全局HTTP代理("http://127.0.0.1:8888")
+	//ret, flag := http.Post("http://127.0.0.1:8080/test?ga=1&gb=2", "format=json&hasfast=true&authuser=0")
+	//t.Log(flag, ret)
+	//
+	//ret, flag = http.Post("http://127.0.0.1:8080/test?ga=1&gb=2", `{"j1":1,"j2":"2"}`, "Content-Type: application/json")
+	//t.Log(flag, ret)
+	header := make(map[string]interface{})
+	header["Content-Type"] = "application/json"
+	header["abc"] = "abc"
+	header["dddd"] = "abc"
+
+	jsondata := map[string]interface{}{
+		"j1": 1,
+		"j2": 2,
+		"j3": "abc",
+	}
+
+	//ret, flag := http.Post("http://127.0.0.1:8080/test?ga=1&gb=2", `{"j1":1,"j2":"2"}`, header)
+	//t.Log(flag, ret)
+	ret, flag := http.Post("http://127.0.0.1:8080/test?ga=1&gb=2", jsondata, header)
+	t.Log(flag, ret)
 }

@@ -5,7 +5,9 @@ package ehttp
 import (
 	"bytes"
 	"crypto/tls"
+	"encoding/json"
 	"errors"
+	"fmt"
 	. "github.com/duolabmeng6/goefun/ecore"
 	"github.com/duolabmeng6/goefun/src/cookiejar"
 	"io"
@@ -15,6 +17,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"reflect"
 	"strings"
 	"time"
 )
@@ -92,36 +95,61 @@ func (this *Ehttp) GetByte(url string, v ...interface{}) ([]byte, bool) {
 }
 
 // token=token&name=1.txt&file=@file:文件的绝对路径
-func (this *Ehttp) PostByte(url string, s string, v ...interface{}) ([]byte, bool) {
-	var 附加头信息 string
-	if len(v) > 1 {
-		附加头信息 = E到文本(v[0])
+func (this *Ehttp) PostByte(url string, s interface{}, headers ...interface{}) ([]byte, bool) {
+	附加头信息 := this._附加协议头(headers...)
+	//检查 s 的类型如果是string 则直接使用 如果是map 则转换为string
+	提交数据 := ""
+	if reflect.TypeOf(s).Kind() == reflect.Map {
+		// 检查 附加头信息 和 全局头信息是否包含 Content-Type 如果是 json 则转换为json
+		if strings.Contains(附加头信息, "Content-Type: application/json") || strings.Contains(this.全局头信息, "Content-Type: application/json") {
+			marshal, _ := json.Marshal(s)
+			提交数据 = string(marshal)
+		} else {
+			mapData := s.(map[string]interface{}) // 强制类型转换为map[string]interface{}
+			lines := make([]string, 0)
+			for k, v := range mapData {
+				lines = append(lines, fmt.Sprintf("%s=%v", k, v))
+			}
+			提交数据 = strings.Join(lines, "&")
+		}
+	}
+	if reflect.TypeOf(s).Kind() == reflect.String {
+		提交数据 = s.(string)
 	}
 
 	body, _ := this.E访问(
 		url,
 		"POST",
-		s,
+		提交数据,
 		附加头信息,
 	)
 
 	return body, this.E访问失败()
 }
 
-// token=token&name=1.txt&file=@file:文件的绝对路径
-func (this *Ehttp) Post(url string, s string, v ...interface{}) (string, bool) {
+func (this *Ehttp) _附加协议头(v ...interface{}) string {
 	var 附加头信息 string
-	if len(v) > 1 {
-		附加头信息 = E到文本(v[0])
+	fmt.Println("v", len(v))
+	for _, item := range v {
+		itemType := reflect.TypeOf(item)
+		if itemType.Kind() == reflect.String {
+			附加头信息 = item.(string)
+		}
+		if itemType.Kind() == reflect.Map {
+			mapData := item.(map[string]interface{}) // 强制类型转换为map[string]interface{}
+			lines := make([]string, 0)
+			for k, v := range mapData {
+				lines = append(lines, fmt.Sprintf("%s: %v", k, v))
+			}
+			附加头信息 = strings.Join(lines, "\n")
+		}
 	}
+	return 附加头信息
+}
 
-	body, _ := this.E访问(
-		url,
-		"POST",
-		s,
-		附加头信息,
-	)
-
+// token=token&name=1.txt&file=@file:文件的绝对路径
+func (this *Ehttp) Post(url string, s interface{}, headers ...interface{}) (string, bool) {
+	body, _ := this.PostByte(url, s, headers...)
 	return string(body), this.E访问失败()
 }
 
@@ -280,9 +308,9 @@ func NewHttp() *Ehttp {
 	ehttp.Cookies, _ = cookiejar.New(nil)
 	ehttp.默认头信息 = `
 		Accept : */*
-		Accept-Language: zh-cn,
-		User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36,
-		Content-Type: application/x-www-form-urlencoded,
+		Accept-Language: zh-cn
+		User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+		Content-Type: application/x-www-form-urlencoded
 `
 	return ehttp
 }

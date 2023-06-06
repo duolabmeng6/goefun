@@ -111,15 +111,23 @@ func I(c *gin.Context, 规则 string, 默认值 string) string {
 // 在gin中获取所有的参数 从json,post,get中获取 优先级 json>post>get 返回map[string]interface{}
 func IAll(c *gin.Context) map[string]interface{} {
 	result := make(map[string]interface{})
-
-	// 从 JSON 中获取参数
-	if err := c.ShouldBindJSON(&result); err != nil {
-		// 处理错误情况
-	}
-
-	// 从 POST 表单中获取参数
-	if err := c.ShouldBind(&result); err != nil {
-		// 处理错误情况
+	// 判断是否是 json 请求
+	contentType := c.GetHeader("Content-Type")
+	if strings.Contains(contentType, "application/json") {
+		// 从 JSON 中获取参数
+		if err := c.ShouldBindBodyWith(&result, binding.JSON); err != nil {
+			// 处理错误情况
+		}
+	} else {
+		err := c.Request.ParseForm()
+		if err == nil {
+			formData := c.Request.PostForm
+			for key, values := range formData {
+				if len(values) > 0 {
+					result[key] = values[0]
+				}
+			}
+		}
 	}
 
 	// 从 GET 请求中获取参数
