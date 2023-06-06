@@ -11,7 +11,6 @@ import (
 	. "github.com/duolabmeng6/goefun/ecore"
 	"github.com/duolabmeng6/goefun/src/cookiejar"
 	"io"
-	"io/ioutil"
 	"mime/multipart"
 	"net"
 	"net/http"
@@ -96,7 +95,7 @@ func (this *Ehttp) GetByte(url string, v ...interface{}) ([]byte, bool) {
 
 // token=token&name=1.txt&file=@file:文件的绝对路径
 func (this *Ehttp) PostByte(url string, s interface{}, headers ...interface{}) ([]byte, bool) {
-	附加头信息 := this._附加协议头(headers...)
+	附加头信息 := this._附加协议头处理(headers...)
 	//检查 s 的类型如果是string 则直接使用 如果是map 则转换为string
 	提交数据 := ""
 	if reflect.TypeOf(s).Kind() == reflect.Map {
@@ -127,9 +126,8 @@ func (this *Ehttp) PostByte(url string, s interface{}, headers ...interface{}) (
 	return body, this.E访问失败()
 }
 
-func (this *Ehttp) _附加协议头(v ...interface{}) string {
+func (this *Ehttp) _附加协议头处理(v ...interface{}) string {
 	var 附加头信息 string
-	fmt.Println("v", len(v))
 	for _, item := range v {
 		itemType := reflect.TypeOf(item)
 		if itemType.Kind() == reflect.String {
@@ -243,7 +241,7 @@ func (this *Ehttp) E访问(url string, 访问方法 string, 发送文本 string,
 	//E调试输出(this)
 	defer resp.Body.Close()
 
-	content, err := ioutil.ReadAll(resp.Body)
+	content, err := io.ReadAll(resp.Body)
 	//E调试输出(E到文本(content))
 
 	this.Response = resp
@@ -366,13 +364,18 @@ func (this *Ehttp) setObj() *Ehttp {
 //
 //	SetProxy("http://127.0.0.1:8888")
 func (this *Ehttp) SetProxy(proxy string) *Ehttp {
+	//检查 前面是否带有 http:// 或者 https:// 如果没有则自动添加 socks5:// 则不自动添加
+	if strings.Index(proxy, "://") == -1 {
+		proxy = "http://" + proxy
+	}
+
 	this.Proxy = proxy
 	return this
 }
 func (this *Ehttp) E设置全局HTTP代理(proxy string) *Ehttp {
 	return this.SetProxy(proxy)
 }
-func (this *Ehttp) SetTimeOut超时时间(超时时间 int) *Ehttp {
+func (this *Ehttp) SetTimeOut(超时时间 int) *Ehttp {
 	this.TimeOut = 超时时间
 	return this
 }
@@ -384,8 +387,10 @@ func (this *Ehttp) SetGlobalHeaders(str string) *Ehttp {
 	this.全局头信息 = str
 	return this
 }
-func (this *Ehttp) E设置全局头信息(s string) *Ehttp {
-	return this.SetGlobalHeaders(s)
+func (this *Ehttp) E设置全局头信息(s interface{}) *Ehttp {
+	全局头信息 := this._附加协议头处理(s)
+
+	return this.SetGlobalHeaders(全局头信息)
 }
 func (this *Ehttp) E设置自动管理cookie(cookie文件路径 string) *Ehttp {
 	return this.SetAutoSaveCookie(cookie文件路径)

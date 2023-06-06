@@ -44,8 +44,10 @@ func TestPOST(t *testing.T) {
 	}()
 	ecore.E延时(10)
 
-	http := NewHttp()
-	http.E设置全局HTTP代理("http://127.0.0.1:8888")
+	ehttp := NewHttp()
+	ehttp.E设置全局HTTP代理("127.0.0.1:8888")
+	//http.E设置全局HTTP代理("sockes5://192.168.100.1:7893")
+
 	//ret, flag := http.Post("http://127.0.0.1:8080/test?ga=1&gb=2", "format=json&hasfast=true&authuser=0")
 	//t.Log(flag, ret)
 	//
@@ -62,8 +64,9 @@ func TestPOST(t *testing.T) {
 		"j3": "abc",
 	}
 
+	ehttp.E设置全局头信息(header)
 	//ret, flag := http.Post("http://127.0.0.1:8080/test?ga=1&gb=2", `{"j1":1,"j2":"2"}`, header)
 	//t.Log(flag, ret)
-	ret, flag := http.Post("http://127.0.0.1:8080/test?ga=1&gb=2", jsondata, header)
+	ret, flag := ehttp.Post("http://127.0.0.1:8080/test?ga=1&gb=2", jsondata)
 	t.Log(flag, ret)
 }
