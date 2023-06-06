@@ -7,39 +7,39 @@ import (
 )
 
 // 缓存适配器
-type 缓存类 struct {
+type E缓存类 struct {
 	缓存 缓存接口
 }
 
-func New缓存类(缓存 缓存接口) *缓存类 {
-	return &缓存类{
+func New缓存类(缓存 缓存接口) *E缓存类 {
+	return &E缓存类{
 		缓存: 缓存,
 	}
 }
 
 // E设置值
-func (c *缓存类) E设置值(key string, value interface{}, 倒计时秒数 int64) error {
+func (c *E缓存类) E设置值(key string, value interface{}, 倒计时秒数 int64) error {
 	return c.缓存.Set(key, value, 倒计时秒数)
 }
 
 // E取值
-func (c *缓存类) E取值(key string) interface{} {
+func (c *E缓存类) E取值(key string) interface{} {
 	value, _ := c.缓存.Get(key)
 	return value
 }
 
 // E删除
-func (c *缓存类) E删除(key string) error {
+func (c *E缓存类) E删除(key string) error {
 	return c.缓存.Del(key)
 }
 
 // Set
-func (c *缓存类) Set(key string, value interface{}, 倒计时秒数 int64) error {
+func (c *E缓存类) Set(key string, value interface{}, 倒计时秒数 int64) error {
 	return c.缓存.Set(key, value, 倒计时秒数)
 }
 
 // Get
-func (c *缓存类) Get(key string) interface{} {
+func (c *E缓存类) Get(key string) interface{} {
 	value, err := c.缓存.Get(key)
 	if err != nil {
 		return nil
@@ -48,7 +48,7 @@ func (c *缓存类) Get(key string) interface{} {
 }
 
 // GetString
-func (c *缓存类) GetString(key string) string {
+func (c *E缓存类) GetString(key string) string {
 	value, err := c.缓存.Get(key)
 	if err != nil {
 		return ""
@@ -57,7 +57,7 @@ func (c *缓存类) GetString(key string) string {
 }
 
 // GetInt
-func (c *缓存类) GetInt(key string) int64 {
+func (c *E缓存类) GetInt(key string) int64 {
 	value, err := c.缓存.Get(key)
 	if err != nil {
 		return 0
@@ -66,7 +66,7 @@ func (c *缓存类) GetInt(key string) int64 {
 }
 
 // GetBool
-func (c *缓存类) GetBool(key string) bool {
+func (c *E缓存类) GetBool(key string) bool {
 	value, err := c.缓存.Get(key)
 	if err != nil {
 		return false
@@ -75,7 +75,7 @@ func (c *缓存类) GetBool(key string) bool {
 }
 
 // GetFloat
-func (c *缓存类) GetFloat(key string) float64 {
+func (c *E缓存类) GetFloat(key string) float64 {
 	value, err := c.缓存.Get(key)
 	if err != nil {
 		return 0
@@ -84,7 +84,7 @@ func (c *缓存类) GetFloat(key string) float64 {
 }
 
 // GetBytes
-func (c *缓存类) GetBytes(key string) []byte {
+func (c *E缓存类) GetBytes(key string) []byte {
 	value, err := c.缓存.Get(key)
 	if err != nil {
 		return nil
@@ -97,6 +97,6 @@ func (c *缓存类) GetBytes(key string) []byte {
 }
 
 // Del
-func (c *缓存类) Del(key string) error {
+func (c *E缓存类) Del(key string) error {
 	return c.缓存.Del(key)
 }
