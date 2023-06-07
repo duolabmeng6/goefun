@@ -152,7 +152,95 @@ func (this *Ehttp) Post(url string, s interface{}, headers ...interface{}) (stri
 	body, _ := this.PostByte(url, s, headers...)
 	return string(body), this.E访问失败()
 }
+func (this *Ehttp) PostFile(url string, s interface{}, headers ...interface{}) ([]byte, error) {
+	this.setObj()
+	附加头信息 := this._附加协议头处理(headers...)
+	访问方法 := "POST"
+	发送文本 := ""
+	t := New时间统计类()
 
+	var req *http.Request
+	var err error
+	var 文件上传头信息 string
+	文件上传头信息 = ""
+
+	buffer := new(bytes.Buffer)
+	writer := multipart.NewWriter(buffer)
+	// 分析s中的数据
+	var mapData map[string]interface{}
+	E到结构体(s, &mapData)
+	for k, v := range mapData {
+		//加入 form-data
+		if reflect.TypeOf(v).Kind() == reflect.String {
+			writer.WriteField(k, v.(string))
+		}
+	}
+	writer.Close()
+
+	if req, err = http.NewRequest("POST", url, buffer); err != nil {
+		return nil, err
+	}
+
+	文件上传头信息 = "Content-Type:" + writer.FormDataContentType()
+	填充来源地址 := "Referer:" + url
+	_整理头信息 := this.默认头信息 + "\r\n" +
+		填充来源地址 + "\r\n" +
+		this.全局头信息 + "\r\n" +
+		附加头信息 +
+		"\r\n" +
+		文件上传头信息
+
+	arr := E分割文本(_整理头信息, "\n")
+	for _, v := range arr {
+		kk := E删首尾空(StrCut(v, "$:"))
+		vv := E删首尾空(StrCut(v, ":$"))
+		if kk == "" {
+			continue
+		}
+		req.Header.Set(kk, vv)
+	}
+	//让程序自动处理gzip
+	req.Header.Del("Accept-Encoding")
+
+	//client := &http.Client{}
+	resp, err := this.client.Do(req)
+	if err != nil {
+		E调试输出格式化("%s %s error:%s Time:%s ms \n", 访问方法, url, err.Error(), t.E取毫秒())
+
+		return []byte{}, err
+	}
+
+	this.状态码 = resp.StatusCode
+	//E调试输出(this)
+	defer resp.Body.Close()
+
+	content, err := io.ReadAll(resp.Body)
+	//E调试输出(E到文本(content))
+
+	this.Response = resp
+
+	//重定向的操作
+	if this.E重定向方式 != 0 && (resp.StatusCode == 302 || resp.StatusCode == 301) {
+		this.Location = resp.Header.Get("Location")
+		E调试输出格式化("%s %s StatusCode:%d Time:%s ms \nLocation: %s\n", 访问方法, url, resp.StatusCode, t.E取毫秒(), this.Location)
+		//自动处理重定向消息
+		if this.E重定向方式 == 2 {
+			return this.E访问(this.Location, "GET", 发送文本, 附加头信息)
+		}
+	} else {
+		E调试输出格式化("%s %s StatusCode:%d Time:%s ms \n", 访问方法, url, resp.StatusCode, t.E取毫秒())
+	}
+
+	//if E判断文本(resp.Header.Get("Content-Type"),"UTF-8") {
+	//
+	//}else{
+	//	content = E到字节集(E文本编码转换(content, "", "utf-8"))
+	//}
+
+	this.cookie_save()
+	this.reset()
+	return content, err
+}
 func (this *Ehttp) E访问(url string, 访问方法 string, 发送文本 string, 附加头信息 string) ([]byte, error) {
 	this.setObj()
 
