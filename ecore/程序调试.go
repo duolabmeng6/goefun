@@ -6,7 +6,7 @@ import (
 )
 
 func E调试输出(a ...interface{}) {
-	pretty.Print(a...)
+	pretty.Println(a...)
 }
 
 func E调试输出格式化(s string, a ...interface{}) {

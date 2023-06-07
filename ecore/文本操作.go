@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/gogf/gf/v2/util/grand"
+	"reflect"
 	"strings"
 	"unicode"
 	"unicode/utf8"
@@ -81,19 +82,24 @@ func E取代码(欲取字符代码的文本 string) int {
 //
 // 参数<4>的名称为“是否不区分大小写”，类型为“逻辑型（bool）”，初始值为“假”。为真不区分大小写，为假区分。
 func E寻找文本(被搜寻的文本 string, 欲寻找的文本 string, 起始搜寻位置 int, 是否不区分大小写 bool) int {
+	if 起始搜寻位置 < 1 {
+		起始搜寻位置 = 1
+	}
+
 	if 是否不区分大小写 {
 		被搜寻的文本 = strings.ToLower(被搜寻的文本)
 		欲寻找的文本 = strings.ToLower(欲寻找的文本)
 	}
-	if 起始搜寻位置 <= 0 {
-		起始搜寻位置 = 1
-	}
 
-	for i := 起始搜寻位置 - 1; i <= len(被搜寻的文本)-len(欲寻找的文本); i++ {
-		if 被搜寻的文本[i:i+len(欲寻找的文本)] == 欲寻找的文本 {
+	被搜寻的文本Runes := []rune(被搜寻的文本)
+	欲寻找的文本Runes := []rune(欲寻找的文本)
+
+	for i := 起始搜寻位置 - 1; i <= len(被搜寻的文本Runes)-len(欲寻找的文本Runes); i++ {
+		if reflect.DeepEqual(被搜寻的文本Runes[i:i+len(欲寻找的文本Runes)], 欲寻找的文本Runes) {
 			return i + 1
 		}
 	}
+
 	return -1
 }
 
