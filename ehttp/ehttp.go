@@ -61,40 +61,40 @@ func (this *Ehttp) reset() *Ehttp {
 	return this
 }
 
-func (this *Ehttp) Get(url string, v ...interface{}) (string, bool) {
+func (this *Ehttp) Get(url string, v ...interface{}) (string, error) {
 	var 附加头信息 string
 	if len(v) > 1 {
 		附加头信息 = E到文本(v[0])
 	}
 
-	body, _ := this.E访问(
+	body, err := this.E访问(
 		url,
 		"GET",
 		"",
 		附加头信息,
 	)
 
-	return string(body), this.E访问失败()
+	return string(body), err
 }
 
-func (this *Ehttp) GetByte(url string, v ...interface{}) ([]byte, bool) {
+func (this *Ehttp) GetByte(url string, v ...interface{}) ([]byte, error) {
 	var 附加头信息 string
 	if len(v) > 1 {
 		附加头信息 = E到文本(v[0])
 	}
 
-	body, _ := this.E访问(
+	body, err := this.E访问(
 		url,
 		"GET",
 		"",
 		附加头信息,
 	)
 
-	return body, this.E访问失败()
+	return body, err
 }
 
 // token=token&name=1.txt&file=@file:文件的绝对路径
-func (this *Ehttp) PostByte(url string, s interface{}, headers ...interface{}) ([]byte, bool) {
+func (this *Ehttp) PostByte(url string, s interface{}, headers ...interface{}) ([]byte, error) {
 	附加头信息 := this._附加协议头处理(headers...)
 	//检查 s 的类型如果是string 则直接使用 如果是map 则转换为string
 	提交数据 := ""
@@ -117,14 +117,14 @@ func (this *Ehttp) PostByte(url string, s interface{}, headers ...interface{}) (
 		提交数据 = s.(string)
 	}
 
-	body, _ := this.E访问(
+	body, err := this.E访问(
 		url,
 		"POST",
 		提交数据,
 		附加头信息,
 	)
 
-	return body, this.E访问失败()
+	return body, err
 }
 
 func (this *Ehttp) _附加协议头处理(v ...interface{}) string {
@@ -148,9 +148,9 @@ func (this *Ehttp) _附加协议头处理(v ...interface{}) string {
 }
 
 // token=token&name=1.txt&file=@file:文件的绝对路径
-func (this *Ehttp) Post(url string, s interface{}, headers ...interface{}) (string, bool) {
-	body, _ := this.PostByte(url, s, headers...)
-	return string(body), this.E访问失败()
+func (this *Ehttp) Post(url string, s interface{}, headers ...interface{}) (string, error) {
+	body, err := this.PostByte(url, s, headers...)
+	return string(body), err
 }
 func (this *Ehttp) PostFile(url string, s interface{}, headers ...interface{}) ([]byte, error) {
 	this.setObj()
@@ -308,6 +308,7 @@ func (this *Ehttp) E访问(url string, 访问方法 string, 发送文本 string,
 		文件上传头信息
 
 	arr := E分割文本(_整理头信息, "\n")
+
 	for _, v := range arr {
 		kk := E删首尾空(StrCut(v, "$:"))
 		vv := E删首尾空(StrCut(v, ":$"))
@@ -316,6 +317,7 @@ func (this *Ehttp) E访问(url string, 访问方法 string, 发送文本 string,
 		}
 		req.Header.Set(kk, vv)
 	}
+
 	//让程序自动处理gzip
 	req.Header.Del("Accept-Encoding")
 
@@ -348,14 +350,18 @@ func (this *Ehttp) E访问(url string, 访问方法 string, 发送文本 string,
 		E调试输出格式化("%s %s StatusCode:%d Time:%s ms \n", 访问方法, url, resp.StatusCode, t.E取毫秒())
 	}
 
-	//if E判断文本(resp.Header.Get("Content-Type"),"UTF-8") {
-	//
-	//}else{
-	//	content = E到字节集(E文本编码转换(content, "", "utf-8"))
-	//}
+	if E判断文本(resp.Header.Get("Content-Type"), "UTF-8") {
+
+	} else {
+		content = E到字节集(E文本编码转换(content, "", "utf-8"))
+	}
 
 	this.cookie_save()
 	this.reset()
+	if this.状态码 == 0 {
+		return content, errors.New("访问失败")
+	}
+
 	return content, err
 }
 
@@ -423,7 +429,7 @@ func (this *Ehttp) setObj() *Ehttp {
 		ResponseHeaderTimeout: time.Duration(this.TimeOut) * time.Second,
 		Proxy:                 nil,
 		//如果DisableKeepAlives为真，会禁止不同HTTP请求之间TCP连接的重用。
-		DisableKeepAlives:  true,
+		DisableKeepAlives:  false,
 		DisableCompression: false,
 	}
 	//this.Proxy = "http://127.0.0.1:8888"

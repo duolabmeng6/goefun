@@ -8,8 +8,8 @@ import (
 // E获取本机ip
 func E获取本机ip() string {
 	http := ehttp.NewHttp()
-	ret, flag := http.Get("https://www.taobao.com/help/getip.php")
-	if flag {
+	ret, err := http.Get("https://www.taobao.com/help/getip.php")
+	if err != nil {
 		return ""
 	}
 	return ecore.StrCut(ret, `{ip:"$"}`)
@@ -18,8 +18,8 @@ func E获取本机ip() string {
 // E获取本机ip
 func E获取ip信息(ip string) string {
 	http := ehttp.NewHttp()
-	ret, flag := http.Get("http://ip.taobao.com/service/getIpInfo.php?ip=" + ip)
-	if flag {
+	ret, err := http.Get("http://ip.taobao.com/service/getIpInfo.php?ip=" + ip)
+	if err != nil {
 		return ""
 	}
 	json := New存取键值表()

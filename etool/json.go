@@ -23,3 +23,11 @@ func E到Json(v interface{}) string {
 	ujs, _ := json.Marshal(v)
 	return string(ujs)
 }
+
+func Json美化(v interface{}) string {
+	ujs, err := json.MarshalIndent(v, "", "    ")
+	if err != nil {
+		return ""
+	}
+	return string(ujs)
+}
