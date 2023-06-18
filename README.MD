@@ -1,6 +1,8 @@
-# GoEfun
+# GoEfun 易函数
 
-goefun是用于golang的中文函数库，它提供了强大而易于使用的函数，它完整封装了易语言核心支持库的所有功能，同时提供简单易用的函数。
+[![github stars](https://img.shields.io/github/stars/duolabmeng6/pyefun?style=social)](https://github.com/duolabmeng6/pyefun)
+
+goefun 是用于golang的中文函数库，它提供了强大而易于使用的函数，它完整封装了易语言核心支持库的所有功能，同时提供简单易用的函数。
 
 # 特性
 
