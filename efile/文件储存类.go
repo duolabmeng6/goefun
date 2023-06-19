@@ -1,4 +1,4 @@
-// Package efile Package 提供通用的文件储存类 支持 本地文件储存、阿里云OSS储存、七牛云储存
+// Package efile 提供通用的文件储存类 支持 本地文件储存、阿里云OSS储存、七牛云储存
 package efile
 
 // 文件储存类

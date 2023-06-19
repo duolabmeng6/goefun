@@ -1,4 +1,3 @@
-// 支持gzip zlib zip 解压缩
 package etool
 
 import (

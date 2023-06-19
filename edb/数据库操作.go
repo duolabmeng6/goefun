@@ -1,4 +1,4 @@
-// Package edb Package 数据库操作
+// Package edb 数据库操作
 package edb
 
 import (
