@@ -1,5 +1,4 @@
-// ehttp
-// 简单易用的http客户端
+// Package ehttp 简单易用的http客户端
 package ehttp
 
 import (

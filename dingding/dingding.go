@@ -1,3 +1,4 @@
+// Package dingding 钉钉机器人
 package dingding
 
 import (

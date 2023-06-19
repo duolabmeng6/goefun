@@ -1,4 +1,3 @@
-// Package 翻译模块
 package etranslation
 
 import (

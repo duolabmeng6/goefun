@@ -1,4 +1,4 @@
-// gin 的封装
+// Package egin gin 的封装
 package egin
 
 import (

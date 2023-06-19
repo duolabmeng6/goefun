@@ -1,3 +1,4 @@
+// Package etranslation 翻译模块
 package etranslation
 
 // 翻译模块
