@@ -38,6 +38,7 @@ func TestNew翻译(t *testing.T) {
 	翻译接口.E注册服务("DeepL免费翻译", NewDeepL免费翻译())
 	翻译接口.E注册服务("阿里云免费翻译", New阿里云免费翻译())
 	翻译接口.E注册服务("DeepL翻译", NewDeepL翻译(ecore.Env("deepl_auth_key", "")))
+	翻译接口.E注册服务("OpenAI翻译", NewOpenAI翻译("", ecore.Env("deepl_auth_key", "")))
 	//
 	//翻译模块列表 := 翻译接口.E列出翻译模块和初始化参数()
 	//for _, 模块 := range 翻译模块列表 {
@@ -122,4 +123,16 @@ func TestNew翻译(t *testing.T) {
 	//		fmt.Printf("模块 %s 翻译结果: %s\n", 模块名称, 翻译结果)
 	//	}
 	//}
+}
+
+func TestOpenai(t *testing.T) {
+	ecore.E加载环境变量_从文件("./.env")
+
+	//str := "Hello, world!"
+	str := "こんにちは、世界!"
+
+	a := NewOpenAI翻译("", ecore.Env("openid_key", ""))
+
+	txt, _ := a.E翻译(str, "en_US", "zh_CN")
+	println("翻译结果:", txt)
 }
