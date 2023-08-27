@@ -23,9 +23,9 @@ goefun 是用于golang的中文函数库，它提供了强大而易于使用的�
 package main
 
 import (
-	. "github.com/duolabmeng6/go-efun/ecore"
-	. "github.com/duolabmeng6/go-efun/ehttp"
-	. "github.com/duolabmeng6/go-efun/etool"
+	. "github.com/duolabmeng6/goefun/ecore"
+	. "github.com/duolabmeng6/goefun/ehttp"
+	. "github.com/duolabmeng6/goefun/etool"
 )
 
 func main() {

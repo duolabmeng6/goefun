@@ -169,7 +169,10 @@ func (this *Ehttp) PostFile(url string, s interface{}, headers ...interface{}) (
 	var mapData map[string]interface{}
 	E到结构体(s, &mapData)
 	for k, v := range mapData {
-		//加入 form-data
+		if reflect.TypeOf(v).Kind() == reflect.Slice {
+			ujs, _ := json.Marshal(v)
+			writer.WriteField(k, string(ujs))
+		}
 		if reflect.TypeOf(v).Kind() == reflect.String {
 			writer.WriteField(k, v.(string))
 		}
