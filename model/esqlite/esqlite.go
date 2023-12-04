@@ -45,63 +45,52 @@ func (e *ESqlite) E打开内存数据库() error {
 }
 
 func (e *ESqlite) E关闭数据库() error {
-	var err error
-	sqlDB, err := e.db.DB()
-	err = sqlDB.Close()
+	db, err := e.db.DB()
 	if err != nil {
-		return fmt.Errorf("无法关闭数据库: %w", err)
+		return err
 	}
-	return nil
+	return db.Close()
 }
 
 func (e *ESqlite) E执行SQL(命令 string) error {
-	result := e.db.Exec(命令)
-	if result.Error != nil {
-		return fmt.Errorf("执行SQL失败: %w", result.Error)
-	}
-	return nil
+	result := e.db.Exec(命令).Error
+	return result
 }
 func (e *ESqlite) E执行查询SQL(命令 string) ([]map[string]interface{}, error) {
 	rows, err := e.db.Raw(命令).Rows()
 	if err != nil {
-		return nil, fmt.Errorf("执行查询SQL失败: %w", err)
+		return nil, err
 	}
 	defer rows.Close()
 
 	columns, err := rows.Columns()
 	if err != nil {
-		return nil, fmt.Errorf("获取列名失败: %w", err)
+		return nil, err
 	}
 
-	values := make([]interface{}, len(columns))
-	scanArgs := make([]interface{}, len(values))
-	for i := range values {
-		scanArgs[i] = &values[i]
-	}
-
-	results := []map[string]interface{}{}
+	var results []map[string]interface{}
 	for rows.Next() {
-		err = rows.Scan(scanArgs...)
-		if err != nil {
-			return nil, fmt.Errorf("扫描行失败: %w", err)
+		var result = make(map[string]interface{})
+		var container = make([]interface{}, len(columns))
+		var containerPointers = make([]interface{}, len(columns))
+
+		for i := range container {
+			containerPointers[i] = &container[i]
 		}
 
-		resultMap := map[string]interface{}{}
-		for k, v := range values {
-			key := columns[k]
-			value := ""
-			switch v := v.(type) {
-			case []byte:
-				value = string(v)
-			default:
-				value = fmt.Sprintf("%v", v)
-			}
-			resultMap[key] = value
+		if err := rows.Scan(containerPointers...); err != nil {
+			return nil, err
 		}
-		results = append(results, resultMap)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, fmt.Errorf("读取行失败: %w", err)
+
+		for i, colName := range columns {
+			val := container[i]
+			b, ok := val.([]byte)
+			if ok {
+				val = string(b)
+			}
+			result[colName] = val
+		}
+		results = append(results, result)
 	}
 
 	return results, nil
