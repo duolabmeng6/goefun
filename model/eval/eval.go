@@ -11,8 +11,11 @@ func E到字节集(value interface{}) []byte {
 func E到字节(value interface{}) byte {
 	return gconv.Byte(value)
 }
-func E到整数(value interface{}) int64 {
+func E到整数64位(value interface{}) int64 {
 	return gconv.Int64(value)
+}
+func E到整数(value interface{}) int {
+	return gconv.Int(value)
 }
 func E到数值(value interface{}) float64 {
 	return gconv.Float64(value)
