@@ -22,6 +22,7 @@ func TestNewESSH(t *testing.T) {
 		return
 	}
 	println("连接成功")
+
 	//执行命令, _ := ssh.E执行命令("ls -l")
 	//println("ls -l", 执行命令)
 	//执行命令, _ = ssh.E执行命令("pwd")
