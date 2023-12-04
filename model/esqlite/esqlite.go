@@ -45,52 +45,63 @@ func (e *ESqlite) E打开内存数据库() error {
 }
 
 func (e *ESqlite) E关闭数据库() error {
-	db, err := e.db.DB()
+	var err error
+	sqlDB, err := e.db.DB()
+	err = sqlDB.Close()
 	if err != nil {
-		return err
+		return fmt.Errorf("无法关闭数据库: %w", err)
 	}
-	return db.Close()
+	return nil
 }
 
 func (e *ESqlite) E执行SQL(命令 string) error {
-	result := e.db.Exec(命令).Error
-	return result
+	result := e.db.Exec(命令)
+	if result.Error != nil {
+		return fmt.Errorf("执行SQL失败: %w", result.Error)
+	}
+	return nil
 }
 func (e *ESqlite) E执行查询SQL(命令 string) ([]map[string]interface{}, error) {
 	rows, err := e.db.Raw(命令).Rows()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("执行查询SQL失败: %w", err)
 	}
 	defer rows.Close()
 
 	columns, err := rows.Columns()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("获取列名失败: %w", err)
 	}
 
-	var results []map[string]interface{}
+	values := make([]interface{}, len(columns))
+	scanArgs := make([]interface{}, len(values))
+	for i := range values {
+		scanArgs[i] = &values[i]
+	}
+
+	results := []map[string]interface{}{}
 	for rows.Next() {
-		var result = make(map[string]interface{})
-		var container = make([]interface{}, len(columns))
-		var containerPointers = make([]interface{}, len(columns))
-
-		for i := range container {
-			containerPointers[i] = &container[i]
+		err = rows.Scan(scanArgs...)
+		if err != nil {
+			return nil, fmt.Errorf("扫描行失败: %w", err)
 		}
 
-		if err := rows.Scan(containerPointers...); err != nil {
-			return nil, err
-		}
-
-		for i, colName := range columns {
-			val := container[i]
-			b, ok := val.([]byte)
-			if ok {
-				val = string(b)
+		resultMap := map[string]interface{}{}
+		for k, v := range values {
+			key := columns[k]
+			value := ""
+			switch v := v.(type) {
+			case []byte:
+				value = string(v)
+			default:
+				value = fmt.Sprintf("%v", v)
 			}
-			result[colName] = val
+			resultMap[key] = value
 		}
-		results = append(results, result)
+		results = append(results, resultMap)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("读取行失败: %w", err)
 	}
 
 	return results, nil
