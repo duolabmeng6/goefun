@@ -1,3 +1,4 @@
+// Package ejson Description: 用于处理json的工具
 package ejson
 
 import (

@@ -1,3 +1,4 @@
+// Package esqlite Description: sqlite数据库操作封装
 package esqlite
 
 import (

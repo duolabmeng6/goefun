@@ -1,3 +1,4 @@
+// Package eDingtalkBot Description: 钉钉流式机器人
 package eDingtalkBot
 
 import (
