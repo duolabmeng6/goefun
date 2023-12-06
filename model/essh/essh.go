@@ -102,7 +102,7 @@ func (e *ESSH) E关闭() error {
 	return e.client.Close()
 }
 
-func (e *ESSH) _sftpContent() error {
+func (e *ESSH) _sftpConn() error {
 	if e.sftpClient == nil {
 		var err error
 		e.sftpClient, err = sftp.NewClient(e.client)
@@ -113,7 +113,7 @@ func (e *ESSH) _sftpContent() error {
 	return nil
 }
 func (e *ESSH) E上传文件(本地文件 string, 远程文件 string, fn func(进度 int)) error {
-	err := e._sftpContent()
+	err := e._sftpConn()
 	if err != nil {
 		return err
 	}
@@ -168,7 +168,7 @@ func (e *ESSH) E上传文件(本地文件 string, 远程文件 string, fn func(�
 	return nil
 }
 func (e *ESSH) E下载文件(远程文件 string, 本地文件 string, fn func(进度 int)) error {
-	err := e._sftpContent()
+	err := e._sftpConn()
 	if err != nil {
 		return err
 	}
@@ -222,7 +222,7 @@ func (e *ESSH) E下载文件(远程文件 string, 本地文件 string, fn func(�
 }
 
 func (e *ESSH) E取文件列表(远程文件夹 string) ([]string, error) {
-	err := e._sftpContent()
+	err := e._sftpConn()
 	if err != nil {
 		return nil, err
 	}
