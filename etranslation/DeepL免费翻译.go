@@ -3,7 +3,7 @@ package etranslation
 import (
 	"encoding/json"
 	"github.com/duolabmeng6/goefun/ehttp"
-	"github.com/duolabmeng6/goefun/etool"
+	"github.com/duolabmeng6/goefun/model/ejson"
 	"math/rand"
 	"strings"
 	"time"
@@ -287,6 +287,6 @@ func (b *DeepL免费翻译) E翻译(text, from, to string) (string, error) {
 		return "", err2
 	}
 	//println(返回文本)
-	翻译结果 := etool.Json解析文本(返回文本, "result.texts.0.text")
+	翻译结果 := ejson.Json解析文本(返回文本, "result.texts.0.text")
 	return 翻译结果, nil
 }

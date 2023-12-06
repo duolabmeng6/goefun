@@ -1,4 +1,4 @@
-package etool
+package egzip
 
 import (
 	"bytes"

@@ -6,7 +6,7 @@ import (
 	openapi "github.com/alibabacloud-go/darabonba-openapi/v2/client"
 	util "github.com/alibabacloud-go/tea-utils/v2/service"
 	"github.com/alibabacloud-go/tea/tea"
-	"github.com/duolabmeng6/goefun/etool"
+	"github.com/duolabmeng6/goefun/model/ejson"
 )
 
 // 阿里云翻译结构体
@@ -297,7 +297,7 @@ func (b *阿里云翻译) E翻译(text, from, to string) (string, error) {
 	}
 
 	//println(ret.Body.String())
-	翻译结果 := etool.Json解析文本(ret.Body.String(), "Data.Translated")
+	翻译结果 := ejson.Json解析文本(ret.Body.String(), "Data.Translated")
 
 	return 翻译结果, nil
 }

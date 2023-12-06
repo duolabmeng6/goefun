@@ -23,6 +23,7 @@ type ESSHI interface {
 }
 
 type ESSH struct {
+	ESSHI
 	client     *ssh.Client
 	sftpClient *sftp.Client
 }
@@ -35,6 +36,7 @@ func NewESSH() *ESSH {
 }
 
 func (e *ESSH) E连接服务器(服务器IP地址 string, 端口 int, 用户名 string, 密码 string) error {
+	ecore.qw
 	config := &ssh.ClientConfig{
 		User: 用户名,
 		Auth: []ssh.AuthMethod{

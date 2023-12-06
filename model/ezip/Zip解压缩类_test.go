@@ -1,4 +1,4 @@
-package etool
+package ezip
 
 import (
 	"github.com/duolabmeng6/goefun/ecore"

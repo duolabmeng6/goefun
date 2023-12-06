@@ -6,7 +6,7 @@ import (
 	"github.com/duolabmeng6/goefun/ecache"
 	"github.com/duolabmeng6/goefun/ecore"
 	"github.com/duolabmeng6/goefun/ehttp"
-	"github.com/duolabmeng6/goefun/etool"
+	"github.com/duolabmeng6/goefun/model/ejson"
 )
 
 func E钉钉取Token(appkey string, appsecret string) string {
@@ -22,7 +22,7 @@ func E钉钉取Token(appkey string, appsecret string) string {
 		return ""
 	}
 	// access_token
-	access_token := etool.Json解析文本(ret, "access_token")
+	access_token := ejson.Json解析文本(ret, "access_token")
 	ec.Set(appkey+appsecret, access_token, 7100)
 
 	return access_token
@@ -48,10 +48,10 @@ func E钉钉上传文件(token string, path string) (string, error) {
 	//print(string(ret))
 	// {"errcode":0,"errmsg":"ok","media_id":"@lAjPDfmVdtXMN-DOfcm4p856y8EH","created_at":1700808802015,"type":"file"}
 	// {"errcode":60020,"errmsg":"访问ip不在白名单之中，请参考FAQ：https://open.dingtalk.com/document/org-faq/app-faq,request ip=120.230.136.230 appKey\u0028dingmf6cuictoilijt0g\u0029"}
-	media_id := etool.Json解析文本(string(ret), "media_id")
+	media_id := ejson.Json解析文本(string(ret), "media_id")
 	if media_id == "" {
 
-		return "", errors.New(etool.Json解析文本(string(ret), "errmsg"))
+		return "", errors.New(ejson.Json解析文本(string(ret), "errmsg"))
 	}
 
 	return media_id, nil

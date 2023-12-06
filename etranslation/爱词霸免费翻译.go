@@ -4,7 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"github.com/duolabmeng6/goefun/ehttp"
-	"github.com/duolabmeng6/goefun/etool"
+	"github.com/duolabmeng6/goefun/model/ejson"
 	"net/url"
 	"strings"
 )
@@ -270,7 +270,7 @@ func (b *爱词霸免费翻译) E翻译(text, from, to string) (string, error) {
 		return "", err2
 	}
 	//println(返回文本)
-	翻译结果 := etool.Json解析文本(返回文本, "content.out")
+	翻译结果 := ejson.Json解析文本(返回文本, "content.out")
 
 	return 翻译结果, nil
 }

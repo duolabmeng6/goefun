@@ -6,7 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/duolabmeng6/goefun/ehttp"
-	"github.com/duolabmeng6/goefun/etool"
+	"github.com/duolabmeng6/goefun/model/ejson"
 	"github.com/google/uuid"
 	"net/url"
 	"time"
@@ -89,7 +89,7 @@ func (b *有道翻译) E翻译(text, from, to string) (string, error) {
 		return "", errors.New("访问失败")
 	}
 	print(返回文本)
-	翻译结果 := etool.Json解析文本(返回文本, "translation")
+	翻译结果 := ejson.Json解析文本(返回文本, "translation")
 
 	return 翻译结果, nil
 }

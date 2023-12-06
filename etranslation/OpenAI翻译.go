@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"github.com/duolabmeng6/goefun/etool"
+	"github.com/duolabmeng6/goefun/model/ejson"
 	"io"
 	"net/http"
 	"strings"
@@ -294,7 +294,7 @@ func (b *OpenAI翻译) E翻译(text, from, to string) (string, error) {
 		return "", err
 	}
 	//fmt.Printf("%s\n", bodyText)
-	翻译结果 := etool.Json解析文本(string(bodyText), "choices.0.text")
+	翻译结果 := ejson.Json解析文本(string(bodyText), "choices.0.text")
 	// 如果翻译结果 第一个是换行符 则删除第一个换行符
 	if strings.HasPrefix(翻译结果, "\n") {
 		翻译结果 = strings.TrimPrefix(翻译结果, "\n")

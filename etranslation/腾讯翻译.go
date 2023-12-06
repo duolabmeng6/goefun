@@ -2,7 +2,7 @@ package etranslation
 
 import (
 	"errors"
-	"github.com/duolabmeng6/goefun/etool"
+	"github.com/duolabmeng6/goefun/model/ejson"
 
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 	errors2 "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/errors"
@@ -284,7 +284,7 @@ func (b *腾讯翻译) E翻译(text, from, to string) (string, error) {
 	// 输出json格式的字符串回包
 	//fmt.Printf("%s", response.ToJsonString())
 
-	翻译结果 := etool.Json解析文本(response.ToJsonString(), "Response.TargetText")
+	翻译结果 := ejson.Json解析文本(response.ToJsonString(), "Response.TargetText")
 
 	return 翻译结果, nil
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/duolabmeng6/goefun/ecore"
 	"github.com/duolabmeng6/goefun/etool"
+	"github.com/duolabmeng6/goefun/model/ejson"
 	"github.com/duolabmeng6/goefun/model/etts"
 	"github.com/open-dingtalk/dingtalk-stream-sdk-go/chatbot"
 	"strconv"
@@ -26,9 +27,9 @@ func Test_newEJson(t *testing.T) {
 			if data.Msgtype == "text" {
 				收到消息 = ecore.E删首尾空(data.Text.Content)
 			} else if data.Msgtype == "audio" {
-				ejson := etool.NewJson()
-				ejson.LoadFromJsonString(etool.E到Json(data.Content))
-				收到消息 = ecore.E删首尾空(ejson.GetString("recognition"))
+				ej := etool.NewJson()
+				ej.LoadFromJsonString(ejson.E到Json(data.Content))
+				收到消息 = ecore.E删首尾空(ej.GetString("recognition"))
 			}
 
 			//发送文本消息

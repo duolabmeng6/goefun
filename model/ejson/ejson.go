@@ -19,6 +19,7 @@ type EJsonI interface {
 }
 
 type EJson struct {
+	EJsonI
 	data map[string]interface{}
 }
 

@@ -4,19 +4,15 @@ import (
 	"github.com/duolabmeng6/goefun/ecore"
 	"github.com/duolabmeng6/goefun/egin"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 	"testing"
 )
 
 func TestNewHttp(t *testing.T) {
 	http := NewHttp()
-	ret, flag := http.Get("https://www.taobao.com/help/getip.php")
-	if flag {
-		t.Log("访问失败", ret)
-	} else {
-		t.Log(flag, ret)
-	}
-
+	ret, _ := http.Get("https://www.taobao.com/help/getip.php")
+	t.Log("访问失败", ret)
 	//
 	//retByte, flag := http.GetByte("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596964553726&di=e77c87e7f2c5a8b0b12bdf6c13fbefe9&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F36%2F48%2F19300001357258133412489354717.jpg")
 	//if flag {
@@ -69,4 +65,34 @@ func TestPOST(t *testing.T) {
 	//t.Log(flag, ret)
 	ret, flag := ehttp.Post("http://127.0.0.1:8080/test?ga=1&gb=2", jsondata)
 	t.Log(flag, ret)
+}
+func testhttp() {
+	tt := ecore.New时间统计类()
+
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", "https://www.baidu.com/", nil)
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+	log.Println(tt.E取毫秒())
+
+}
+
+func TestNewHttp2(t *testing.T) {
+	ehttp := NewHttp()
+
+	testhttp()
+	testhttp()
+	testhttp()
+	testhttp()
+	testhttp()
+
+	ehttp.Get("https://www.baidu.com/")
+	ehttp.Get("https://www.baidu.com/")
+	ehttp.Get("https://www.baidu.com/")
+	ehttp.Get("https://www.baidu.com/")
+	ehttp.Get("https://www.baidu.com/")
+
 }

@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func Test_newEJson(t *testing.T) {
+func Test_newETTS(t *testing.T) {
 	etts := NewETTS("./tmp")
 	文本转语音, err := etts.E文本转语音("你好")
 	if err != nil {

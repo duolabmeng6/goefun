@@ -27,6 +27,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/kr/pretty v0.3.0
 	github.com/longbai/edgetts v0.0.0-20230420124258-9b19b13a79f5
+	github.com/open-dingtalk/dingtalk-stream-sdk-go v0.7.0
 	github.com/pkg/sftp v1.13.6
 	github.com/qiniu/go-sdk/v7 v7.15.0
 	github.com/robertkrimen/otto v0.2.1
