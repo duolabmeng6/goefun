@@ -2,7 +2,7 @@ package etranslation
 
 import (
 	"github.com/duolabmeng6/goefun/ehttp"
-	"github.com/duolabmeng6/goefun/etool"
+	"github.com/duolabmeng6/goefun/model/ejson"
 	"html"
 	"net/url"
 	"strings"
@@ -270,7 +270,7 @@ func (b *阿里云免费翻译) E翻译(text, from, to string) (string, error) {
 	}
 	println(返回文本)
 
-	翻译结果 := etool.Json解析文本(返回文本, "data.translateText")
+	翻译结果 := ejson.Json解析文本(返回文本, "data.translateText")
 	翻译结果 = html.UnescapeString(翻译结果)
 
 	return 翻译结果, nil

@@ -3,7 +3,7 @@ package etranslation
 import (
 	"errors"
 	"github.com/duolabmeng6/goefun/ehttp"
-	"github.com/duolabmeng6/goefun/etool"
+	"github.com/duolabmeng6/goefun/model/ejson"
 )
 
 // 彩云小译结构体
@@ -52,7 +52,7 @@ func (b *彩云小译) E翻译(text, from, to string) (string, error) {
 	if err2 != nil {
 		return "", errors.New("访问失败")
 	}
-	翻译结果 := etool.Json解析文本(返回文本, "target")
+	翻译结果 := ejson.Json解析文本(返回文本, "target")
 
 	return 翻译结果, nil
 }

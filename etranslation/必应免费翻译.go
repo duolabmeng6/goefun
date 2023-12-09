@@ -3,7 +3,7 @@ package etranslation
 import (
 	"errors"
 	"github.com/duolabmeng6/goefun/ehttp"
-	"github.com/duolabmeng6/goefun/etool"
+	"github.com/duolabmeng6/goefun/model/ejson"
 	"strings"
 )
 
@@ -281,7 +281,7 @@ user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
 	}
 	//println(返回文本)
 
-	翻译结果 := etool.Json解析文本(返回文本, "0.translations.0.text")
+	翻译结果 := ejson.Json解析文本(返回文本, "0.translations.0.text")
 
 	return 翻译结果, nil
 }

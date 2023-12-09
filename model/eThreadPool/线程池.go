@@ -1,4 +1,4 @@
-package etool
+package eThreadPool
 
 import (
 	"github.com/duolabmeng6/goefun/src/sizedwaitgroup"

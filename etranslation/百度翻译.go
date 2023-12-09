@@ -6,7 +6,7 @@ import (
 	"errors"
 	"github.com/duolabmeng6/goefun/ecore"
 	"github.com/duolabmeng6/goefun/ehttp"
-	"github.com/duolabmeng6/goefun/etool"
+	"github.com/duolabmeng6/goefun/model/ejson"
 	"net/url"
 	"strconv"
 )
@@ -116,7 +116,7 @@ func (b *百度翻译) E翻译(text, from, to string) (string, error) {
 	if err2 != nil {
 		return "", errors.New("访问失败")
 	}
-	翻译结果 := etool.Json解析文本(返回文本, "trans_result.0.dst")
+	翻译结果 := ejson.Json解析文本(返回文本, "trans_result.0.dst")
 
 	return 翻译结果, nil
 }

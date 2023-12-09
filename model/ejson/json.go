@@ -1,8 +1,7 @@
-package etool
+package ejson
 
 import (
 	"encoding/json"
-
 	"github.com/tidwall/gjson"
 )
 

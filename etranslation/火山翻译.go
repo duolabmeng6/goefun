@@ -2,7 +2,7 @@ package etranslation
 
 import (
 	"errors"
-	"github.com/duolabmeng6/goefun/etool"
+	"github.com/duolabmeng6/goefun/model/ejson"
 	"github.com/volcengine/volc-sdk-golang/base"
 	"net/http"
 	"net/url"
@@ -122,7 +122,7 @@ func (b *火山翻译) E翻译(text, from, to string) (string, error) {
 	}
 	//fmt.Printf("%d %s\n", code, string(resp))
 
-	翻译结果 := etool.Json解析文本(string(resp), "TranslationList.0.Translation")
+	翻译结果 := ejson.Json解析文本(string(resp), "TranslationList.0.Translation")
 
 	return 翻译结果, nil
 }

@@ -1,6 +1,7 @@
-package etool
+package ejson
 
 import (
+	"github.com/duolabmeng6/goefun/etool"
 	"testing"
 )
 
@@ -34,10 +35,10 @@ func TestJson解析文本(t *testing.T) {
 }
 
 func TestE到Json(t *testing.T) {
-	t.Log("E到Json", E到Json(H{
+	t.Log("E到Json", E到Json(etool.H{
 		"aaa": 123,
 		"bbb": 321,
-		"ccc": H{
+		"ccc": etool.H{
 			"c1": 123,
 			"c2": 321,
 		},
