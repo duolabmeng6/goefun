@@ -2,9 +2,11 @@
 package ejson
 
 import (
+	"bufio"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"gopkg.in/ini.v1"
 	"reflect"
 	"regexp"
 	"strconv"
@@ -13,6 +15,8 @@ import (
 
 type EJsonI interface {
 	E加载(字符串 string) error
+	E加载从env配置内容(字符串 string) error
+	E加载从ini配置内容(字符串 string) error
 	E导出为JSON() (string, error)
 	E置值(pathKey string, value any) error
 	E取值(pathKey string) (any, error)
@@ -104,4 +108,74 @@ func (e *EJson) E取值(pathKey string) (any, error) {
 	}
 
 	return current, nil
+}
+
+// E加载从env配置内容 从.env格式字符串加载内容
+func (e *EJson) E加载从env配置内容(env内容 string) error {
+	if env内容 == "" {
+		return errors.New("env内容不能为空")
+	}
+
+	scanner := bufio.NewScanner(strings.NewReader(env内容))
+	result := make(map[string]interface{})
+
+	for scanner.Scan() {
+		line := scanner.Text()
+
+		// 跳过空行和注释
+		if line == "" || strings.HasPrefix(line, "#") {
+			continue
+		}
+
+		parts := strings.SplitN(line, "=", 2)
+		if len(parts) != 2 {
+			return errors.New("env格式错误: " + line)
+		}
+
+		key := strings.TrimSpace(parts[0])
+		value := strings.TrimSpace(parts[1])
+
+		// 简单处理值的引号
+		if strings.HasPrefix(value, "\"") && strings.HasSuffix(value, "\"") {
+			value = strings.Trim(value, "\"")
+		} else if strings.HasPrefix(value, "'") && strings.HasSuffix(value, "'") {
+			value = strings.Trim(value, "'")
+		}
+
+		result[key] = value
+	}
+
+	if err := scanner.Err(); err != nil {
+		return err
+	}
+
+	e.data = result
+	return nil
+}
+
+// E加载从ini配置内容 从INI格式字符串加载内容
+func (e *EJson) E加载从ini配置内容(INI字符串 string) error {
+	cfg, err := ini.Load([]byte(INI字符串))
+	if err != nil {
+		return fmt.Errorf("读取INI字符串失败: %w", err)
+	}
+
+	result := make(map[string]interface{})
+
+	for _, section := range cfg.Sections() {
+		sectionName := section.Name()
+		if sectionName == ini.DefaultSection {
+			continue
+		}
+
+		sectionMap := make(map[string]interface{})
+		for _, key := range section.Keys() {
+			sectionMap[key.Name()] = key.Value()
+		}
+
+		result[sectionName] = sectionMap
+	}
+
+	e.data = result
+	return nil
 }
