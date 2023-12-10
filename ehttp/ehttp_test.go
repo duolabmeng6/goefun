@@ -66,11 +66,12 @@ func TestPOST(t *testing.T) {
 	ret, flag := ehttp.Post("http://127.0.0.1:8080/test?ga=1&gb=2", jsondata)
 	t.Log(flag, ret)
 }
+
 func testhttp() {
 	tt := ecore.New时间统计类()
 
 	client := &http.Client{}
-	req, err := http.NewRequest("GET", "https://www.baidu.com/", nil)
+	req, err := http.NewRequest("GET", "https://www.qq.com/", nil)
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Fatal(err)
@@ -89,10 +90,10 @@ func TestNewHttp2(t *testing.T) {
 	testhttp()
 	testhttp()
 
-	ehttp.Get("https://www.baidu.com/")
-	ehttp.Get("https://www.baidu.com/")
-	ehttp.Get("https://www.baidu.com/")
-	ehttp.Get("https://www.baidu.com/")
-	ehttp.Get("https://www.baidu.com/")
+	ehttp.Get("https://www.qq.com/")
+	ehttp.Get("https://www.qq.com/")
+	ehttp.Get("https://www.qq.com/")
+	ehttp.Get("https://www.qq.com/")
+	ehttp.Get("https://www.qq.com/")
 
 }
