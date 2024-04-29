@@ -38,8 +38,8 @@ type Ehttp struct {
 	E代理方式 int
 	//代理ip
 	Proxy string
-	ProxyUser string
-	ProxyPass string
+	//代理用户名:代理密码
+	ProxyAuth string
 	//全局头信息
 	全局头信息 string
 	//默认头信息
@@ -447,9 +447,8 @@ func (this *Ehttp) setObj() *Ehttp {
 		trans.Proxy = func(_ *http.Request) (*url.URL, error) {
 			return url.Parse(this.Proxy)
 		}
-		if len(this.ProxyUser)>0 && len(this.ProxyPass)>0{
-			auth := this.ProxyUser + ":" + this.ProxyPass
-			encodedAuth := base64.StdEncoding.EncodeToString([]byte(auth))
+		if len(this.ProxyAuth) > 3 && strings.Index(this.ProxyAuth, ":") > -1{
+			encodedAuth := base64.StdEncoding.EncodeToString([]byte(this.ProxyAuth))
 
 			trans.ProxyConnectHeader = http.Header{
 				"Proxy-Authorization": []string{"Basic " + encodedAuth},
@@ -474,23 +473,22 @@ func (this *Ehttp) setObj() *Ehttp {
 	return this
 }
 
-// SetProxy 设置代理访问, 如果没有 用户名 密码，则留""
+// SetProxy 设置代理访问, 如果没有 用户名 密码，则留"",带用户名和密码的用法：SetProxy("127.0.0.1:8888","user:pass") 不带的用法：SetProxy("127.0.0.1:8888","")
 //
 //	SetProxy("http://127.0.0.1:8888")
-func (this *Ehttp) SetProxy(proxy string,proxyUser string,proxyPass string) *Ehttp {
+func (this *Ehttp) SetProxy(proxy string,proxyAuth string) *Ehttp {
 	//检查 前面是否带有 http:// 或者 https:// 如果没有则自动添加 socks5:// 则不自动添加
 	if strings.Index(proxy, "://") == -1 {
 		proxy = "http://" + proxy
 	}
 
 	this.Proxy = proxy
-	this.ProxyUser = proxyUser
-	this.ProxyPass = proxyPass
+	this.ProxyAuth = proxyAuth
 
 	return this
 }
-func (this *Ehttp) E设置全局HTTP代理(proxy string,proxyUser string,proxyPass string) *Ehttp {
-	return this.SetProxy(proxy,proxyUser,proxyPass)
+func (this *Ehttp) E设置全局HTTP代理(proxy string,proxyAuth string) *Ehttp {
+	return this.SetProxy(proxy,proxyAuth)
 }
 func (this *Ehttp) SetTimeOut(超时时间 int) *Ehttp {
 	this.TimeOut = 超时时间
