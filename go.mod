@@ -13,6 +13,7 @@ require (
 	github.com/aliyun/aliyun-oss-go-sdk v2.2.7+incompatible
 	github.com/axgle/mahonia v0.0.0-20180208002826-3358181d7394
 	github.com/boombuler/barcode v1.0.2
+	github.com/bwmarrin/snowflake v0.3.0
 	github.com/elliotchance/orderedmap/v2 v2.2.0
 	github.com/ganlvtech/go-exportable-cookiejar v0.0.0-20181231191301-34af33d7487e
 	github.com/gin-gonic/gin v1.9.1
@@ -29,6 +30,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/kr/pretty v0.3.0
 	github.com/longbai/edgetts v0.0.0-20230420124258-9b19b13a79f5
+	github.com/mileusna/useragent v1.3.5
 	github.com/mozillazg/go-pinyin v0.20.0
 	github.com/open-dingtalk/dingtalk-stream-sdk-go v0.7.0
 	github.com/pkg/sftp v1.13.6
