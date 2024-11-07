@@ -33,9 +33,9 @@ func NewETTS(E存放目录 string) *ETTS {
 		"云希(男孩)":   "zh-CN-YunxiNeural",
 		"云夏(女孩)":   "zh-CN-YunxiaNeural",
 		"云扬(男青年)":  "zh-CN-YunyangNeural",
-		"女粤语1":     "zh-CN-HiuGaaiNeural",
-		"女粤语2":     "zh-CN-HiuMaanNeural",
-		"男粤语":      "zh-CN-WanLungNeural",
+		"女粤语1":     "zh-HK-HiuGaaiNeural",
+		"女粤语2":     "zh-HK-HiuMaanNeural",
+		"男粤语":      "zh-HK-WanLungNeural",
 		"小北东北人":    "zh-CN-XiaobeiNeural",
 	}
 	e.E设置音色("晓晓(女)")
