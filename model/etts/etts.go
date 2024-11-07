@@ -19,11 +19,11 @@ type ETTS struct {
 	ETTSI
 	tts             *edgetts.EdgeTTS
 	displayShortMap map[string]string
-	当前音色            string
-	存放目录            string
+	E当前音色           string
+	E存放目录           string
 }
 
-func NewETTS(存放目录 string) *ETTS {
+func NewETTS(E存放目录 string) *ETTS {
 	e := &ETTS{}
 	e.E创建()
 	e.displayShortMap = map[string]string{
@@ -39,16 +39,16 @@ func NewETTS(存放目录 string) *ETTS {
 		"小北东北人":    "zh-CN-XiaobeiNeural",
 	}
 	e.E设置音色("晓晓(女)")
-	e.存放目录 = 存放目录
-	if 存放目录 == "" {
-		e.存放目录 = "./tmp"
+	e.E存放目录 = E存放目录
+	if E存放目录 == "" {
+		e.E存放目录 = "./tmp"
 	}
-	if ecore.E文件是否存在(e.存放目录) == false {
-		ecore.E创建目录(e.存放目录)
+	if ecore.E文件是否存在(e.E存放目录) == false {
+		ecore.E创建目录(e.E存放目录)
 	}
 	//检查最后一个字符是否为/
-	if e.存放目录[len(e.存放目录)-1:] != "/" {
-		e.存放目录 = e.存放目录 + "/"
+	if e.E存放目录[len(e.E存放目录)-1:] != "/" {
+		e.E存放目录 = e.E存放目录 + "/"
 	}
 
 	return e
@@ -61,16 +61,16 @@ func (e *ETTS) E创建() error {
 
 func (e *ETTS) E文本转语音(文本 string) (string, error) {
 
-	随机文件名 := e.存放目录 + etool.E取UUID() + ".mp3"
+	随机文件名 := e.E存放目录 + etool.E取UUID() + ".mp3"
 	tts := new(edgetts.EdgeTTS)
-	err := edgetts.TextToMp3(tts, 文本, e.当前音色, 随机文件名)
+	err := edgetts.TextToMp3(tts, 文本, e.E当前音色, 随机文件名)
 	if err != nil {
 		return "", err
 	}
 	return 随机文件名, nil
 }
 func (e *ETTS) E设置音色(人名 string) {
-	e.当前音色 = e.displayShortMap[人名]
+	e.E当前音色 = e.displayShortMap[人名]
 }
 
 // E取MP3时间 读取MP3文件的持续时间（以毫秒为单位）
