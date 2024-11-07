@@ -17,7 +17,7 @@ type ETTSI interface {
 
 type ETTS struct {
 	ETTSI
-	tts             *edgetts.EdgeTTS
+	TTS             *edgetts.EdgeTTS
 	displayShortMap map[string]string
 	E当前音色           string
 	E存放目录           string
@@ -26,6 +26,7 @@ type ETTS struct {
 func NewETTS(E存放目录 string) *ETTS {
 	e := &ETTS{}
 	e.E创建()
+
 	e.displayShortMap = map[string]string{
 		"晓晓(女)":    "zh-CN-XiaoxiaoNeural",
 		"晓伊(女)":    "zh-CN-XiaoyiNeural",
@@ -55,15 +56,13 @@ func NewETTS(E存放目录 string) *ETTS {
 }
 
 func (e *ETTS) E创建() error {
-	e.tts = new(edgetts.EdgeTTS)
+	e.TTS = new(edgetts.EdgeTTS)
 	return nil
 }
 
 func (e *ETTS) E文本转语音(文本 string) (string, error) {
-
 	随机文件名 := e.E存放目录 + etool.E取UUID() + ".mp3"
-	tts := new(edgetts.EdgeTTS)
-	err := edgetts.TextToMp3(tts, 文本, e.E当前音色, 随机文件名)
+	err := edgetts.TextToMp3(e.TTS, 文本, e.E当前音色, 随机文件名)
 	if err != nil {
 		return "", err
 	}
