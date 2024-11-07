@@ -301,3 +301,20 @@ func TestE文件保存(t *testing.T) {
 	E文件保存(E取运行目录()+"/aaa/ccc/ddd/2.txt", "1234")
 
 }
+
+func TestE路径(t *testing.T) {
+	// 测试代码示例
+	fmt.Println("路径取目录:", E路径取目录("/a/b/c"))
+	fmt.Println("路径取基本部分:", E路径取基本部分("/a/b/c"))
+	fmt.Println("路径连接:", E路径连接("a", "b", "c"))
+	fmt.Println("路径清理:", E路径清理("/a//b/../c"))
+	fmt.Println("路径取扩展名:", E路径取扩展名("file.txt"))
+	fmt.Println("路径是否为绝对路径:", E路径是否为绝对路径("/a/b/c"))
+
+	匹配结果, 错误 := E路径是否匹配("*.txt", "file.txt")
+	if 错误 != nil {
+		fmt.Println("匹配错误:", 错误)
+	} else {
+		fmt.Println("匹配结果:", 匹配结果)
+	}
+}

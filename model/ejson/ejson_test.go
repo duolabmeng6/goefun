@@ -131,3 +131,63 @@ KEY4=Value4`
 		t.Logf("KEY4: %v", value)
 	}
 }
+
+// Test_E加载从yaml配置内容 测试从YAML格式字符串加载内容
+func Test_E加载从yaml配置内容(t *testing.T) {
+	yaml内容 := `
+key1: Value1
+key2: Value2
+key3:
+  nestedKey1: NestedValue1
+  nestedKey2: NestedValue2
+`
+
+	ej := NewEJson()
+	err := ej.E加载从yaml配置内容(yaml内容)
+	if err != nil {
+		t.Fatalf("E加载从yaml配置内容失败: %v", err)
+	}
+
+	expected := map[string]interface{}{
+		"key1": "Value1",
+		"key2": "Value2",
+		"key3": map[interface{}]interface{}{
+			"nestedKey1": "NestedValue1",
+			"nestedKey2": "NestedValue2",
+		},
+	}
+
+	if !reflect.DeepEqual(ej.data, expected) {
+		t.Errorf("预期结果 %+v, 实际结果 %+v", expected, ej.data)
+	}
+
+	t.Log(ej.E取值("key1"))
+	t.Log(ej.E取值("key2"))
+	t.Log(ej.E取值("key3"))
+
+}
+
+func Test_E加载从toml配置内容(t *testing.T) {
+	toml内容 := `
+[key1]
+value = "Value1"
+
+[key2]
+value = "Value2"
+`
+
+	ej := NewEJson()
+	err := ej.E加载从toml配置内容(toml内容)
+	if err != nil {
+		t.Fatalf("E加载从toml配置内容失败: %v", err)
+	}
+
+	expected := map[string]interface{}{
+		"key1": map[string]interface{}{"value": "Value1"},
+		"key2": map[string]interface{}{"value": "Value2"},
+	}
+
+	if !reflect.DeepEqual(ej.data, expected) {
+		t.Errorf("预期结果 %+v, 实际结果 %+v", expected, ej.data)
+	}
+}

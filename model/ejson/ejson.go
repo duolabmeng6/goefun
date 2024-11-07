@@ -6,7 +6,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/BurntSushi/toml"
 	"gopkg.in/ini.v1"
+	"gopkg.in/yaml.v2"
 	"reflect"
 	"regexp"
 	"strconv"
@@ -17,6 +19,8 @@ type EJsonI interface {
 	E加载(字符串 string) error
 	E加载从env配置内容(字符串 string) error
 	E加载从ini配置内容(字符串 string) error
+	E加载从yaml配置内容(字符串 string) error
+	E加载从toml配置内容(字符串 string) error
 	E导出为JSON() (string, error)
 	E置值(pathKey string, value any) error
 	E取值(pathKey string) (any, error)
@@ -177,5 +181,50 @@ func (e *EJson) E加载从ini配置内容(INI字符串 string) error {
 	}
 
 	e.data = result
+	return nil
+}
+
+// E加载从yaml配置内容 从YAML格式字符串加载内容
+func (e *EJson) E加载从yaml配置内容(yaml内容 string) error {
+	var result interface{}
+	err := yaml.Unmarshal([]byte(yaml内容), &result)
+	if err != nil {
+		return err
+	}
+
+	// 将YAML解析的结果转换为map[string]interface{}以匹配EJson的数据结构
+	asMap, ok := result.(map[interface{}]interface{})
+	if !ok {
+		return fmt.Errorf("YAML内容不是有效的顶层映射")
+	}
+
+	convertedMap := make(map[string]interface{})
+	for key, value := range asMap {
+		strKey, ok := key.(string)
+		if !ok {
+			return fmt.Errorf("无效的键类型: %T", key)
+		}
+		convertedMap[strKey] = value
+	}
+
+	e.data = convertedMap
+	return nil
+}
+
+// E加载从toml配置内容 从TOML格式字符串加载内容
+func (e *EJson) E加载从toml配置内容(toml内容 string) error {
+	var result interface{}
+	err := toml.Unmarshal([]byte(toml内容), &result)
+	if err != nil {
+		return err
+	}
+
+	// 转换为 map[string]interface{} 类型
+	asMap, ok := result.(map[string]interface{})
+	if !ok {
+		return fmt.Errorf("TOML内容不是有效的顶层映射")
+	}
+
+	e.data = asMap
 	return nil
 }
