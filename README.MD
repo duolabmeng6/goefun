@@ -59,3 +59,9 @@ func main() {
 # 文档
 
 https://pkg.go.dev/github.com/duolabmeng6/goefun#section-sourcefiles
+
+# 赞赏
+
+如果觉得不错，可以请作者喝杯咖啡
+
+![赞赏](swskm.jpg)
