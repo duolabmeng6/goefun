@@ -1,33 +1,48 @@
+// Copyright 2023 The duolabmeng6 Authors. All rights reserved.
+// license that can be found in the LICENSE file.
+
+// Package ecore 提供文本型数组相关功能
 package ecore
 
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/duolabmeng6/goefun/src/rwmutex"
 	"math"
 	"sort"
 	"strings"
 
+	"github.com/duolabmeng6/goefun/src/rwmutex"
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/gogf/gf/v2/util/grand"
 )
 
+// StrArray 文本型数组结构体，提供并发安全的字符串数组操作
 type StrArray struct {
 	mu    *rwmutex.RWMutex
 	Array []string
 }
 
-// NewStrArray creates and returns an empty Array.
-// The parameter <safe> is used to specify whether using Array in concurrent-safety,
-// which is false in default.
+// NewStrArray 创建并返回一个空的文本型数组。
+//
+// 参数：
+//   - safe: 可选参数，是否启用并发安全模式，默认为false
+//
+// 返回值：
+//   - *StrArray: 新创建的文本型数组
 func NewStrArray(safe ...bool) *StrArray {
 	return NewStrArraySize(0, 0, safe...)
 }
 
-// NewStrArraySize create and returns an Array with given size and cap.
-// The parameter <safe> is used to specify whether using Array in concurrent-safety,
-// which is false in default.
+// NewStrArraySize 创建并返回一个指定大小和容量的文本型数组。
+//
+// 参数：
+//   - size: 数组的初始大小
+//   - cap: 数组的初始容量
+//   - safe: 可选参数，是否启用并发安全模式，默认为false
+//
+// 返回值：
+//   - *StrArray: 新创建的文本型数组
 func NewStrArraySize(size int, cap int, safe ...bool) *StrArray {
 	return &StrArray{
 		mu:    rwmutex.New(safe...),
@@ -35,9 +50,14 @@ func NewStrArraySize(size int, cap int, safe ...bool) *StrArray {
 	}
 }
 
-// NewStrArrayFrom creates and returns an Array with given slice <Array>.
-// The parameter <safe> is used to specify whether using Array in concurrent-safety,
-// which is false in default.
+// NewStrArrayFrom 从现有切片创建并返回一个文本型数组。
+//
+// 参数：
+//   - Array: 字符串切片
+//   - safe: 可选参数，是否启用并发安全模式，默认为false
+//
+// 返回值：
+//   - *StrArray: 新创建的文本型数组
 func NewStrArrayFrom(Array []string, safe ...bool) *StrArray {
 	return &StrArray{
 		mu:    rwmutex.New(safe...),
@@ -45,9 +65,14 @@ func NewStrArrayFrom(Array []string, safe ...bool) *StrArray {
 	}
 }
 
-// NewStrArrayFromCopy creates and returns an Array from a copy of given slice <Array>.
-// The parameter <safe> is used to specify whether using Array in concurrent-safety,
-// which is false in default.
+// NewStrArrayFromCopy 从现有切片的副本创建并返回一个文本型数组。
+//
+// 参数：
+//   - Array: 字符串切片
+//   - safe: 可选参数，是否启用并发安全模式，默认为false
+//
+// 返回值：
+//   - *StrArray: 新创建的文本型数组
 func NewStrArrayFromCopy(Array []string, safe ...bool) *StrArray {
 	newArray := make([]string, len(Array))
 	copy(newArray, Array)
@@ -57,8 +82,13 @@ func NewStrArrayFromCopy(Array []string, safe ...bool) *StrArray {
 	}
 }
 
-// Get returns the value of the specified index,
-// the caller should notice the boundary of the Array.
+// Get 获取指定索引位置的元素值。
+//
+// 参数：
+//   - index: 索引位置
+//
+// 返回值：
+//   - string: 指定位置的元素值
 func (a *StrArray) Get(index int) string {
 	a.mu.RLock()
 	defer a.mu.RUnlock()
@@ -66,7 +96,14 @@ func (a *StrArray) Get(index int) string {
 	return value
 }
 
-// Set sets value to specified index.
+// Set 设置指定索引位置的元素值。
+//
+// 参数：
+//   - index: 索引位置
+//   - value: 要设置的值
+//
+// 返回值：
+//   - *StrArray: 返回数组本身以支持链式调用
 func (a *StrArray) Set(index int, value string) *StrArray {
 	a.mu.Lock()
 	defer a.mu.Unlock()
@@ -74,7 +111,13 @@ func (a *StrArray) Set(index int, value string) *StrArray {
 	return a
 }
 
-// SetArray sets the underlying slice Array with the given <Array>.
+// SetArray 设置底层数组。
+//
+// 参数：
+//   - Array: 要设置的字符串切片
+//
+// 返回值：
+//   - *StrArray: 返回数组本身以支持链式调用
 func (a *StrArray) SetArray(Array []string) *StrArray {
 	a.mu.Lock()
 	defer a.mu.Unlock()
@@ -82,7 +125,13 @@ func (a *StrArray) SetArray(Array []string) *StrArray {
 	return a
 }
 
-// Replace replaces the Array items by given <Array> from the beginning of Array.
+// Replace 从数组开头替换元素。
+//
+// 参数：
+//   - Array: 用于替换的字符串切片
+//
+// 返回值：
+//   - *StrArray: 返回数组本身以支持链式调用
 func (a *StrArray) Replace(Array []string) *StrArray {
 	a.mu.Lock()
 	defer a.mu.Unlock()
@@ -96,7 +145,10 @@ func (a *StrArray) Replace(Array []string) *StrArray {
 	return a
 }
 
-// Sum returns the sum of values in an Array.
+// Sum 计算数组中所有元素转换为整数后的总和。
+//
+// 返回值：
+//   - int: 元素总和
 func (a *StrArray) Sum() (sum int) {
 	a.mu.RLock()
 	defer a.mu.RUnlock()
@@ -106,9 +158,13 @@ func (a *StrArray) Sum() (sum int) {
 	return
 }
 
-// Sort sorts the Array in increasing order.
-// The parameter <reverse> controls whether sort
-// in increasing order(default) or decreasing order
+// Sort 对数组进行排序。
+//
+// 参数：
+//   - reverse: 可选参数，是否降序排列，默认为升序
+//
+// 返回值：
+//   - *StrArray: 返回数组本身以支持链式调用
 func (a *StrArray) Sort(reverse ...bool) *StrArray {
 	a.mu.Lock()
 	defer a.mu.Unlock()
@@ -125,7 +181,13 @@ func (a *StrArray) Sort(reverse ...bool) *StrArray {
 	return a
 }
 
-// SortFunc sorts the Array by custom function <less>.
+// SortFunc 使用自定义函数对数组进行排序。
+//
+// 参数：
+//   - less: 自定义比较函数，返回true表示v1应该排在v2前面
+//
+// 返回值：
+//   - *StrArray: 返回数组本身以支持链式调用
 func (a *StrArray) SortFunc(less func(v1, v2 string) bool) *StrArray {
 	a.mu.Lock()
 	defer a.mu.Unlock()
@@ -135,7 +197,14 @@ func (a *StrArray) SortFunc(less func(v1, v2 string) bool) *StrArray {
 	return a
 }
 
-// InsertBefore inserts the <value> to the front of <index>.
+// InsertBefore 在指定索引位置之前插入元素。
+//
+// 参数：
+//   - index: 索引位置
+//   - value: 要插入的值
+//
+// 返回值：
+//   - *StrArray: 返回数组本身以支持链式调用
 func (a *StrArray) InsertBefore(index int, value string) *StrArray {
 	a.mu.Lock()
 	defer a.mu.Unlock()
@@ -145,7 +214,14 @@ func (a *StrArray) InsertBefore(index int, value string) *StrArray {
 	return a
 }
 
-// InsertAfter inserts the <value> to the back of <index>.
+// InsertAfter 在指定索引位置之后插入元素。
+//
+// 参数：
+//   - index: 索引位置
+//   - value: 要插入的值
+//
+// 返回值：
+//   - *StrArray: 返回数组本身以支持链式调用
 func (a *StrArray) InsertAfter(index int, value string) *StrArray {
 	a.mu.Lock()
 	defer a.mu.Unlock()
@@ -155,14 +231,20 @@ func (a *StrArray) InsertAfter(index int, value string) *StrArray {
 	return a
 }
 
-// Remove removes an item by index.
+// Remove 删除指定索引位置的元素。
+//
+// 参数：
+//   - index: 索引位置
+//
+// 返回值：
+//   - string: 被删除的元素值
 func (a *StrArray) Remove(index int) string {
 	a.mu.Lock()
 	defer a.mu.Unlock()
 	if index < 0 || index >= len(a.Array) {
 		return ""
 	}
-	// Determine Array boundaries when deleting to improve deletion efficiency。
+	// 确定数组边界时删除以提高删除效率
 	if index == 0 {
 		value := a.Array[0]
 		a.Array = a.Array[1:]
@@ -172,16 +254,19 @@ func (a *StrArray) Remove(index int) string {
 		a.Array = a.Array[:index]
 		return value
 	}
-	// If it is a non-boundary delete,
-	// it will involve the creation of an Array,
-	// then the deletion is less efficient.
+	// 如果是非边界删除，会涉及数组的创建，删除效率较低
 	value := a.Array[index]
 	a.Array = append(a.Array[:index], a.Array[index+1:]...)
 	return value
 }
 
-// RemoveValue removes an item by value.
-// It returns true if value is found in the Array, or else false if not found.
+// RemoveValue 根据值删除元素。
+//
+// 参数：
+//   - value: 要删除的值
+//
+// 返回值：
+//   - bool: 如果找到并删除成功返回true，否则返回false
 func (a *StrArray) RemoveValue(value string) bool {
 	if i := a.Search(value); i != -1 {
 		a.Remove(i)
@@ -190,7 +275,13 @@ func (a *StrArray) RemoveValue(value string) bool {
 	return false
 }
 
-// PushLeft pushes one or multiple items to the beginning of Array.
+// PushLeft 在数组开头压入一个或多个元素。
+//
+// 参数：
+//   - value: 要压入的值
+//
+// 返回值：
+//   - *StrArray: 返回数组本身以支持链式调用
 func (a *StrArray) PushLeft(value ...string) *StrArray {
 	a.mu.Lock()
 	a.Array = append(value, a.Array...)
@@ -198,8 +289,13 @@ func (a *StrArray) PushLeft(value ...string) *StrArray {
 	return a
 }
 
-// PushRight pushes one or multiple items to the end of Array.
-// It equals to Append.
+// PushRight 在数组末尾压入一个或多个元素，等同于Append。
+//
+// 参数：
+//   - value: 要压入的值
+//
+// 返回值：
+//   - *StrArray: 返回数组本身以支持链式调用
 func (a *StrArray) PushRight(value ...string) *StrArray {
 	a.mu.Lock()
 	a.Array = append(a.Array, value...)
@@ -207,7 +303,10 @@ func (a *StrArray) PushRight(value ...string) *StrArray {
 	return a
 }
 
-// PopLeft pops and returns an item from the beginning of Array.
+// PopLeft 弹出并返回数组开头的元素。
+//
+// 返回值：
+//   - string: 弹出的元素值
 func (a *StrArray) PopLeft() string {
 	a.mu.Lock()
 	defer a.mu.Unlock()
@@ -216,7 +315,10 @@ func (a *StrArray) PopLeft() string {
 	return value
 }
 
-// PopRight pops and returns an item from the end of Array.
+// PopRight 弹出并返回数组末尾的元素。
+//
+// 返回值：
+//   - string: 弹出的元素值
 func (a *StrArray) PopRight() string {
 	a.mu.Lock()
 	defer a.mu.Unlock()
@@ -226,12 +328,21 @@ func (a *StrArray) PopRight() string {
 	return value
 }
 
-// PopRand randomly pops and return an item out of Array.
+// PopRand 随机弹出并返回一个元素。
+//
+// 返回值：
+//   - string: 弹出的元素值
 func (a *StrArray) PopRand() string {
 	return a.Remove(grand.Intn(len(a.Array)))
 }
 
-// PopRands randomly pops and returns <size> items out of Array.
+// PopRands 随机弹出并返回指定数量的元素。
+//
+// 参数：
+//   - size: 要弹出的元素数量
+//
+// 返回值：
+//   - []string: 弹出的元素切片
 func (a *StrArray) PopRands(size int) []string {
 	a.mu.Lock()
 	defer a.mu.Unlock()
@@ -247,7 +358,13 @@ func (a *StrArray) PopRands(size int) []string {
 	return Array
 }
 
-// PopLefts pops and returns <size> items from the beginning of Array.
+// PopLefts 从数组开头弹出指定数量的元素。
+//
+// 参数：
+//   - size: 要弹出的元素数量
+//
+// 返回值：
+//   - []string: 弹出的元素切片
 func (a *StrArray) PopLefts(size int) []string {
 	a.mu.Lock()
 	defer a.mu.Unlock()
@@ -260,7 +377,13 @@ func (a *StrArray) PopLefts(size int) []string {
 	return value
 }
 
-// PopRights pops and returns <size> items from the end of Array.
+// PopRights 从数组末尾弹出指定数量的元素。
+//
+// 参数：
+//   - size: 要弹出的元素数量
+//
+// 返回值：
+//   - []string: 弹出的元素切片
 func (a *StrArray) PopRights(size int) []string {
 	a.mu.Lock()
 	defer a.mu.Unlock()
@@ -273,13 +396,14 @@ func (a *StrArray) PopRights(size int) []string {
 	return value
 }
 
-// Range picks and returns items by range, like Array[start:end].
-// Notice, if in concurrent-safe usage, it returns a copy of slice;
-// else a pointer to the underlying data.
+// Range 按范围获取元素，类似于数组[start:end]。
 //
-// If <end> is negative, then the offset will start from the end of Array.
-// If <end> is omitted, then the sequence will have everything from start up
-// until the end of the Array.
+// 参数：
+//   - start: 起始索引
+//   - end: 结束索引（可选）
+//
+// 返回值：
+//   - []string: 范围内的元素切片
 func (a *StrArray) Range(start int, end ...int) []string {
 	a.mu.RLock()
 	defer a.mu.RUnlock()
@@ -303,19 +427,14 @@ func (a *StrArray) Range(start int, end ...int) []string {
 	return Array
 }
 
-// SubSlice returns a slice of elements from the Array as specified
-// by the <offset> and <size> parameters.
-// If in concurrent safe usage, it returns a copy of the slice; else a pointer.
+// SubSlice 获取子切片。
 //
-// If offset is non-negative, the sequence will start at that offset in the Array.
-// If offset is negative, the sequence will start that far from the end of the Array.
+// 参数：
+//   - offset: 偏移量
+//   - length: 长度（可选）
 //
-// If length is given and is positive, then the sequence will have up to that many elements in it.
-// If the Array is shorter than the length, then only the available Array elements will be present.
-// If length is given and is negative then the sequence will stop that many elements from the end of the Array.
-// If it is omitted, then the sequence will have everything from offset up until the end of the Array.
-//
-// Any possibility crossing the left border of Array, it will fail.
+// 返回值：
+//   - []string: 子切片
 func (a *StrArray) SubSlice(offset int, length ...int) []string {
 	a.mu.RLock()
 	defer a.mu.RUnlock()
@@ -353,7 +472,13 @@ func (a *StrArray) SubSlice(offset int, length ...int) []string {
 	}
 }
 
-// See PushRight.
+// Append 在数组末尾追加元素，等同于PushRight。
+//
+// 参数：
+//   - value: 要追加的值
+//
+// 返回值：
+//   - *StrArray: 返回数组本身以支持链式调用
 func (a *StrArray) Append(value ...string) *StrArray {
 	a.mu.Lock()
 	a.Array = append(a.Array, value...)
@@ -361,7 +486,10 @@ func (a *StrArray) Append(value ...string) *StrArray {
 	return a
 }
 
-// Len returns the length of Array.
+// Len 返回数组的长度。
+//
+// 返回值：
+//   - int: 数组长度
 func (a *StrArray) Len() int {
 	a.mu.RLock()
 	length := len(a.Array)
@@ -369,9 +497,10 @@ func (a *StrArray) Len() int {
 	return length
 }
 
-// Slice returns the underlying data of Array.
-// Note that, if it's in concurrent-safe usage, it returns a copy of underlying data,
-// or else a pointer to the underlying data.
+// Slice 返回底层数组切片。
+//
+// 返回值：
+//   - []string: 数组切片
 func (a *StrArray) Slice() []string {
 	Array := ([]string)(nil)
 	if a.mu.IsSafe() {
@@ -385,7 +514,10 @@ func (a *StrArray) Slice() []string {
 	return Array
 }
 
-// Interfaces returns current Array as []interface{}.
+// Interfaces 将数组转换为[]interface{}类型。
+//
+// 返回值：
+//   - []interface{}: 转换后的切片
 func (a *StrArray) Interfaces() []interface{} {
 	a.mu.RLock()
 	defer a.mu.RUnlock()
@@ -396,7 +528,10 @@ func (a *StrArray) Interfaces() []interface{} {
 	return Array
 }
 
-// Clone returns a new Array, which is a copy of current Array.
+// Clone 返回数组的副本。
+//
+// 返回值：
+//   - *StrArray: 新的数组副本
 func (a *StrArray) Clone() (newArray *StrArray) {
 	a.mu.RLock()
 	Array := make([]string, len(a.Array))
@@ -405,7 +540,10 @@ func (a *StrArray) Clone() (newArray *StrArray) {
 	return NewStrArrayFrom(Array, !a.mu.IsSafe())
 }
 
-// Clear deletes all items of current Array.
+// Clear 清空数组中的所有元素。
+//
+// 返回值：
+//   - *StrArray: 返回数组本身以支持链式调用
 func (a *StrArray) Clear() *StrArray {
 	a.mu.Lock()
 	if len(a.Array) > 0 {
@@ -415,13 +553,24 @@ func (a *StrArray) Clear() *StrArray {
 	return a
 }
 
-// Contains checks whether a value exists in the Array.
+// Contains 检查数组中是否包含指定值。
+//
+// 参数：
+//   - value: 要检查的值
+//
+// 返回值：
+//   - bool: 如果包含返回true，否则返回false
 func (a *StrArray) Contains(value string) bool {
 	return a.Search(value) != -1
 }
 
-// Search searches Array by <value>, returns the index of <value>,
-// or returns -1 if not exists.
+// Search 在数组中搜索指定值。
+//
+// 参数：
+//   - value: 要搜索的值
+//
+// 返回值：
+//   - int: 找到返回索引位置，未找到返回-1
 func (a *StrArray) Search(value string) int {
 	if len(a.Array) == 0 {
 		return -1
@@ -438,7 +587,10 @@ func (a *StrArray) Search(value string) int {
 	return result
 }
 
-// Unique uniques the Array, clear repeated items.
+// Unique 去除数组中的重复元素。
+//
+// 返回值：
+//   - *StrArray: 返回数组本身以支持链式调用
 func (a *StrArray) Unique() *StrArray {
 	a.mu.Lock()
 	for i := 0; i < len(a.Array)-1; i++ {
@@ -452,7 +604,13 @@ func (a *StrArray) Unique() *StrArray {
 	return a
 }
 
-// LockFunc locks writing by callback function <f>.
+// LockFunc 使用写锁执行回调函数。
+//
+// 参数：
+//   - f: 回调函数
+//
+// 返回值：
+//   - *StrArray: 返回数组本身以支持链式调用
 func (a *StrArray) LockFunc(f func(Array []string)) *StrArray {
 	a.mu.Lock()
 	defer a.mu.Unlock()
@@ -460,7 +618,13 @@ func (a *StrArray) LockFunc(f func(Array []string)) *StrArray {
 	return a
 }
 
-// RLockFunc locks reading by callback function <f>.
+// RLockFunc 使用读锁执行回调函数。
+//
+// 参数：
+//   - f: 回调函数
+//
+// 返回值：
+//   - *StrArray: 返回数组本身以支持链式调用
 func (a *StrArray) RLockFunc(f func(Array []string)) *StrArray {
 	a.mu.RLock()
 	defer a.mu.RUnlock()
@@ -468,8 +632,15 @@ func (a *StrArray) RLockFunc(f func(Array []string)) *StrArray {
 	return a
 }
 
-// Fill fills an Array with num entries of the value <value>,
-// keys starting at the <startIndex> parameter.
+// Fill 用指定值填充数组的指定范围。
+//
+// 参数：
+//   - startIndex: 起始索引
+//   - num: 填充数量
+//   - value: 填充值
+//
+// 返回值：
+//   - *StrArray: 返回数组本身以支持链式调用
 func (a *StrArray) Fill(startIndex int, num int, value string) *StrArray {
 	a.mu.Lock()
 	defer a.mu.Unlock()
@@ -486,9 +657,13 @@ func (a *StrArray) Fill(startIndex int, num int, value string) *StrArray {
 	return a
 }
 
-// Chunk splits an Array into multiple Arrays,
-// the size of each Array is determined by <size>.
-// The last chunk may contain less than size elements.
+// Chunk 将数组分割为多个指定大小的子数组。
+//
+// 参数：
+//   - size: 每个子数组的大小
+//
+// 返回值：
+//   - [][]string: 分割后的二维数组
 func (a *StrArray) Chunk(size int) [][]string {
 	if size < 1 {
 		return nil
@@ -509,10 +684,14 @@ func (a *StrArray) Chunk(size int) [][]string {
 	return n
 }
 
-// Pad pads Array to the specified length with <value>.
-// If size is positive then the Array is padded on the right, or negative on the left.
-// If the absolute value of <size> is less than or equal to the length of the Array
-// then no padding takes place.
+// Pad 使用指定值将数组填充到指定长度。
+//
+// 参数：
+//   - size: 目标长度，正数向右填充，负数向左填充
+//   - value: 填充值
+//
+// 返回值：
+//   - *StrArray: 返回数组本身以支持链式调用
 func (a *StrArray) Pad(size int, value string) *StrArray {
 	a.mu.Lock()
 	defer a.mu.Unlock()
@@ -536,14 +715,23 @@ func (a *StrArray) Pad(size int, value string) *StrArray {
 	return a
 }
 
-// Rand randomly returns one item from Array(no deleting).
+// Rand 随机返回一个元素（不删除）。
+//
+// 返回值：
+//   - string: 随机元素
 func (a *StrArray) Rand() string {
 	a.mu.RLock()
 	defer a.mu.RUnlock()
 	return a.Array[grand.Intn(len(a.Array))]
 }
 
-// Rands randomly returns <size> items from Array(no deleting).
+// Rands 随机返回指定数量的元素（不删除）。
+//
+// 参数：
+//   - size: 返回数量
+//
+// 返回值：
+//   - []string: 随机元素切片
 func (a *StrArray) Rands(size int) []string {
 	a.mu.RLock()
 	defer a.mu.RUnlock()
@@ -560,7 +748,10 @@ func (a *StrArray) Rands(size int) []string {
 	return n
 }
 
-// Shuffle randomly shuffles the Array.
+// Shuffle 随机打乱数组元素的顺序。
+//
+// 返回值：
+//   - *StrArray: 返回数组本身以支持链式调用
 func (a *StrArray) Shuffle() *StrArray {
 	a.mu.Lock()
 	defer a.mu.Unlock()
@@ -570,7 +761,10 @@ func (a *StrArray) Shuffle() *StrArray {
 	return a
 }
 
-// Reverse makes Array with elements in reverse order.
+// Reverse 反转数组元素的顺序。
+//
+// 返回值：
+//   - *StrArray: 返回数组本身以支持链式调用
 func (a *StrArray) Reverse() *StrArray {
 	a.mu.Lock()
 	defer a.mu.Unlock()
@@ -580,7 +774,13 @@ func (a *StrArray) Reverse() *StrArray {
 	return a
 }
 
-// Join joins Array elements with a string <glue>.
+// Join 使用指定分隔符连接数组元素。
+//
+// 参数：
+//   - glue: 分隔符
+//
+// 返回值：
+//   - string: 连接后的字符串
 func (a *StrArray) Join(glue string) string {
 	a.mu.RLock()
 	defer a.mu.RUnlock()
@@ -594,7 +794,10 @@ func (a *StrArray) Join(glue string) string {
 	return buffer.String()
 }
 
-// CountValues counts the number of occurrences of all values in the Array.
+// CountValues 统计每个值在数组中出现的次数。
+//
+// 返回值：
+//   - map[string]int: 值到出现次数的映射
 func (a *StrArray) CountValues() map[string]int {
 	m := make(map[string]int)
 	a.mu.RLock()
@@ -605,13 +808,18 @@ func (a *StrArray) CountValues() map[string]int {
 	return m
 }
 
-// Iterator is alias of IteratorAsc.
+// Iterator 迭代数组（升序迭代器的别名）。
+//
+// 参数：
+//   - f: 回调函数，返回false停止迭代
 func (a *StrArray) Iterator(f func(k int, v string) bool) {
 	a.IteratorAsc(f)
 }
 
-// IteratorAsc iterates the Array in ascending order with given callback function <f>.
-// If <f> returns true, then it continues iterating; or false to stop.
+// IteratorAsc 升序迭代数组。
+//
+// 参数：
+//   - f: 回调函数，返回false停止迭代
 func (a *StrArray) IteratorAsc(f func(k int, v string) bool) {
 	a.mu.RLock()
 	defer a.mu.RUnlock()
@@ -622,8 +830,10 @@ func (a *StrArray) IteratorAsc(f func(k int, v string) bool) {
 	}
 }
 
-// IteratorDesc iterates the Array in descending order with given callback function <f>.
-// If <f> returns true, then it continues iterating; or false to stop.
+// IteratorDesc 降序迭代数组。
+//
+// 参数：
+//   - f: 回调函数，返回false停止迭代
 func (a *StrArray) IteratorDesc(f func(k int, v string) bool) {
 	a.mu.RLock()
 	defer a.mu.RUnlock()
@@ -634,7 +844,10 @@ func (a *StrArray) IteratorDesc(f func(k int, v string) bool) {
 	}
 }
 
-// String returns current Array as a string, which implements like json.Marshal does.
+// String 返回数组的字符串表示。
+//
+// 返回值：
+//   - string: 数组的JSON格式字符串
 func (a *StrArray) String() string {
 	a.mu.RLock()
 	defer a.mu.RUnlock()
@@ -650,14 +863,14 @@ func (a *StrArray) String() string {
 	return buffer.String()
 }
 
-// MarshalJSON implements the interface MarshalJSON for json.Marshal.
+// MarshalJSON 实现json.Marshaler接口。
 func (a *StrArray) MarshalJSON() ([]byte, error) {
 	a.mu.RLock()
 	defer a.mu.RUnlock()
 	return json.Marshal(a.Array)
 }
 
-// UnmarshalJSON implements the interface UnmarshalJSON for json.Unmarshal.
+// UnmarshalJSON 实现json.Unmarshaler接口。
 func (a *StrArray) UnmarshalJSON(b []byte) error {
 	if a.mu == nil {
 		a.mu = rwmutex.New()
@@ -671,7 +884,7 @@ func (a *StrArray) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-// UnmarshalValue is an interface implement which sets any type of value for Array.
+// UnmarshalValue 设置任意类型的值。
 func (a *StrArray) UnmarshalValue(value interface{}) error {
 	if a.mu == nil {
 		a.mu = rwmutex.New()
@@ -687,38 +900,67 @@ func (a *StrArray) UnmarshalValue(value interface{}) error {
 	return nil
 }
 
+// New文本型数组 创建一个新的文本型数组（并发安全）。
+//
+// 返回值：
+//   - *StrArray: 新创建的文本型数组
 func New文本型数组() *StrArray {
 	return NewStrArraySize(0, 0, []bool{true}...)
 }
+
+// E加入成员 向数组末尾添加一个成员。
+//
+// 参数：
+//   - s: 要添加的字符串
 func (a *StrArray) E加入成员(s string) {
 	a.Append(s)
 }
+
+// E取数组成员数 获取数组的成员数量。
+//
+// 返回值：
+//   - int: 成员数量
 func (a *StrArray) E取数组成员数() int {
 	return a.Len()
 }
 
+// E删除成员 删除指定位置的成员。
+//
+// 参数：
+//   - 欲删除的位置: 要删除的成员索引
 func (a *StrArray) E删除成员(欲删除的位置 int) {
 	a.Remove(欲删除的位置)
 }
 
+// E清除数组 清除数组中的所有成员。
 func (a *StrArray) E清除数组() {
 	a.Clear()
 }
 
-// E数组排序
-// 对指定数值数组变量内的所有数组成员进行快速排序，不影响数组的维定义信息，排序结果存放回该数组变量。本命令为初级命令。
-// 参数<1>的名称为“排序方向是否为从小到大”，类型为“逻辑型（bool）”，可以被省略。如果参数值为真，排序方向为从小到大，否则为从大到小。如果本参数被省略，默认值为真。
+// E数组排序 对数组进行排序。
+//
+// 参数：
+//   - 排序方向是否为从小到大: true为升序，false为降序
 func (a *StrArray) E数组排序(排序方向是否为从小到大 bool) {
 	a.Sort(排序方向是否为从小到大)
 }
 
-// E插入成员
-// 参数<1>的名称为“欲插入的位置”，类型为“整数型（int）”。位置值从 1 开始，如果小于 1 或大于第一个参数所指定数组变量的成员数目 + 1，将不会插入任何数据。
-// 参数<2>的名称为“欲插入的成员数据”，类型为“通用型（all）”，提供参数数据时可以同时提供数组或非数组数据。参数值所指定成员数据的数据类型必须能够与第一个参数所指定的数组变量相匹配。
+// E插入成员 在指定位置插入成员。
+//
+// 参数：
+//   - 欲插入的位置: 插入位置（从0开始）
+//   - 欲插入的成员数据: 要插入的字符串
 func (a *StrArray) E插入成员(欲插入的位置 int, 欲插入的成员数据 string) {
 	a.InsertBefore(欲插入的位置, 欲插入的成员数据)
 }
 
+// E取值 获取指定位置的成员值。
+//
+// 参数：
+//   - i: 索引位置
+//
+// 返回值：
+//   - string: 该位置的成员值
 func (a *StrArray) E取值(i int) string {
 	return a.Get(i)
 }

@@ -180,24 +180,24 @@ func E删尾空(欲删除空格的文本 string) string {
     return strings.TrimRight(欲删除空格的文本, " ")
 }
 
-// E删首尾空 删除文本首尾的空白字符
+// E删首尾空 删除文本首尾的所有空白字符。
 //
 // 参数：
-//   内容 string - 欲删除首尾空白的文本
+//   - 内容: 要处理的文本
 //
 // 返回值：
-//   string - 删除首尾空白后的文本
+//   - string: 删除首尾空白后的文本
 func E删首尾空(内容 string) string {
     return strings.TrimSpace(内容)
 }
 
-// E删全部空 删除文本中的所有空白字符
+// E删全部空 删除文本中的所有空白字符。
 //
 // 参数：
-//   内容 string - 欲删除空白字符的文本
+//   - 内容: 要处理的文本
 //
 // 返回值：
-//   string - 删除所有空白后的文本
+//   - string: 删除所有空白字符后的文本
 func E删全部空(内容 string) string {
     return strings.Join(strings.FieldsFunc(内容, unicode.IsSpace), "")
 }
@@ -316,26 +316,26 @@ func E分割文本(待分割文本 string, 用作分割的文本 string) []strin
     return strings.Split(待分割文本, 用作分割的文本)
 }
 
-// E格式化文本 根据格式化字符串生成文本
+// E格式化文本 使用格式化字符串生成文本。
 //
 // 参数：
-//   format string - 格式化字符串
-//   a ...interface{} - 格式化参数
+//   - format: 格式化字符串
+//   - a: 格式化参数
 //
 // 返回值：
-//   string - 格式化后的文本
+//   - string: 格式化后的文本
 func E格式化文本(format string, a ...interface{}) string {
     return fmt.Sprintf(format, a...)
 }
 
-// StrCut 文本截取函数，根据表达式截取文本内容
+// StrCut 文本截取函数，使用表达式从文本中截取内容。
 //
 // 参数：
-//   内容 string - 被截取的文本
-//   表达式 string - 截取表达式，格式为"左边文本$右边文本"
+//   - 内容: 要截取的文本
+//   - 表达式: 截取表达式，格式为"左边文本$右边文本"
 //
 // 返回值：
-//   string - 截取后的文本内容
+//   - string: 截取到的文本
 func StrCut(内容 string, 表达式 string) string {
     args := strings.Split(表达式, "$")
     if len(args) == 2 {
@@ -347,39 +347,39 @@ func StrCut(内容 string, 表达式 string) string {
     return ""
 }
 
-// E文本取左边 取出指定文本左边到目标文本之间的内容
+// E文本取左边 取指定文本左边的内容。
 //
 // 参数：
-//   被查找的文本 string - 原始文本
-//   欲寻找的文本 string - 右边界的文本
+//   - 被查找的文本: 要搜索的文本
+//   - 欲寻找的文本: 分隔文本
 //
 // 返回值：
-//   string - 截取后的文本内容
+//   - string: 分隔文本左边的内容
 func E文本取左边(被查找的文本 string, 欲寻找的文本 string) string {
     return E文本取出中间文本(被查找的文本, "", 欲寻找的文本)
 }
 
-// E文本取右边 取出指定文本右边到目标文本之间的内容
+// E文本取右边 取指定文本右边的内容。
 //
 // 参数：
-//   被查找的文本 string - 原始文本
-//   欲寻找的文本 string - 左边界的文本
+//   - 被查找的文本: 要搜索的文本
+//   - 欲寻找的文本: 分隔文本
 //
 // 返回值：
-//   string - 截取后的文本内容
+//   - string: 分隔文本右边的内容
 func E文本取右边(被查找的文本 string, 欲寻找的文本 string) string {
     return E文本取出中间文本(被查找的文本, 欲寻找的文本, "")
 }
 
-// E文本取出中间文本 取出两个指定文本之间的内容
+// E文本取出中间文本 取两个指定文本之间的内容。
 //
 // 参数：
-//   内容 string - 原始文本
-//   左边文本 string - 左边界的文本
-//   右边文本 string - 右边界的文本
+//   - 内容: 要搜索的文本
+//   - 左边文本: 左边界文本
+//   - 右边文本: 右边界文本
 //
 // 返回值：
-//   string - 截取后的文本内容
+//   - string: 两个边界文本之间的内容
 func E文本取出中间文本(内容 string, 左边文本 string, 右边文本 string) string {
     左边位置 := strings.Index(内容, 左边文本)
     if 左边位置 == -1 {
@@ -401,14 +401,11 @@ func E文本取出中间文本(内容 string, 左边文本 string, 右边文本 
     return 内容
 }
 
-// E文本取随机字母 生成指定长度的随机字母字符串
-//
-// 参数：
-//   要取的字符数 int - 生成字母的个数
-//   字母类型 int - 字母类型：0=小写字母；1=大写字母；2=大小写混合
-//
-// 返回值：
-//   string - 生成的随机字母字符串
+// 子程序名：文本_取随机字母
+// 取随机26个字母！
+// 返回值类型：文本型
+// 参数<1>的名称为“要取的字符数”，类型为“整数型”。注明：要取字符个数；。
+// 参数<2>的名称为“字母类型”，类型为“整数型”，允许接收空参数数据。注明：可空：默认为小写字母；0=小写字母；1=大写字母；2=大小写字母混合；。
 func E文本取随机字母(要取的字符数 int, 字母类型 int) string {
     var str string
     if 字母类型 == 0 {
@@ -423,83 +420,83 @@ func E文本取随机字母(要取的字符数 int, 字母类型 int) string {
     return grand.Str(str, 要取的字符数)
 }
 
-// E文本取随机字母和数字 生成指定长度的随机字母数字混合字符串
+// E文本取随机字母和数字 生成指定长度的随机字母和数字组合。
 //
 // 参数：
-//   要取的字符数 int - 生成字符的个数
+//   - 要取的字符数: 要生成的字符数量
 //
 // 返回值：
-//   string - 生成的随机字母数字字符串
+//   - string: 随机生成的字母和数字组合
 func E文本取随机字母和数字(要取的字符数 int) string {
     return grand.Str("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", 要取的字符数)
 }
 
-// E文本取随机数字 生成指定长度的随机数字字符串
+// E文本取随机数字 生成指定长度的随机数字字符串。
 //
 // 参数：
-//   要取的字符数 int - 生成数字的个数
+//   - 要取的字符数: 要生成的字符数量
 //
 // 返回值：
-//   string - 生成的随机数字字符串
+//   - string: 随机生成的数字字符串
 func E文本取随机数字(要取的字符数 int) string {
     return grand.Str("0123456789", 要取的字符数)
 }
 
-// E文本删左边 从文本左边删除指定长度的字符
+// E文本删左边 删除文本左边指定数量的字符。
 //
 // 参数：
-//   欲处理文本 string - 原始文本
-//   删除长度 int64 - 从左边删除的字符数
+//   - 欲处理文本: 要处理的文本
+//   - 删除长度: 要删除的字符数量
 //
 // 返回值：
-//   string - 删除后的文本
+//   - string: 删除后的文本
 func E文本删左边(欲处理文本 string, 删除长度 int64) string {
     return E取文本右边(欲处理文本, E取文本长度(欲处理文本)-删除长度)
 }
 
-// E文本删右边 从文本右边删除指定长度的字符
+// E文本删右边 删除文本右边指定数量的字符。
 //
 // 参数：
-//   欲处理文本 string - 原始文本
-//   删除长度 int64 - 从右边删除的字符数
+//   - 欲处理文本: 要处理的文本
+//   - 删除长度: 要删除的字符数量
 //
 // 返回值：
-//   string - 删除后的文本
+//   - string: 删除后的文本
 func E文本删右边(欲处理文本 string, 删除长度 int64) string {
     return E取文本左边(欲处理文本, E取文本长度(欲处理文本)-删除长度)
 }
 
-// E文本删中间 从文本中间删除指定长度的字符
+// E文本删中间 删除文本中间指定位置的字符。
 //
 // 参数：
-//   欲处理文本 string - 原始文本
-//   起始位置 int64 - 删除的起始位置
-//   删除长度 int64 - 删除的字符数
+//   - 欲处理文本: 要处理的文本
+//   - 起始位置: 删除起始位置
+//   - 删除长度: 要删除的字符数量
 //
 // 返回值：
-//   string - 删除后的文本
+//   - string: 删除后的文本
 func E文本删中间(欲处理文本 string, 起始位置 int64, 删除长度 int64) string {
     return E取文本左边(欲处理文本, 起始位置) + E文本删左边(欲处理文本, 起始位置+删除长度)
 }
 
-// E文本取出文本中汉字 从文本中提取所有汉字
+// E文本取出文本中汉字 从文本中提取所有汉字。
 //
 // 参数：
-//   s string - 原始文本
+//   - s: 要处理的文本
 //
 // 返回值：
-//   string - 提取出的汉字
+//   - string: 提取出的汉字
 func E文本取出文本中汉字(s string) string {
     return E文本区分_只取汉子(s)
 }
 
-// E文本逐字分割 将文本逐字分割为字符串数组
+// E文本逐字分割 将文本逐字分割为数组。
 //
 // 参数：
-//   s string - 原始文本
+//   - s: 要分割的文本
 //
 // 返回值：
-//   []string - 分割后的字符数组
+//   - []string: 分割后的字符数组
 func E文本逐字分割(s string) []string {
     r := []rune(s)
     strarr := []string{}
@@ -509,13 +506,13 @@ func E文本逐字分割(s string) []string {
     return strarr
 }
 
-// E文本颠倒 将文本顺序颠倒
+// E文本颠倒 将文本字符顺序颠倒。
 //
 // 参数：
-//   s string - 原始文本
+//   - s: 要颠倒的文本
 //
 // 返回值：
-//   string - 颠倒后的文本
+//   - string: 颠倒后的文本
 func E文本颠倒(s string) string {
     runes := []rune(s)
     for from, to := 0, len(runes)-1; from < to; from, to = from+1, to-1 {
@@ -524,23 +521,23 @@ func E文本颠倒(s string) string {
     return string(runes)
 }
 
-// E文本取随机姓氏 随机获取一个中文姓氏
+// E文本取随机姓氏 随机返回一个中文姓氏。
 //
 // 返回值：
-//   string - 随机的中文姓氏
+//   - string: 随机姓氏
 func E文本取随机姓氏() string {
     百家姓 := "赵钱孙李周吴郑王冯陈褚卫蒋沈韩杨朱秦尤许何吕施张孔曹严华金魏陶姜戚谢邹喻柏水窦章云苏潘葛奚范彭郎鲁韦昌马苗凤花方俞任袁柳酆鲍史唐费廉岑薛雷贺倪汤滕殷罗毕郝邬安常乐于时傅皮卞齐康伍余元卜顾孟平黄和穆萧尹姚邵湛汪祁毛禹狄米贝明臧计伏成戴谈宋茅庞熊纪舒屈项祝董梁杜阮蓝闵席季麻强贾路娄危江童颜郭梅盛林刁钟徐邱骆高夏蔡田樊胡凌霍虞万支柯昝管卢莫柯房裘缪干解应宗丁宣贲邓郁单杭洪包诸左石崔吉钮龚程嵇邢滑裴陆荣翁荀羊于惠甄曲家封芮羿储靳汲邴糜松井段富巫乌焦巴弓牧隗山谷车侯宓蓬全郗班仰秋仲伊宫宁仇栾暴甘钭历戎祖武符刘景詹束龙叶幸司韶郜黎蓟溥印宿白怀蒲邰从鄂索咸籍赖卓蔺屠蒙池乔阳郁胥能苍双闻莘党翟谭贡劳逄姬申扶堵冉宰郦雍却璩桑桂濮牛寿通边扈燕冀浦尚农温别庄晏柴瞿阎充慕连茹习宦艾鱼容向古易慎戈廖庾终暨居衡步都耿满弘匡国文寇广禄阙东欧殳沃利蔚越夔隆师巩厍聂晁勾敖融冷訾辛阚那简饶空曾毋沙乜养鞠须丰巢关蒯相查后荆红游竺权逮盍益桓公"
     return grand.Str(百家姓, 1)
 }
 
-// E文本自动补零 将数字文本补足到指定长度，不足部分在前面补零
+// E文本自动补零 将数字文本自动补零到指定长度。
 //
 // 参数：
-//   s string - 原始数字文本
-//   len int - 目标长度
+//   - s: 数字文本
+//   - len: 目标长度
 //
 // 返回值：
-//   string - 补零后的文本
+//   - string: 补零后的文本
 func E文本自动补零(s string, len int) string {
     return E格式化文本("%0*d", len, E到整数(s))
 }
@@ -550,13 +547,13 @@ func E文本自动补零(s string, len int) string {
 //Golang学习 - unicode 包
 //https://www.cnblogs.com/golove/p/3273585.html
 
-// E文本是否为小写字母 判断文本中是否包含小写字母
+// E文本是否为小写字母 判断文本中是否包含小写字母。
 //
 // 参数：
-//   s string - 待检测的文本
+//   - s: 要判断的文本
 //
 // 返回值：
-//   bool - 包含返回true，否则返回false
+//   - bool: 包含小写字母返回true
 func E文本是否为小写字母(s string) bool {
     for _, r := range s {
         if unicode.IsLower(r) {
@@ -566,13 +563,13 @@ func E文本是否为小写字母(s string) bool {
     return false
 }
 
-// E文本是否为大写字母 判断文本中是否包含大写字母
+// E文本是否为大写字母 判断文本中是否包含大写字母。
 //
 // 参数：
-//   s string - 待检测的文本
+//   - s: 要判断的文本
 //
 // 返回值：
-//   bool - 包含返回true，否则返回false
+//   - bool: 包含大写字母返回true
 func E文本是否为大写字母(s string) bool {
     for _, r := range s {
         if unicode.IsUpper(r) {
@@ -582,13 +579,13 @@ func E文本是否为大写字母(s string) bool {
     return false
 }
 
-// E文本是否为字母 判断文本中是否包含字母
+// E文本是否为字母 判断文本中是否包含字母。
 //
 // 参数：
-//   s string - 待检测的文本
+//   - s: 要判断的文本
 //
 // 返回值：
-//   bool - 包含返回true，否则返回false
+//   - bool: 包含字母返回true
 func E文本是否为字母(s string) bool {
     for _, r := range s {
         if unicode.IsLower(r) || unicode.IsUpper(r) {
@@ -598,13 +595,13 @@ func E文本是否为字母(s string) bool {
     return false
 }
 
-// E文本是否为数字 判断文本中是否包含数字
+// E文本是否为数字 判断文本中是否包含数字。
 //
 // 参数：
-//   s string - 待检测的文本
+//   - s: 要判断的文本
 //
 // 返回值：
-//   bool - 包含返回true，否则返回false
+//   - bool: 包含数字返回true
 func E文本是否为数字(s string) bool {
     for _, r := range s {
         if unicode.IsNumber(r) {
@@ -614,13 +611,13 @@ func E文本是否为数字(s string) bool {
     return false
 }
 
-// E文本是否为汉字 判断文本中是否包含汉字
+// E文本是否为汉字 判断文本中是否包含汉字。
 //
 // 参数：
-//   s string - 待检测的文本
+//   - s: 要判断的文本
 //
 // 返回值：
-//   bool - 包含返回true，否则返回false
+//   - bool: 包含汉字返回true
 func E文本是否为汉字(s string) bool {
     for _, r := range s {
         if unicode.Is(unicode.Scripts["Han"], r) {
@@ -630,13 +627,13 @@ func E文本是否为汉字(s string) bool {
     return false
 }
 
-// E文本区分_只取字母 从文本中提取所有字母
+// E文本区分_只取字母 从文本中只提取字母。
 //
 // 参数：
-//   s string - 原始文本
+//   - s: 要处理的文本
 //
 // 返回值：
-//   string - 提取出的字母
+//   - string: 提取出的字母
 func E文本区分_只取字母(s string) string {
     str := ""
     for _, r := range s {
@@ -647,13 +644,13 @@ func E文本区分_只取字母(s string) string {
     return str
 }
 
-// E文本区分_只取数字 从文本中提取所有数字
+// E文本区分_只取数字 从文本中只提取数字。
 //
 // 参数：
-//   s string - 原始文本
+//   - s: 要处理的文本
 //
 // 返回值：
-//   string - 提取出的数字
+//   - string: 提取出的数字
 func E文本区分_只取数字(s string) string {
     str := ""
     for _, r := range s {
@@ -664,13 +661,13 @@ func E文本区分_只取数字(s string) string {
     return str
 }
 
-// E文本区分_只取汉子 从文本中提取所有汉字
+// E文本区分_只取汉子 从文本中只提取汉字。
 //
 // 参数：
-//   s string - 原始文本
+//   - s: 要处理的文本
 //
 // 返回值：
-//   string - 提取出的汉字
+//   - string: 提取出的汉字
 func E文本区分_只取汉子(s string) string {
     str := ""
     for _, r := range s {
@@ -681,13 +678,13 @@ func E文本区分_只取汉子(s string) string {
     return str
 }
 
-// E文本区分_只取符号 从文本中提取所有符号
+// E文本区分_只取符号 从文本中只提取符号。
 //
 // 参数：
-//   s string - 原始文本
+//   - s: 要处理的文本
 //
 // 返回值：
-//   string - 提取出的符号
+//   - string: 提取出的符号
 func E文本区分_只取符号(s string) string {
     str := ""
     for _, r := range s {
@@ -698,13 +695,13 @@ func E文本区分_只取符号(s string) string {
     return str
 }
 
-// E文本首字母改大写 将文本的首字母改为大写
+// E文本首字母改大写 将文本的首字母改为大写。
 //
 // 参数：
-//   s string - 原始文本
+//   - s: 要处理的文本
 //
 // 返回值：
-//   string - 首字母大写后的文本
+//   - string: 首字母大写后的文本
 func E文本首字母改大写(s string) string {
     if len(s) < 1 {
         return ""
@@ -716,25 +713,31 @@ func E文本首字母改大写(s string) string {
     return string(strArry)
 }
 
-// E取文本字数 获取文本的字符数量（按Unicode字符计算）
+// E取文本字数 获取文本的字符数。
 //
 // 参数：
-//   value string - 原始文本
+//   - value: 要计算字数的文本
 //
 // 返回值：
-//   int - 文本的字符数量
+//   - int: 字符数量
 func E取文本字数(value string) int {
     return utf8.RuneCountInString(value)
 }
 
-// E判断文本 判断文本中是否包含任意一个关键字
+// 子程序名：判断文本
+// 真 找到 假 找不到
+// 返回值类型：逻辑型
+// 参数<1>的名称为“与判断的文本”，类型为“文本型”。
+// 参数<2>的名称为“关键字”，类型为“文本型”，允许接收空参数数据。
+// 参数<3>的名称为“更多关键字”，类型为“文本型”，允许接收空参数数据，需要接收数组数据。
+// E判断文本 判断文本中是否包含任意一个关键字。
 //
 // 参数：
-//   内容 string - 待检测的文本
-//   关键字 ...interface{} - 可变参数，要查找的关键字列表
+//   - 内容: 要判断的文本
+//   - 关键字: 可变参数，要查找的关键字
 //
 // 返回值：
-//   bool - 找到返回true，否则返回false
+//   - bool: 找到任意关键字返回true
 func E判断文本(内容 string, 关键字 ...interface{}) bool {
     for _, v := range 关键字 {
         str := E到文本(v)
@@ -745,14 +748,14 @@ func E判断文本(内容 string, 关键字 ...interface{}) bool {
     return false
 }
 
-// E判断文本s 判断文本中是否包含任意一个关键字，返回找到的关键字
+// E判断文本s 判断文本中是否包含任意一个关键字，并返回找到的关键字。
 //
 // 参数：
-//   内容 string - 待检测的文本
-//   关键字 ...interface{} - 可变参数，要查找的关键字列表
+//   - 内容: 要判断的文本
+//   - 关键字: 可变参数，要查找的关键字
 //
 // 返回值：
-//   string - 找到的关键字，未找到返回空字符串
+//   - string: 找到的第一个关键字，未找到返回空字符串
 func E判断文本s(内容 string, 关键字 ...interface{}) string {
     for _, v := range 关键字 {
         str := E到文本(v)
@@ -763,97 +766,97 @@ func E判断文本s(内容 string, 关键字 ...interface{}) string {
     return ""
 }
 
-// E判断文本前缀 判断文本是否以指定前缀开头
+// E判断文本前缀 判断文本是否以指定前缀开头。
 //
 // 参数：
-//   s string - 待检测的文本
-//   前缀 string - 前缀文本
+//   - s: 要判断的文本
+//   - 前缀: 前缀文本
 //
 // 返回值：
-//   bool - 是返回true，否则返回false
+//   - bool: 以指定前缀开头返回true
 func E判断文本前缀(s string, 前缀 string) bool {
     return strings.HasPrefix(s, 前缀)
 }
 
-// E判断文本后缀 判断文本是否以指定后缀结尾
+// E判断文本后缀 判断文本是否以指定后缀结尾。
 //
 // 参数：
-//   s string - 待检测的文本
-//   后缀 string - 后缀文本
+//   - s: 要判断的文本
+//   - 后缀: 后缀文本
 //
 // 返回值：
-//   bool - 是返回true，否则返回false
+//   - bool: 以指定后缀结尾返回true
 func E判断文本后缀(s string, 后缀 string) bool {
     return strings.HasSuffix(s, 后缀)
 }
 
-// E文本单词首字母大写 将文本中每个单词的首字母改为大写
+// E文本单词首字母大写 将每个单词的首字母转换为大写。
 //
 // 参数：
-//   s string - 原始文本
+//   - s: 要处理的文本
 //
 // 返回值：
-//   string - 处理后的文本
+//   - string: 处理后的文本
 func E文本单词首字母大写(s string) string {
     return gstr.UcFirst(s)
 }
 
-// E文本句子首字母大写 将文本中每个句子的首字母改为大写
+// E文本句子首字母大写 将句子中每个单词的首字母转换为大写。
 //
 // 参数：
-//   s string - 原始文本
+//   - s: 要处理的文本
 //
 // 返回值：
-//   string - 处理后的文本
+//   - string: 处理后的文本
 func E文本句子首字母大写(s string) string {
     return gstr.UcWords(s)
 }
 
-// E文本自动换行 按指定长度自动换行
+// E文本自动换行 在指定字符数处自动换行。
 //
 // 参数：
-//   s string - 原始文本
-//   每行几个字符 int - 每行最大字符数
-//   分隔符 string - 换行分隔符
+//   - s: 要处理的文本
+//   - 每行几个字符: 每行的字符数
+//   - 分隔符: 换行分隔符
 //
 // 返回值：
-//   string - 处理后的文本
+//   - string: 自动换行后的文本
 func E文本自动换行(s string, 每行几个字符 int, 分隔符 string) string {
     return gstr.WordWrap(s, 每行几个字符, 分隔符)
 }
 
-// E文本相似文本 计算两个文本之间的相似度
+// E文本相似文本 计算两个文本的相似度。
 //
 // 参数：
-//   first string - 第一个文本
-//   second string - 第二个文本
-//   percent *float64 - 用于接收相似度百分比的指针
+//   - first: 第一个文本
+//   - second: 第二个文本
+//   - percent: 相似度百分比指针（可选）
 //
 // 返回值：
-//   int - 相似字符数
+//   - int: 相似字符数
 func E文本相似文本(first, second string, percent *float64) int {
     return gstr.SimilarText(first, second, percent)
 }
 
-// E文本随机文本 随机打乱文本中的字符顺序
+// E文本随机文本 随机打乱文本中的字符顺序。
 //
 // 参数：
-//   s string - 原始文本
+//   - s: 要打乱的文本
 //
 // 返回值：
-//   string - 打乱后的文本
+//   - string: 打乱后的文本
 func E文本随机文本(s string) string {
     return gstr.Shuffle(s)
 }
 
-// E文本搜索切片文本 在字符串切片中搜索指定文本
+// E文本搜索切片文本 在字符串切片中搜索指定文本。
 //
 // 参数：
-//   a []string - 字符串切片
-//   s string - 要搜索的文本
+//   - a: 字符串切片
+//   - s: 要搜索的文本
 //
 // 返回值：
-//   int - 找到的索引位置，未找到返回-1
+//   - int: 找到返回索引位置，未找到返回-1
 func E文本搜索切片文本(a []string, s string) int {
     return gstr.SearchArray(a, s)
 }

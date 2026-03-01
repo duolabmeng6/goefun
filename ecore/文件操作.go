@@ -192,24 +192,24 @@ func E复制目录(被复制的目录名称 string, 复制到的目录名称 str
     return err
 }
 
-// E路径合并 将多个路径元素合并为一个路径
+// E路径合并 将多个路径元素合并为一个路径。
 //
 // 参数：
-//   elem ...string - 路径元素
+//   - elem: 路径元素
 //
 // 返回值：
-//   string - 合并后的路径
+//   - string: 合并后的路径
 func E路径合并(elem ...string) string {
     return path.Join(elem...)
 }
 
-// E创建目录多级 递归创建多级目录
+// E创建目录多级 创建多级目录。
 //
 // 参数：
-//   欲创建的目录名称 string - 要创建的目录路径
+//   - 欲创建的目录名称: 目录路径
 //
 // 返回值：
-//   error - 创建过程中的错误信息
+//   - error: 创建失败返回错误信息
 func E创建目录多级(欲创建的目录名称 string) error {
     return os.MkdirAll(欲创建的目录名称, os.ModePerm)
 }
@@ -342,14 +342,14 @@ func E目录枚举子目录(父文件夹路径 string, 子目录数组 *[]string
     return err
 }
 
-// E文件取文件名 从路径中提取文件名
+// E文件取文件名 从路径中提取文件名。
 //
 // 参数：
-//   路径 string - 文件路径
-//   是否需要后缀 bool - 是否包含文件扩展名
+//   - 路径: 文件路径
+//   - 是否需要后缀: true返回带后缀的文件名，false返回不带后缀的文件名
 //
 // 返回值：
-//   string - 文件名
+//   - string: 文件名
 func E文件取文件名(路径 string, 是否需要后缀 bool) string {
     if 是否需要后缀 {
         return filepath.Base(路径)
@@ -357,58 +357,58 @@ func E文件取文件名(路径 string, 是否需要后缀 bool) string {
     return strings.TrimSuffix(filepath.Base(路径), filepath.Ext(路径))
 }
 
-// E文件路径合并处理 将多个路径元素合并为一个路径
+// E文件路径合并处理 合并多个路径元素。
 //
 // 参数：
-//   elem ...string - 路径元素
+//   - elem: 路径元素
 //
 // 返回值：
-//   string - 合并后的路径
+//   - string: 合并后的路径
 func E文件路径合并处理(elem ...string) string {
     return path.Join(elem...)
 }
 
-// E文件取父目录 获取路径的父目录
+// E文件取父目录 获取文件的父目录路径。
 //
 // 参数：
-//   dirpath string - 路径
+//   - dirpath: 文件路径
 //
 // 返回值：
-//   string - 父目录路径
+//   - string: 父目录路径
 func E文件取父目录(dirpath string) string {
     return path.Dir(dirpath)
 }
 
-// E文件取扩展名 获取文件的扩展名
+// E文件取扩展名 获取文件的扩展名。
 //
 // 参数：
-//   filepath string - 文件路径
+//   - filepath: 文件路径
 //
 // 返回值：
-//   string - 文件扩展名（包含点）
+//   - string: 文件扩展名（包含点号，如".txt"）
 func E文件取扩展名(filepath string) string {
     return path.Ext(filepath)
 }
 
-// E文件删除 删除指定的文件
+// E文件删除 删除指定文件。
 //
 // 参数：
-//   欲删除的文件名 string - 要删除的文件路径
+//   - 欲删除的文件名: 要删除的文件路径
 //
 // 返回值：
-//   bool - 删除成功返回true，否则返回false
+//   - bool: 删除成功返回true，失败返回false
 func E文件删除(欲删除的文件名 string) bool {
     return E删除文件(欲删除的文件名) == nil
 }
 
-// E文件写出 将数据写入文件，路径不存在时自动创建
+// E文件写出 将数据写入文件，如果路径不存在则自动创建。
 //
 // 参数：
-//   文件名 string - 目标文件路径
-//   欲写入文件的数据 interface{} - 要写入的数据
+//   - 文件名: 文件路径
+//   - 欲写入文件的数据: 要写入的数据
 //
 // 返回值：
-//   error - 写入过程中的错误信息
+//   - error: 写入失败返回错误信息
 func E文件写出(文件名 string, 欲写入文件的数据 interface{}) error {
     fpath := E文件取父目录(文件名)
     if !E文件是否存在(fpath) {
@@ -417,14 +417,14 @@ func E文件写出(文件名 string, 欲写入文件的数据 interface{}) error
     return ioutil.WriteFile(文件名, E到字节集(欲写入文件的数据), os.ModePerm)
 }
 
-// E文件追加文本 向文件追加文本内容，路径不存在时自动创建
+// E文件追加文本 向文件追加文本内容，如果路径不存在则自动创建。
 //
 // 参数：
-//   文件名 string - 目标文件路径
-//   欲追加的文本 string - 要追加的文本
+//   - 文件名: 文件路径
+//   - 欲追加的文本: 要追加的文本内容
 //
 // 返回值：
-//   error - 写入过程中的错误信息
+//   - error: 追加失败返回错误信息
 func E文件追加文本(文件名 string, 欲追加的文本 string) error {
     fpath := E文件取父目录(文件名)
     if !E文件是否存在(fpath) {
@@ -437,14 +437,14 @@ func E文件追加文本(文件名 string, 欲追加的文本 string) error {
     return err
 }
 
-// E文件保存 智能保存文件，如果内容相同则不写入
+// E文件保存 保存数据到文件，自动检查内容是否一致，避免重复写入。
 //
 // 参数：
-//   文件名 string - 目标文件路径
-//   欲写入文件的数据 interface{} - 要写入的数据
+//   - 文件名: 文件路径
+//   - 欲写入文件的数据: 要写入的数据
 //
 // 返回值：
-//   error - 写入过程中的错误信息
+//   - error: 写入失败返回错误信息
 func E文件保存(文件名 string, 欲写入文件的数据 interface{}) error {
     if E文件是否存在(文件名) {
         data := E读入文件(文件名)
@@ -461,13 +461,7 @@ func E文件保存(文件名 string, 欲写入文件的数据 interface{}) error
     return nil
 }
 
-// E取文件Mime 获取文件的MIME类型
-//
-// 参数：
-//   文件路径 string - 文件路径
-//
-// 返回值：
-//   string - MIME类型
+// E取文件Mime
 func E取文件Mime(文件路径 string) string {
     file, err := os.Open(文件路径)
     if err != nil {
