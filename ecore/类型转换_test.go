@@ -1,3 +1,6 @@
+// Copyright 2023 The duolabmeng6 Authors. All rights reserved.
+// license that can be found in the LICENSE file.
+
 package ecore
 
 import (
@@ -5,6 +8,7 @@ import (
 	"testing"
 )
 
+// TestE到字节 测试E到字节函数
 func TestE到字节(t *testing.T) {
 	type args struct {
 		value interface{}
@@ -15,7 +19,7 @@ func TestE到字节(t *testing.T) {
 		want byte
 	}{
 		{
-			"test",
+			"测试整数转换",
 			args{
 				65,
 			},
@@ -31,6 +35,7 @@ func TestE到字节(t *testing.T) {
 	}
 }
 
+// TestE到字节集 测试E到字节集函数
 func TestE到字节集(t *testing.T) {
 	type args struct {
 		value interface{}
@@ -41,7 +46,7 @@ func TestE到字节集(t *testing.T) {
 		want []byte
 	}{
 		{
-			"test",
+			"测试字符串转换",
 			args{
 				"A",
 			},
@@ -57,6 +62,7 @@ func TestE到字节集(t *testing.T) {
 	}
 }
 
+// TestE到数值 测试E到数值函数
 func TestE到数值(t *testing.T) {
 	type args struct {
 		value interface{}
@@ -67,7 +73,7 @@ func TestE到数值(t *testing.T) {
 		want float64
 	}{
 		{
-			"test",
+			"测试字符串转换",
 			args{
 				"123.123",
 			},
@@ -83,6 +89,7 @@ func TestE到数值(t *testing.T) {
 	}
 }
 
+// TestE到整数 测试E到整数函数
 func TestE到整数(t *testing.T) {
 	type args struct {
 		value interface{}
@@ -92,9 +99,8 @@ func TestE到整数(t *testing.T) {
 		args args
 		want int64
 	}{
-		// TODO: Add test cases.
 		{
-			"test",
+			"测试字符串转换",
 			args{
 				"123.123",
 			},
@@ -110,6 +116,7 @@ func TestE到整数(t *testing.T) {
 	}
 }
 
+// TestE到文本 测试E到文本函数
 func TestE到文本(t *testing.T) {
 	type args struct {
 		value interface{}
@@ -119,9 +126,8 @@ func TestE到文本(t *testing.T) {
 		args args
 		want string
 	}{
-		// TODO: Add test cases.
 		{
-			"test",
+			"测试整数转换",
 			args{
 				123,
 			},
@@ -137,6 +143,7 @@ func TestE到文本(t *testing.T) {
 	}
 }
 
+// TestE到结构体 测试E到结构体函数
 func TestE到结构体(t *testing.T) {
 	type args struct {
 		待转换的参数 interface{}

@@ -1,3 +1,7 @@
+// Copyright 2023 The duolabmeng6 Authors. All rights reserved.
+// license that can be found in the LICENSE file.
+
+// Package ecore 提供系统处理功能
 package ecore
 
 import (
@@ -8,20 +12,38 @@ import (
 	"time"
 )
 
+// E延时 暂停程序执行指定时间。
+//
+// 参数：
+//   - 欲等待的时间: 等待时间（毫秒）
+//
+// 示例：
+//
+//	E延时(1000) // 等待1秒
 func E延时(欲等待的时间 int64) {
 	time.Sleep(time.Duration(欲等待的时间) * time.Millisecond)
 }
 
+// E运行_win 在Windows系统上运行命令。
+//
+// 参数：
+//   - 欲运行的命令行: 要运行的命令
+//   - 是否等待程序运行完毕: 是否等待命令执行完成
+//
+// 返回值：
+//   - string: 命令执行结果
+//
+// 示例：
+//
+//	结果 := E运行_win("dir", true)
 func E运行_win(欲运行的命令行 string, 是否等待程序运行完毕 bool) string {
 	var err error
-	//cmd := exec.Command("cmd")
 	cmd := exec.Command("powershell")
 	in := bytes.NewBuffer(nil)
 	cmd.Stdin = in //绑定输入
 	var out bytes.Buffer
 	cmd.Stdout = &out //绑定输出
 	go func(欲运行的命令行 string) {
-		// start stop restart
 		in.WriteString(欲运行的命令行) //写入你的命令，可以有多行，"\n"表示回车
 	}(欲运行的命令行)
 	err = cmd.Start()
@@ -37,12 +59,26 @@ func E运行_win(欲运行的命令行 string, 是否等待程序运行完毕 bo
 	}
 
 	rt := E文本编码转换(out.String(), "gbk", "utf-8")
-	//fmt.Println(rt)
 
 	return rt
 }
 
-// 模拟终端的输入输出
+// E运行_mac 在Mac/Linux系统上运行命令。
+//
+// 参数：
+//   - 欲运行的命令行: 要运行的命令
+//   - 是否等待程序运行完毕: 是否等待命令执行完成
+//   - fc: 回调函数，用于实时处理输出（可为nil）
+//
+// 返回值：
+//   - string: 命令执行结果
+//
+// 示例：
+//
+//	结果 := E运行_mac("ls -la", true, nil)
+//	结果 := E运行_mac("ping www.baidu.com", true, func(line string) {
+//	    fmt.Println(line)
+//	})
 func E运行_mac(欲运行的命令行 string, 是否等待程序运行完毕 bool, fc interface{}) string {
 	// 启动一个新的进程运行命令
 	cmd := exec.Command("bash", "-c", 欲运行的命令行)

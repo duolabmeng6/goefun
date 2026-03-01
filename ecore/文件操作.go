@@ -4,61 +4,61 @@
 package ecore
 
 import (
-	"bytes"
-	"io"
-	"io/ioutil"
-	"log"
-	"net/http"
-	"os"
-	"path"
-	"path/filepath"
-	"strings"
+    "bytes"
+    "io"
+    "io/ioutil"
+    "log"
+    "net/http"
+    "os"
+    "path"
+    "path/filepath"
+    "strings"
 )
 
 // E读入文件 从指定文件名读取数据并返回读取到的字节切片。
 // 如果读取失败，则返回一个空切片和错误信息。
 func E读入文件(文件名 string) []byte {
-	var data []byte
-	data, _ = os.ReadFile(文件名)
-	return data
+    var data []byte
+    data, _ = os.ReadFile(文件名)
+    return data
 }
 
 // E读入文本 从指定文件名读取数据并返回读取到的文本
 // 如果读取失败，则返回一个空切片和错误信息。
 func E读入文本(文件名 string) string {
-	var data []byte
-	data, _ = os.ReadFile(文件名)
-	return string(data)
+    var data []byte
+    data, _ = os.ReadFile(文件名)
+    return string(data)
 }
 
 // E写到文件 将指定的数据写入指定的文件中。如果写入成功，返回 nil。否则，返回错误信息。
 func E写到文件(文件名 string, 欲写入文件的数据 []byte) error {
-	父目录 := E文件取父目录(文件名)
-	if !E文件是否存在(父目录) {
-		E创建目录多级(父目录)
-	}
-	return os.WriteFile(文件名, 欲写入文件的数据, os.ModePerm)
+    父目录 := E文件取父目录(文件名)
+    if !E文件是否存在(父目录) {
+        E创建目录多级(父目录)
+    }
+    return os.WriteFile(文件名, 欲写入文件的数据, os.ModePerm)
 }
 
 // E取当前目录 返回当前程序运行的目录。
 func E取当前目录() string {
-	dir, err := os.Getwd()
-	if err != nil {
-		//提示错误 函数名 文件名 错误信息
-		log.Printf("func:%s file:%s err:%s", "E取当前目录", "文件操作.go", err)
-		return ""
-	}
-	return dir
+    dir, err := os.Getwd()
+    if err != nil {
+        //提示错误 函数名 文件名 错误信息
+        log.Printf("func:%s file:%s err:%s", "E取当前目录", "文件操作.go", err)
+        return ""
+    }
+    return dir
 }
 
 // E置当前目录 设置当前程序运行的目录。
 func E置当前目录(目录 string) error {
-	return os.Chdir(目录)
+    return os.Chdir(目录)
 }
 
 // E创建目录 创建一个目录。如果创建成功，则返回 nil。否则，返回错误信息。
 func E创建目录(欲创建的目录名称 string) error {
-	return os.Mkdir(欲创建的目录名称, os.ModePerm)
+    return os.Mkdir(欲创建的目录名称, os.ModePerm)
 }
 
 // E删除目录 删除指定目录名称
@@ -69,7 +69,7 @@ func E创建目录(欲创建的目录名称 string) error {
 // 返回值：
 // error - 操作失败会返回一个非-nil的错误对象
 func E删除目录(欲删除的目录名称 string) error {
-	return os.RemoveAll(欲删除的目录名称)
+    return os.RemoveAll(欲删除的目录名称)
 }
 
 // E复制文件 复制一个文件到另一个文件
@@ -81,20 +81,20 @@ func E删除目录(欲删除的目录名称 string) error {
 // 返回值：
 // error - 操作失败会返回一个非-nil的错误对象
 func E复制文件(被复制的文件名 string, 复制到的文件名 string) error {
-	src, err := os.Open(被复制的文件名)
-	if err != nil {
-		return err
-	}
-	defer src.Close()
+    src, err := os.Open(被复制的文件名)
+    if err != nil {
+        return err
+    }
+    defer src.Close()
 
-	dst, err := os.OpenFile(复制到的文件名, os.O_WRONLY|os.O_CREATE, os.ModePerm)
-	if err != nil {
-		return err
-	}
-	defer dst.Close()
+    dst, err := os.OpenFile(复制到的文件名, os.O_WRONLY|os.O_CREATE, os.ModePerm)
+    if err != nil {
+        return err
+    }
+    defer dst.Close()
 
-	_, err = io.Copy(dst, src)
-	return err
+    _, err = io.Copy(dst, src)
+    return err
 }
 
 // E移动文件 将文件从一个位置移到另一个位置
@@ -104,14 +104,14 @@ func E复制文件(被复制的文件名 string, 复制到的文件名 string) e
 //
 // 返回错误信息 error 如果发生错误会返回错误信息 成功返回nil
 func E移动文件(被移动的文件 string, 移动到的位置 string) error {
-	return os.Rename(被移动的文件, 移动到的位置)
+    return os.Rename(被移动的文件, 移动到的位置)
 }
 
 // E删除文件 删除指定的文件
 // 欲删除的文件名 string 要删除的文件的路径和文件名
 // 返回错误信息 error 如果发生错误会返回错误信息 成功返回nil
 func E删除文件(欲删除的文件名 string) error {
-	return os.Remove(欲删除的文件名)
+    return os.Remove(欲删除的文件名)
 }
 
 // E文件更名 重命名文件或目录
@@ -119,29 +119,29 @@ func E删除文件(欲删除的文件名 string) error {
 // 欲更改为的现文件或目录名 string 文件的新路径和文件名
 // 返回错误信息 error 如果发生错误会返回错误信息 成功返回nil
 func E文件更名(欲更名的原文件或目录名 string, 欲更改为的现文件或目录名 string) error {
-	return os.Rename(欲更名的原文件或目录名, 欲更改为的现文件或目录名)
+    return os.Rename(欲更名的原文件或目录名, 欲更改为的现文件或目录名)
 }
 
 // E文件是否存在 检查文件是否存在
 // 欲测试的文件名称 string 要检查的文件的路径和文件名
 // 返回bool值 存在返回true 不存在返回false
 func E文件是否存在(欲测试的文件名称 string) bool {
-	if stat, err := os.Stat(欲测试的文件名称); stat != nil && !os.IsNotExist(err) {
-		return true
-	}
-	return false
+    if stat, err := os.Stat(欲测试的文件名称); stat != nil && !os.IsNotExist(err) {
+        return true
+    }
+    return false
 }
 
 // E取文件尺寸 获取文件的大小(字节)
 // 文件名 string 要获取大小的文件的路径和文件名
 // 返回文件大小 int64 成功返回文件大小 失败返回-1
 func E取文件尺寸(文件名 string) int64 {
-	f, err := os.Stat(文件名)
-	if err == nil {
-		return f.Size()
-	} else {
-		return -1
-	}
+    f, err := os.Stat(文件名)
+    if err == nil {
+        return f.Size()
+    } else {
+        return -1
+    }
 }
 
 // E取临时文件名 在指定目录中创建一个临时文件并返回其文件对象、完整路径及错误信息
@@ -150,53 +150,68 @@ func E取文件尺寸(文件名 string) int64 {
 // 返回 filepath 临时文件的完整路径
 // 返回 error 错误信息 成功时为nil
 func E取临时文件名(目录名 string) (f *os.File, filepath string, err error) {
-	prefix := ""
-	f, err = ioutil.TempFile(目录名, prefix)
-	filepath = 目录名 + f.Name()
-	return f, filepath, err
+    prefix := ""
+    f, err = ioutil.TempFile(目录名, prefix)
+    filepath = 目录名 + f.Name()
+    return f, filepath, err
 }
 
 // E复制目录 复制一个目录到另一个目录
 //
-//	被复制的目录名称 string - 要复制的目录路径名称
-//	复制到的目录名称 string - 新目录路径名称
+//    被复制的目录名称 string - 要复制的目录路径名称
+//    复制到的目录名称 string - 新目录路径名称
 //
-//	返回值： error - 操作失败会返回一个非-nil的错误对象
+//    返回值： error - 操作失败会返回一个非-nil的错误对象
 func E复制目录(被复制的目录名称 string, 复制到的目录名称 string) error {
-	// 创建目标目录
-	if err := os.MkdirAll(复制到的目录名称, 0755); err != nil {
-		return err
-	}
-	// 遍历源目录
-	err := filepath.Walk(被复制的目录名称, func(path string, file os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		// 获取源文件/目录相对路径
-		relPath, err := filepath.Rel(被复制的目录名称, path)
-		if err != nil {
-			return err
-		}
-		// 获取目标路径
-		dstPath := filepath.Join(复制到的目录名称, relPath)
-		// 如果是目录，创建目标目录
-		if file.IsDir() {
-			if err := os.MkdirAll(dstPath, file.Mode()); err != nil {
-				return err
-			}
-			return nil
-		}
-		// 复制文件
-		return E复制文件(path, dstPath)
-	})
-	return err
+    // 创建目标目录
+    if err := os.MkdirAll(复制到的目录名称, 0755); err != nil {
+        return err
+    }
+    // 遍历源目录
+    err := filepath.Walk(被复制的目录名称, func(path string, file os.FileInfo, err error) error {
+        if err != nil {
+            return err
+        }
+        // 获取源文件/目录相对路径
+        relPath, err := filepath.Rel(被复制的目录名称, path)
+        if err != nil {
+            return err
+        }
+        // 获取目标路径
+        dstPath := filepath.Join(复制到的目录名称, relPath)
+        // 如果是目录，创建目标目录
+        if file.IsDir() {
+            if err := os.MkdirAll(dstPath, file.Mode()); err != nil {
+                return err
+            }
+            return nil
+        }
+        // 复制文件
+        return E复制文件(path, dstPath)
+    })
+    return err
 }
 
+// E路径合并 将多个路径元素合并为一个路径。
+//
+// 参数：
+//   - elem: 路径元素
+//
+// 返回值：
+//   - string: 合并后的路径
 func E路径合并(elem ...string) string {
-	return path.Join(elem...)
+    return path.Join(elem...)
 }
+
+// E创建目录多级 创建多级目录。
+//
+// 参数：
+//   - 欲创建的目录名称: 目录路径
+//
+// 返回值：
+//   - error: 创建失败返回错误信息
 func E创建目录多级(欲创建的目录名称 string) error {
-	return os.MkdirAll(欲创建的目录名称, os.ModePerm)
+    return os.MkdirAll(欲创建的目录名称, os.ModePerm)
 }
 
 // E文件枚举
@@ -210,83 +225,83 @@ func E创建目录多级(欲创建的目录名称 string) error {
 //
 // 参数<6>的名称为“是否遍历子目录”，类型为“逻辑型”，允许接收空参数数据。注明：留空默认为假；为真时文件数组不主动清空。
 func E文件枚举(欲寻找的目录 string, 欲寻找的文件名 string, files *[]string, 是否带路径 bool, 是否遍历子目录 bool) error {
-	var ok bool
-	欲寻找的文件名arr := strings.Split(欲寻找的文件名, "|")
-	l, err := os.ReadDir(欲寻找的目录)
-	if err != nil {
-		return err
-	}
-	//检查 欲寻找的目录 是否以 / 结尾 如果不是则加上
-	if !strings.HasSuffix(欲寻找的目录, "/") {
-		欲寻找的目录 = 欲寻找的目录 + "/"
-	}
+    var ok bool
+    欲寻找的文件名arr := strings.Split(欲寻找的文件名, "|")
+    l, err := os.ReadDir(欲寻找的目录)
+    if err != nil {
+        return err
+    }
+    //检查 欲寻找的目录 是否以 / 结尾 如果不是则加上
+    if !strings.HasSuffix(欲寻找的目录, "/") {
+        欲寻找的目录 = 欲寻找的目录 + "/"
+    }
 
-	for _, f := range l {
-		tmp := string(欲寻找的目录 + f.Name())
+    for _, f := range l {
+        tmp := string(欲寻找的目录 + f.Name())
 
-		if f.IsDir() {
-			if 是否遍历子目录 {
-				err = E文件枚举(tmp, 欲寻找的文件名, files, 是否带路径, 是否遍历子目录)
-				if err != nil {
-					return err
-				}
-			}
-		} else {
-			ok = false
-			// 目标文件类型被指定
-			if !isAllEmpty(欲寻找的文件名arr) {
-				// 属于目标文件类型
-				if isInSuffix(欲寻找的文件名arr, f.Name()) {
-					ok = true
+        if f.IsDir() {
+            if 是否遍历子目录 {
+                err = E文件枚举(tmp, 欲寻找的文件名, files, 是否带路径, 是否遍历子目录)
+                if err != nil {
+                    return err
+                }
+            }
+        } else {
+            ok = false
+            // 目标文件类型被指定
+            if !isAllEmpty(欲寻找的文件名arr) {
+                // 属于目标文件类型
+                if isInSuffix(欲寻找的文件名arr, f.Name()) {
+                    ok = true
 
-				}
-			} else { // 目标文件类型为空
-				ok = true
-			}
-			if ok {
-				if 是否带路径 {
-					*files = append(*files, tmp)
-				} else {
-					*files = append(*files, f.Name())
-				}
-			}
-		}
-	}
-	return err
+                }
+            } else { // 目标文件类型为空
+                ok = true
+            }
+            if ok {
+                if 是否带路径 {
+                    *files = append(*files, tmp)
+                } else {
+                    *files = append(*files, f.Name())
+                }
+            }
+        }
+    }
+    return err
 }
 
 // 判断数组各元素是否是空字符串或空格
 func isAllEmpty(list []string) (isEmpty bool) {
 
-	if len(list) == 0 {
-		return true
-	}
+    if len(list) == 0 {
+        return true
+    }
 
-	isEmpty = true
-	for _, f := range list {
+    isEmpty = true
+    for _, f := range list {
 
-		if strings.TrimSpace(f) != "" {
-			isEmpty = false
-			break
-		}
-	}
+        if strings.TrimSpace(f) != "" {
+            isEmpty = false
+            break
+        }
+    }
 
-	return isEmpty
+    return isEmpty
 }
 
 // 判断目标字符串的末尾是否含有数组中指定的字符串
 func isInSuffix(list []string, s string) (isIn bool) {
 
-	isIn = false
-	for _, f := range list {
+    isIn = false
+    for _, f := range list {
 
-		if strings.TrimSpace(f) != "" && strings.HasSuffix(s, f) {
-			isIn = true
-			break
-		}
-	}
+        if strings.TrimSpace(f) != "" && strings.HasSuffix(s, f) {
+            isIn = true
+            break
+        }
+    }
 
-	return isIn
+    return isIn
 }
 
 // E目录枚举子目录
@@ -302,106 +317,164 @@ func isInSuffix(list []string, s string) (isIn bool) {
 //
 // 参数<4>的名称为“是否继续向下枚举”，类型为“逻辑型”，允许接收空参数数据。注明：为空，默认不枚举。
 func E目录枚举子目录(父文件夹路径 string, 子目录数组 *[]string, 是否带路径 bool, 是否继续向下枚举 bool) error {
-	l, err := os.ReadDir(父文件夹路径)
-	if err != nil {
-		return err
-	}
-	separator := "/"
-	for _, f := range l {
-		tmp := string(父文件夹路径 + separator + f.Name())
+    l, err := os.ReadDir(父文件夹路径)
+    if err != nil {
+        return err
+    }
+    separator := "/"
+    for _, f := range l {
+        tmp := string(父文件夹路径 + separator + f.Name())
 
-		if f.IsDir() {
-			if 是否带路径 {
-				*子目录数组 = append(*子目录数组, tmp)
-			} else {
-				*子目录数组 = append(*子目录数组, f.Name())
-			}
-			if 是否继续向下枚举 {
-				err = E目录枚举子目录(tmp, 子目录数组, 是否带路径, 是否继续向下枚举)
-				if err != nil {
-					return err
-				}
-			}
-		}
-	}
-	return err
+        if f.IsDir() {
+            if 是否带路径 {
+                *子目录数组 = append(*子目录数组, tmp)
+            } else {
+                *子目录数组 = append(*子目录数组, f.Name())
+            }
+            if 是否继续向下枚举 {
+                err = E目录枚举子目录(tmp, 子目录数组, 是否带路径, 是否继续向下枚举)
+                if err != nil {
+                    return err
+                }
+            }
+        }
+    }
+    return err
 }
 
+// E文件取文件名 从路径中提取文件名。
+//
+// 参数：
+//   - 路径: 文件路径
+//   - 是否需要后缀: true返回带后缀的文件名，false返回不带后缀的文件名
+//
+// 返回值：
+//   - string: 文件名
 func E文件取文件名(路径 string, 是否需要后缀 bool) string {
-	if 是否需要后缀 {
-		return filepath.Base(路径)
-	}
-	return strings.TrimSuffix(filepath.Base(路径), filepath.Ext(路径))
+    if 是否需要后缀 {
+        return filepath.Base(路径)
+    }
+    return strings.TrimSuffix(filepath.Base(路径), filepath.Ext(路径))
 }
+
+// E文件路径合并处理 合并多个路径元素。
+//
+// 参数：
+//   - elem: 路径元素
+//
+// 返回值：
+//   - string: 合并后的路径
 func E文件路径合并处理(elem ...string) string {
-	return path.Join(elem...)
+    return path.Join(elem...)
 }
 
+// E文件取父目录 获取文件的父目录路径。
+//
+// 参数：
+//   - dirpath: 文件路径
+//
+// 返回值：
+//   - string: 父目录路径
 func E文件取父目录(dirpath string) string {
-	return path.Dir(dirpath)
+    return path.Dir(dirpath)
 }
 
+// E文件取扩展名 获取文件的扩展名。
+//
+// 参数：
+//   - filepath: 文件路径
+//
+// 返回值：
+//   - string: 文件扩展名（包含点号，如".txt"）
 func E文件取扩展名(filepath string) string {
-	return path.Ext(filepath)
+    return path.Ext(filepath)
 }
 
+// E文件删除 删除指定文件。
+//
+// 参数：
+//   - 欲删除的文件名: 要删除的文件路径
+//
+// 返回值：
+//   - bool: 删除成功返回true，失败返回false
 func E文件删除(欲删除的文件名 string) bool {
-	return E删除文件(欲删除的文件名) == nil
+    return E删除文件(欲删除的文件名) == nil
 }
 
-// 路径不存在时自动创建
+// E文件写出 将数据写入文件，如果路径不存在则自动创建。
+//
+// 参数：
+//   - 文件名: 文件路径
+//   - 欲写入文件的数据: 要写入的数据
+//
+// 返回值：
+//   - error: 写入失败返回错误信息
 func E文件写出(文件名 string, 欲写入文件的数据 interface{}) error {
-	fpath := E文件取父目录(文件名)
-	if !E文件是否存在(fpath) {
-		E创建目录多级(fpath)
-	}
-	return ioutil.WriteFile(文件名, E到字节集(欲写入文件的数据), os.ModePerm)
+    fpath := E文件取父目录(文件名)
+    if !E文件是否存在(fpath) {
+        E创建目录多级(fpath)
+    }
+    return ioutil.WriteFile(文件名, E到字节集(欲写入文件的数据), os.ModePerm)
 }
 
-// 路径不存在时自动创建
+// E文件追加文本 向文件追加文本内容，如果路径不存在则自动创建。
+//
+// 参数：
+//   - 文件名: 文件路径
+//   - 欲追加的文本: 要追加的文本内容
+//
+// 返回值：
+//   - error: 追加失败返回错误信息
 func E文件追加文本(文件名 string, 欲追加的文本 string) error {
-	fpath := E文件取父目录(文件名)
-	if !E文件是否存在(fpath) {
-		E创建目录多级(fpath)
-	}
-	file, err := os.OpenFile(文件名, os.O_WRONLY|os.O_CREATE|os.O_APPEND, os.ModePerm)
-	defer file.Close()
+    fpath := E文件取父目录(文件名)
+    if !E文件是否存在(fpath) {
+        E创建目录多级(fpath)
+    }
+    file, err := os.OpenFile(文件名, os.O_WRONLY|os.O_CREATE|os.O_APPEND, os.ModePerm)
+    defer file.Close()
 
-	_, err = file.Write(E到字节集(欲追加的文本 + "\r\n"))
-	return err
+    _, err = file.Write(E到字节集(欲追加的文本 + "\r\n"))
+    return err
 }
 
-// 自动检查内容是否一致是否需要写出
+// E文件保存 保存数据到文件，自动检查内容是否一致，避免重复写入。
+//
+// 参数：
+//   - 文件名: 文件路径
+//   - 欲写入文件的数据: 要写入的数据
+//
+// 返回值：
+//   - error: 写入失败返回错误信息
 func E文件保存(文件名 string, 欲写入文件的数据 interface{}) error {
-	if E文件是否存在(文件名) {
-		data := E读入文件(文件名)
-		wdata := E到字节集(欲写入文件的数据)
-		if !bytes.Equal(data, wdata) {
-			//E调试输出("不相同写出")
-			return E文件写出(文件名, wdata)
-		}
-		//E调试输出("内容一样不写出")
-	} else {
-		//E调试输出("文件不存在写出")
-		return E文件写出(文件名, 欲写入文件的数据)
-	}
-	return nil
+    if E文件是否存在(文件名) {
+        data := E读入文件(文件名)
+        wdata := E到字节集(欲写入文件的数据)
+        if !bytes.Equal(data, wdata) {
+            //E调试输出("不相同写出")
+            return E文件写出(文件名, wdata)
+        }
+        //E调试输出("内容一样不写出")
+    } else {
+        //E调试输出("文件不存在写出")
+        return E文件写出(文件名, 欲写入文件的数据)
+    }
+    return nil
 }
 
 // E取文件Mime
 func E取文件Mime(文件路径 string) string {
-	file, err := os.Open(文件路径)
-	if err != nil {
-		return ""
-	}
-	defer file.Close()
-	//获取文件MimeType
-	buffer := make([]byte, 512)
-	_, err = file.Read(buffer)
-	if err != nil {
-		return ""
-	}
-	return http.DetectContentType(buffer)
+    file, err := os.Open(文件路径)
+    if err != nil {
+        return ""
+    }
+    defer file.Close()
+    //获取文件MimeType
+    buffer := make([]byte, 512)
+    _, err = file.Read(buffer)
+    if err != nil {
+        return ""
+    }
+    return http.DetectContentType(buffer)
 }
 
 // E路径取目录 返回"路径"中除最后一个元素以外的所有元素(通常是路径的目录)
@@ -409,20 +482,20 @@ func E取文件Mime(文件路径 string) string {
 // 如果路径完全由斜线后跟非斜线字符组成,本方法会返回"/".
 // 在其他任何情况下, 返回的路径都不会以"/"结尾.
 func E路径取目录(路径 string) string {
-	return path.Dir(路径)
+    return path.Dir(路径)
 }
 
 // E路径取基本部分 返回一个路径的最后一个元素, 不包含结尾的"/"字符
 // 如果"路径"是""返回".", 如果"路径"是"/"返回"/".
 func E路径取基本部分(路径 string) string {
-	return path.Base(路径)
+    return path.Base(路径)
 }
 
 // E路径连接 将任意数量的路径元素连接成一个路径, 并用斜线分隔
 // 空元素将被忽略, 结果是"清理()"过的.
 // 如果参数列表为空或所有元素都为空, 本方法返回空字符串.
 func E路径连接(元素 ...string) string {
-	return path.Join(元素...)
+    return path.Join(元素...)
 }
 
 // E路径清理 返回与"路径"相当的最短路径名
@@ -435,19 +508,19 @@ func E路径连接(元素 ...string) string {
 // 返回的路径只有在它本身是"/" (根) 时才以斜线结束.
 // 如果处理结果为空字符串, 将返回".".
 func E路径清理(路径 string) string {
-	return path.Clean(路径)
+    return path.Clean(路径)
 }
 
 // E路径取扩展名 返回"路径"使用的文件扩展名.
 // 扩展名是"路径"中最后一个元素中最后一个点开头的后缀.
 // 如果最后一个元素没有点, 则为空字符串.
 func E路径取扩展名(路径 string) string {
-	return path.Ext(路径)
+    return path.Ext(路径)
 }
 
 // E路径是否为绝对路径 返回路径是否为绝对路径.
 func E路径是否为绝对路径(路径 string) bool {
-	return path.IsAbs(路径)
+    return path.IsAbs(路径)
 }
 
 // E路径是否匹配 返回"名称"是否与"模式"匹配
@@ -456,5 +529,5 @@ func E路径是否为绝对路径(路径 string) bool {
 // '?' 匹配任何单个非"/"字符
 // '[abc]' 匹配字符'a'、'b'或'c'等.
 func E路径是否匹配(模式, 名称 string) (bool, error) {
-	return path.Match(模式, 名称)
+    return path.Match(模式, 名称)
 }

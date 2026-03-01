@@ -1,11 +1,15 @@
+// Copyright 2023 The duolabmeng6 Authors. All rights reserved.
+// license that can be found in the LICENSE file.
+
 package ecore
 
 import (
 	"testing"
 )
 
+// TestNew时钟 测试时钟功能（默认禁用，需要手动启用）
 func TestNew时钟(t *testing.T) {
-	return
+	return // 禁用测试，取消此行可启用
 	时钟 := New时钟()
 	时间统计 := New时间统计类()
 	i := 0
@@ -30,8 +34,6 @@ func TestNew时钟(t *testing.T) {
 
 	时钟.E创建(func() bool {
 		时钟周期函数()
-
-		//E调试输出("调用时钟周期函数",时间统计.E取毫秒())
 		return true
 	}, 100)
 
